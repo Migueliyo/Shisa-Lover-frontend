@@ -1,48 +1,74 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useTheme } from "@emotion/react";
 
 import { styled } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
-import { Divider, IconButton, List, Toolbar } from "@mui/material";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import {
+  Divider,
+  IconButton,
+  List,
+  Toolbar,
+  useMediaQuery,
+} from "@mui/material";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
+import KeyboardTabIcon from "@mui/icons-material/KeyboardTab";
 
 import { mainListItems, secondaryListItems } from "./ListItems";
 
 const FormatedDrawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  "& .MuiDrawer-paper": {
-    position: theme.drawer.position,
-    whiteSpace: theme.drawer.whiteSpace,
-    width: theme.drawer.width,
-    height: theme.drawer.height,
-    color: theme.palette.primary.main,
-    backgroundColor: theme.palette.secondary.main,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    boxSizing: theme.drawer.boxSizing,
-    ...(!open && {
-      overflowX: theme.drawer.overflowX,
+})(({ theme, open }) => {
+  const commonStyles = {
+    boxSizing: "border-box",
+    height: "100%",
+    width: "20%",
+    "& .MuiDrawer-paper": {
+      position: "relative",
+      whiteSpace: "nowrap",
+      width: "99.99%", // Definido al 99.99% para que la animación se realice correctamente
+      color: theme.palette.primary.main,
+      backgroundColor: theme.palette.secondary.main,
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
+        duration: theme.transitions.duration.enteringScreen,
       }),
-      width: theme.spacing(10),
-      [theme.breakpoints.up("sm")]: {
+      ...(!open && {
+        overflowX: "hidden",
+        transition: theme.transitions.create("width", {
+          easing: theme.transitions.easing.sharp,
+          duration: theme.transitions.duration.leavingScreen,
+        }),
         width: theme.spacing(7),
-      },
-    }),
-  },
-  "@media (max-width: 1000px)": {
-    "& .MuiDrawer-paper": {
-        width: theme.spacing(7)
+      }),
     },
-  },
-}));
+  };
+
+  return {
+    ...commonStyles,
+    //@media (max-width: 1100px)
+    [theme.breakpoints.down("1100")]: {
+      ...commonStyles,
+      width: "35%",
+    },
+    //@media (max-width: 600px)
+    [theme.breakpoints.down("sm")]: {
+      ...commonStyles,
+      width: "100%",
+    },
+  };
+});
 
 function Drawer() {
-  const [open, setOpen] = useState(true);
+  const theme = useTheme();
+  const isSm = useMediaQuery(theme.breakpoints.down("sm"));
+  const [open, setOpen] = useState(() => !isSm); // Invertir el valor si estamos en la media query "sm"
+
+  useEffect(() => {
+    if (isSm) {
+      setOpen(false);
+    }
+  }, [isSm]);
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -50,15 +76,21 @@ function Drawer() {
   return (
     <FormatedDrawer variant="permanent" open={open}>
       <Toolbar
+        variant="personalized"
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "flex-end",
           px: [1],
+          pt: 1,
         }}
       >
         <IconButton onClick={toggleDrawer}>
-          <ChevronLeftIcon color="primary" />
+          {open ? (
+            <KeyboardReturnIcon color="primary" />
+          ) : (
+            <KeyboardTabIcon color="primary" />
+          )}
         </IconButton>
       </Toolbar>
       <List component="nav">

@@ -9,12 +9,14 @@ export const theme = createTheme({
         main: '#131213',
       },
     },
-    drawer: {
-      height: "98vh",
-      width: "20%",
-      whiteSpace: "nowrap",
-      position: "relative",
-      boxSizing: "border-box",
-      overflowX: "hidden",
-    }
+    components: {
+      MuiToolbar: {
+          styleOverrides: {
+              personalized: {
+                  height: 36,
+                  minHeight: 36
+              }
+          }
+      },
+    },
 });

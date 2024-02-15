@@ -1,8 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles';
-import Drawer from './components/Drawer';
 
-import './App.css'
 import { theme } from './components/themeProvider';
+import Drawer from './components/Drawer';
 
 function App() {
   return (
