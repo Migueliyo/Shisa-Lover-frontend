@@ -6,8 +6,17 @@ export const theme = createTheme({
         main: '#fff',
       },
       secondary: {
-        main: '#131213',
+        main: '#0f0e11',
       },
+      appbar: {
+        main: '#18181b'
+      },
+      drawer: {
+        main: '#1f1f23'
+      },
+      avatar: {
+        main: '#00c8af'
+      }
     },
     components: {
       MuiToolbar: {
@@ -17,6 +26,14 @@ export const theme = createTheme({
                   minHeight: 36
               }
           }
+      },
+      MuiMenu: {
+        styleOverrides: {
+          paper: {
+            color: '#fff',
+            backgroundColor: '#18181b'
+          }
+        },
       },
     },
 });

@@ -14,20 +14,23 @@ import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import KeyboardTabIcon from "@mui/icons-material/KeyboardTab";
 
 import { mainListItems, secondaryListItems } from "./ListItems";
+import { appBarHeight } from "./AppBar";
 
 const FormatedDrawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => {
   const commonStyles = {
     boxSizing: "border-box",
-    height: "100%",
+    height: `calc(100% - ${appBarHeight}px)`,
     width: "20%",
+    marginTop: appBarHeight,
+    zIndex: 1,
     "& .MuiDrawer-paper": {
       position: "relative",
       whiteSpace: "nowrap",
       width: "99.99%", // Definido al 99.99% para que la animación se realice correctamente
       color: theme.palette.primary.main,
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.drawer.main,
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
