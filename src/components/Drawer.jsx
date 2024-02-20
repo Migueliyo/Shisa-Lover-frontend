@@ -22,9 +22,10 @@ const FormatedDrawer = styled(MuiDrawer, {
   const commonStyles = {
     boxSizing: "border-box",
     height: `calc(100% - ${appBarHeight}px)`,
-    width: "20%",
+    width: open ? "20%" : theme.spacing(7),
     marginTop: appBarHeight,
     zIndex: 1,
+    backgroundColor: theme.palette.secondary.main,
     "& .MuiDrawer-paper": {
       position: "relative",
       whiteSpace: "nowrap",
@@ -37,13 +38,15 @@ const FormatedDrawer = styled(MuiDrawer, {
       }),
       ...(!open && {
         overflowX: "hidden",
-        transition: theme.transitions.create("width", {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
         width: theme.spacing(7),
       }),
     },
+    ...(!open && {
+      transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+    }),
   };
 
   return {
