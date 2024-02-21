@@ -24,7 +24,6 @@ const FormatedAppBar = styled(MuiAppBar)(({ theme }) => {
     height: appBarHeight,
     backgroundColor: theme.palette.appbar.main,
     boxShadow: "0 1px 2px rgba(0,0,0,.9) ,0 0px 2px rgba(0,0,0,.9)",
-    position: "absolute",
     "& .MuiToolbar-paper": {
       // Estilos específicos para el Toolbar dentro de la AppBar
       padding: 0,

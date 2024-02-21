@@ -1,6 +1,9 @@
 import { createTheme } from "@mui/material";
 
 export const theme = createTheme({
+    typography: {
+      fontFamily: "\"Inter\", \"Roobert\", Helvetica, Arial, sans-serif"
+    },
     palette: {
       primary: {
         main: '#fff',
@@ -16,6 +19,12 @@ export const theme = createTheme({
       },
       avatar: {
         main: '#00c8af'
+      },
+      section: {
+        a: {
+          main: '#e06f10',
+          hover: '#ff7400'
+        }
       }
     },
     components: {

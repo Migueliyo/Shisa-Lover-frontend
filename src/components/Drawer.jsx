@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { useTheme } from "@emotion/react";
 
 import { styled } from "@mui/material/styles";
@@ -13,6 +13,7 @@ import {
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import KeyboardTabIcon from "@mui/icons-material/KeyboardTab";
 
+import { DrawerContext } from "./drawerContext";
 import { mainListItems, secondaryListItems } from "./ListItems";
 import { appBarHeight } from "./AppBar";
 
@@ -20,6 +21,7 @@ const FormatedDrawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => {
   const commonStyles = {
+    position: "fixed",
     boxSizing: "border-box",
     height: `calc(100% - ${appBarHeight}px)`,
     width: open ? "20%" : theme.spacing(7),
@@ -54,12 +56,12 @@ const FormatedDrawer = styled(MuiDrawer, {
     //@media (max-width: 1100px)
     [theme.breakpoints.down("1100")]: {
       ...commonStyles,
-      width: "35%",
+      width: open ? "35%" : theme.spacing(7),
     },
     //@media (max-width: 600px)
     [theme.breakpoints.down("sm")]: {
       ...commonStyles,
-      width: "100%",
+      width: open ? "100%" : theme.spacing(7),
     },
   };
 });
@@ -67,13 +69,13 @@ const FormatedDrawer = styled(MuiDrawer, {
 function Drawer() {
   const theme = useTheme();
   const isSm = useMediaQuery(theme.breakpoints.down("sm"));
-  const [open, setOpen] = useState(() => !isSm); // Invertir el valor si estamos en la media query "sm"
+  const { open, setOpen } = useContext(DrawerContext);
 
   useEffect(() => {
     if (isSm) {
       setOpen(false);
     }
-  }, [isSm]);
+  }, [isSm, setOpen]);
 
   const toggleDrawer = () => {
     setOpen(!open);
