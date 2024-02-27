@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 
 import { Box } from "@mui/material";
 
+import Mix from "./Mix";
+
 const FormatedBox = styled(Box)(({ theme }) => {
   const commonStyles = {
     color: theme.palette.primary.main,
@@ -21,7 +23,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
       padding: 0,
       verticalAlign: "baseline",
       fontWeight: 600,
-      fontSize: 18,
+      fontSize: 20,
       lineHeight: 1.2,
     },
     ".a-section": {
@@ -51,6 +53,8 @@ const FormatedBox = styled(Box)(({ theme }) => {
   };
 });
 
+let categories = ["Afrutada" , "Dulce"]
+
 function Section() {
   return (
     <FormatedBox>
@@ -63,7 +67,7 @@ function Section() {
         </h2>
       </Box>
       <Box className="content-div-section">
-        
+        <Mix username="migueliyo" description="Mezcla afrutada y muy dulce" categories={categories}/>
       </Box>
     </FormatedBox>
   );

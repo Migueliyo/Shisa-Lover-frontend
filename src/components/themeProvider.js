@@ -6,7 +6,7 @@ export const theme = createTheme({
     },
     palette: {
       primary: {
-        main: '#fff',
+        main: '#EFEFF1',
       },
       secondary: {
         main: '#0f0e11',
@@ -24,6 +24,21 @@ export const theme = createTheme({
         a: {
           main: '#e06f10',
           hover: '#ff7400'
+        }
+      },
+      button: {
+        main: 'rgba(83,83,95,.38)',
+        hover: 'rgba(83,83,95,.30)'
+      },
+      mix: {
+        h3: {
+          main: '#dedee3'
+        },
+        p: {
+          main: '#adadb8'
+        },
+        a: {
+          main: '#adadb8'
         }
       }
     },
