@@ -30,13 +30,15 @@ const FormatedBox = styled(Box)(({ theme }) => {
       color: theme.palette.section.a.main,
       textDecoration: "none",
     },
-    ".a-section: hover": {
+    ".a-section:hover": {
       color: theme.palette.section.a.hover,
       textDecoration: "underline",
     },
     ".content-div-section": {
       display: "flex",
-      flexWrap: "nowrap"
+      flexWrap: "wrap",
+      paddingTop: 10,
+      gap: "2%"
     },
   };
 
@@ -53,7 +55,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
   };
 });
 
-let categories = ["Afrutada" , "Dulce"]
+let categories = ["Afrutada" , "Dulce", "Mentolada"]
 
 function Section() {
   return (
@@ -67,6 +69,13 @@ function Section() {
         </h2>
       </Box>
       <Box className="content-div-section">
+        <Mix username="migueliyo" description="Mezcla afrutada y muy dulce y muy rica" categories={categories}/>
+        <Mix username="migueliyo" description="Mi mezcla favorita" categories={categories}/>
+        <Mix username="migueliyo" description="Mezcla cítrica con toques florales" categories={categories}/>
+        <Mix username="migueliyo" description="Mezcla afrutada y muy dulce" categories={categories}/>
+        <Mix username="migueliyo" description="Mezcla afrutada y muy dulce" categories={categories}/>
+        <Mix username="migueliyo" description="Mezcla afrutada y muy dulce" categories={categories}/>
+        <Mix username="migueliyo" description="Mezcla afrutada y muy dulce" categories={categories}/>
         <Mix username="migueliyo" description="Mezcla afrutada y muy dulce" categories={categories}/>
       </Box>
     </FormatedBox>

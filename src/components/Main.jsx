@@ -10,29 +10,14 @@ import Section from "./Section";
 const FormatedBox = styled(Box, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => {
-  const commonStyles = {
+  return {
     width: "100%",
-    height: `calc(100% - ${appBarHeight}px)`,
     marginTop: appBarHeight,
     marginLeft: open ? "20%" : theme.spacing(7),
     backgroundColor: theme.palette.secondary.main,
     paddingTop: 25,
     paddingLeft: 25,
     paddingRight: 25,
-  };
-
-  return {
-    ...commonStyles,
-    //@media (max-width: 1100px)
-    [theme.breakpoints.down("1100")]: {
-      ...commonStyles,
-      marginLeft: open ? "35%" : theme.spacing(7),
-    },
-    //@media (max-width: 600px)
-    [theme.breakpoints.down("sm")]: {
-      ...commonStyles,
-      marginLeft: open ? 0 : theme.spacing(7),
-    },
   };
 });
 

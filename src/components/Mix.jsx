@@ -1,26 +1,32 @@
+import { useContext } from "react";
 import styled from "@emotion/styled";
 
 import { Avatar, Box, IconButton } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-const FormatedBox = styled(Box)(({ theme }) => {
+import { DrawerContext } from "./drawerContext";
+
+const FormatedBox = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => {
   const commonStyles = {
     border: 0,
     margin: 0,
+    marginBottom: 30,
     padding: 0,
     verticalAlign: "baseline",
-    width: 315,
+    width: open ? "23.5%" : "18.4%",
     display: "flex",
     flexWrap: "nowrap",
     ".content-div-avatar": {
-      marginRight: 12
+      marginRight: 12,
     },
     ".content-div-info": {
       width: "100%",
-      minWidth: 0
+      minWidth: 0,
     },
     ".content-div-info-details": {
-      marginBottom: "0.3rem"
+      marginBottom: "0.3rem",
     },
     ".content-div-info a": {
       color: theme.palette.primary.main,
@@ -44,6 +50,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
       textOverflow: "ellipsis",
       whiteSpace: "nowrap",
       overflow: "hidden",
+      paddingRight: 5,
     },
     ".content-div-info a p": {
       color: theme.palette.mix.p.main,
@@ -54,7 +61,8 @@ const FormatedBox = styled(Box)(({ theme }) => {
       lineHeight: 1.5,
       display: "flex",
       flexWrap: "nowrap",
-      gap: 5
+      gap: 5,
+      marginTop: 8,
     },
     ".content-div-info-categories a": {
       display: "inline-block",
@@ -85,29 +93,41 @@ const FormatedBox = styled(Box)(({ theme }) => {
     },
     ".content-div-settings button:hover": {
       backgroundColor: theme.palette.button.main,
-    }
+    },
   };
 
   return {
     ...commonStyles,
-    //@media (max-width: 1100px)
-    [theme.breakpoints.down("1100")]: {
+    //@media (max-width: 1550px)
+    [theme.breakpoints.down("1600")]: {
       ...commonStyles,
-      
+      width: open ? "32%" : "23.5%",
     },
-    //@media (max-width: 600px)
-    [theme.breakpoints.down("sm")]: {
+    //@media (max-width: 1350px)
+    [theme.breakpoints.down("1350")]: {
       ...commonStyles,
-      
+      width: "32%",
+    },    
+    //@media (max-width: 1000px)
+    [theme.breakpoints.down("1000")]: {
+      ...commonStyles,
+      width: "49%",
+    },
+    //@media (max-width: 700px)
+    [theme.breakpoints.down("700")]: {
+      ...commonStyles,
+      width: "100%",
     },
   };
 });
 
-function Mix( {username , url, description , categories} ) {
+function Mix({ username, url, description, categories }) {
+  const { open } = useContext(DrawerContext);
+
   return (
-    <FormatedBox>
+    <FormatedBox open={open}>
       <Box className="content-div-avatar">
-        <Avatar src={url}/>
+        <Avatar src={url} />
       </Box>
       <Box className="content-div-info">
         <Box className="content-div-info-details">
@@ -119,16 +139,16 @@ function Mix( {username , url, description , categories} ) {
           </a>
         </Box>
         <Box className="content-div-info-categories">
-          {categories.map(category => 
+          {categories.map((category) => (
             <a key={category} href="">
               <span>{category}</span>
             </a>
-          )}
+          ))}
         </Box>
       </Box>
       <Box className="content-div-settings">
         <IconButton>
-          <MoreVertIcon color="primary"/>
+          <MoreVertIcon color="primary" />
         </IconButton>
       </Box>
     </FormatedBox>

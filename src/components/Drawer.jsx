@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import { useTheme } from "@emotion/react";
 
 import { styled } from "@mui/material/styles";
@@ -20,7 +20,7 @@ import { appBarHeight } from "./AppBar";
 const FormatedDrawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => {
-  const commonStyles = {
+  return {
     position: "fixed",
     boxSizing: "border-box",
     height: `calc(100% - ${appBarHeight}px)`,
@@ -50,32 +50,12 @@ const FormatedDrawer = styled(MuiDrawer, {
       }),
     }),
   };
-
-  return {
-    ...commonStyles,
-    //@media (max-width: 1100px)
-    [theme.breakpoints.down("1100")]: {
-      ...commonStyles,
-      width: open ? "35%" : theme.spacing(7),
-    },
-    //@media (max-width: 600px)
-    [theme.breakpoints.down("sm")]: {
-      ...commonStyles,
-      width: open ? "100%" : theme.spacing(7),
-    },
-  };
 });
 
 function Drawer() {
   const theme = useTheme();
-  const isSm = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSm = useMediaQuery(theme.breakpoints.down("1350"));
   const { open, setOpen } = useContext(DrawerContext);
-
-  useEffect(() => {
-    if (isSm) {
-      setOpen(false);
-    }
-  }, [isSm, setOpen]);
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -83,7 +63,7 @@ function Drawer() {
 
   return (
     <FormatedDrawer variant="permanent" open={open}>
-      <Toolbar
+      {!isSm && <Toolbar
         variant="personalized"
         sx={{
           display: "flex",
@@ -100,7 +80,7 @@ function Drawer() {
             <KeyboardTabIcon color="primary" />
           )}
         </IconButton>
-      </Toolbar>
+      </Toolbar>}
       <List component="nav">
         {mainListItems}
         <Divider sx={{ my: 1 }} color="white" />
