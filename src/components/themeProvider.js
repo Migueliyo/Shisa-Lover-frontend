@@ -24,6 +24,13 @@ export const theme = createTheme({
         a: {
           main: '#e06f10',
           hover: '#ff7400'
+        },
+        divider: {
+          main: 'rgba(83,83,95,.50)'
+        },
+        button:{
+          main: '#ff7400',
+          hover: 'rgba(83,83,95,.30)'
         }
       },
       button: {
