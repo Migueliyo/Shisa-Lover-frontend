@@ -1,149 +1,168 @@
-  import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
-  import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 
-  import { Box, Button, Divider, useMediaQuery } from "@mui/material";
+import { Box, Button, Divider, useMediaQuery } from "@mui/material";
 
-  import { DrawerContext } from "./drawerContext";
-  import Mix from "./Mix";
+import { DrawerContext } from "./drawerContext";
+import Mix from "./Mix";
+import Tobacco from "./Tobacco";
 
-  const FormatedBox = styled(Box)(({ theme }) => {
-    const commonStyles = {
-      color: theme.palette.primary.main,
-      width: "100%",
-      ".title-div-section": {
-        border: 0,
-        paddingBottom: 10,
-        font: "inherit",
-        margin: 0,
-        verticalAlign: "baseline",
-      },
-      ".title-div-section h2": {
-        fontFamily: '"Roobert", "Inter", Helvetica, Arial, sans-serif',
-        border: 0,
-        boxSizing: "border-box",
-        margin: 0,
-        padding: 0,
-        verticalAlign: "baseline",
-        fontWeight: 600,
-        fontSize: 20,
-        lineHeight: 1.2,
-      },
-      ".a-section": {
-        color: theme.palette.section.a.main,
-        textDecoration: "none",
-      },
-      ".a-section:hover": {
-        color: theme.palette.section.a.hover,
-        textDecoration: "underline",
-      },
-      ".content-div-section": {
-        display: "flex",
-        flexWrap: "wrap",
-        paddingTop: 10,
-        gap: "2%",
-      },
-      ".button-divider-section": {
-        color: theme.palette.section.button.main,
-        fontWeight: 600,
-      },
-      ".button-divider-section:hover": {
-        backgroundColor: theme.palette.section.button.hover,
-      },
-      ".button-divider-section span": {
-        textTransform: "lowercase",
-      },
-    };
+const FormatedBox = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "content",
+})(({ theme, content }) => {
+  return {
+    color: theme.palette.primary.main,
+    width: "100%",
+    ".title-div-section": {
+      border: 0,
+      paddingBottom: 10,
+      font: "inherit",
+      margin: 0,
+      verticalAlign: "baseline",
+    },
+    ".title-div-section h2": {
+      fontFamily: '"Roobert", "Inter", Helvetica, Arial, sans-serif',
+      border: 0,
+      boxSizing: "border-box",
+      margin: 0,
+      padding: 0,
+      verticalAlign: "baseline",
+      fontWeight: 600,
+      fontSize: 20,
+      lineHeight: 1.2,
+    },
+    ".a-section": {
+      color: theme.palette.section.a.main,
+      textDecoration: "none",
+    },
+    ".a-section:hover": {
+      color: theme.palette.section.a.hover,
+      textDecoration: "underline",
+    },
+    ".content-div-section": {
+      display: "flex",
+      flexWrap: "wrap",
+      paddingTop: 10,
+      gap: content == "mix" && "2%",
+    },
+    ".button-divider-section": {
+      color: theme.palette.section.button.main,
+      fontWeight: 600,
+    },
+    ".button-divider-section:hover": {
+      backgroundColor: theme.palette.section.button.hover,
+    },
+    ".button-divider-section span": {
+      textTransform: "lowercase",
+    },
+  };
+});
 
-    return {
-      ...commonStyles,
-      //@media (max-width: 1100px)
-      [theme.breakpoints.down("1100")]: {
-        ...commonStyles,
-      },
-      //@media (max-width: 600px)
-      [theme.breakpoints.down("sm")]: {
-        ...commonStyles,
-      },
-    };
-  });
+let categories = ["Afrutada", "Dulce", "Mentolada"];
+let categoriesTobacco = ["Afrutado", "Dulce"];
 
-  let categories = ["Afrutada", "Dulce", "Mentolada"];
+function Section({ featuredWordTittle, tittle, content }) {
+  const { open } = useContext(DrawerContext);
+  const [mixesToShow, setMixesToShow] = useState(open ? 8 : 10);
+  const [tobaccosToShow, setTobaccosToShow] = useState(open ? 8 : 10);
+  const [showedItems, setShowedItems] = useState(false);
+  const is1600 = useMediaQuery("(max-width: 1600px)");
+  const is1350 = useMediaQuery("(max-width: 1350px)");
+  const is1150 = useMediaQuery("(max-width: 1150px)");
+  const is1000 = useMediaQuery("(max-width: 1000px)");
+  const is850 = useMediaQuery("(max-width: 850px)");
+  const is700 = useMediaQuery("(max-width: 700px)");
+  const is550 = useMediaQuery("(max-width: 550px)");
 
-  function Section() {
-    const { open } = useContext(DrawerContext);
-    const [itemsToShow, setItemsToShow] = useState(open ? 8 : 10);
-    const [showedItems, setShowedItems] = useState(false);
-    const is1600 = useMediaQuery("(max-width: 1600px)");
-    const is1350 = useMediaQuery("(max-width: 1350px)");
-    const is1000 = useMediaQuery("(max-width: 1000px)");
-    const is700 = useMediaQuery("(max-width: 700px)");
-  
-    useEffect(() => {
-      if (is1600 && !is1350) {
-        // Entre 1350 y 1600
-        setShowedItems(false);
-        setItemsToShow(open ? 6 : 8);
-      } else if (is1350 && !is1000) {
-        // Entre 1000 y 1350
-        setShowedItems(false);
-        setItemsToShow(6);
-      } else if (is1000 && !is700) {
-        // Entre 1000 y 700
-        setShowedItems(false);
-        setItemsToShow(4);
-      }else if (is700) {
-        // Menor o igual a 700
-        setShowedItems(false);
-        setItemsToShow(2);
-      } else {
-        setShowedItems(false);
-        setItemsToShow(open ? 8 : 10);
-      }
-    }, [is700, is1000, is1350, is1600, open]);
-    
-  
-    const handleShowMore = () => {
-      setItemsToShow((prevItems) => prevItems + itemsToShow);
-      setShowedItems(true);
-    };
+  useEffect(() => {
+    if (is1600 && !is1350) {
+      setShowedItems(false);
+      setMixesToShow(open ? 6 : 8);
+      setTobaccosToShow(open ? 7 : 9);
+    } else if (is1350 && !is1150) {
+      setShowedItems(false);
+      setMixesToShow(6);
+      setTobaccosToShow(7);
+    } else if (is1150 && !is1000) {
+      setShowedItems(false);
+      setMixesToShow(6);
+      setTobaccosToShow(6);
+    } else if (is1000 && !is850) {
+      setShowedItems(false);
+      setMixesToShow(4);
+      setTobaccosToShow(5);
+    } else if (is850 && !is700) {
+      setShowedItems(false);
+      setMixesToShow(2);
+      setTobaccosToShow(4);
+    } else if (is700 && !is550) {
+      setShowedItems(false);
+      setMixesToShow(2);
+      setTobaccosToShow(3);
+    } else if (is550){
+      setShowedItems(false);
+      setMixesToShow(2);
+      setTobaccosToShow(2);
+    } else {
+      setShowedItems(false);
+      setMixesToShow(open ? 8 : 10);
+      setTobaccosToShow(open ? 8 : 10);
+    }
+  }, [is550, is700, is850, is1000, is1150, is1350, is1600, open]);
 
-    return (
-      <FormatedBox>
-        <Box className="title-div-section">
-          <h2>
-            <a className="a-section" href="/mezclas">
-              Mezclas
-            </a>{" "}
-            interesantes
-          </h2>
-        </Box>
-        <Box className="content-div-section">
-          {[...Array(itemsToShow)].map((_, index) => (
+  const handleShowMore = () => {
+    setMixesToShow((prevItems) => prevItems + mixesToShow);
+    setTobaccosToShow((prevItems) => prevItems + tobaccosToShow);
+    setShowedItems(true);
+  };
+
+  return (
+    <FormatedBox>
+      <Box className="title-div-section">
+        <h2>
+          <a className="a-section" href={featuredWordTittle.toLowerCase()}>
+            {featuredWordTittle}
+          </a>{" "}
+          {tittle}
+        </h2>
+      </Box>
+      <Box className="content-div-section" style={{ gap: content === "mix" ? "2%" : (is700 ? "3%" : "1%") }}>
+        {content === "mix" &&
+          [...Array(mixesToShow)].map((_, index) => (
             <Mix
               key={index}
               username="migueliyo"
-              description={`Mezcla afrutada y muy dulce ${index++}`}
+              description={`Mezcla afrutada y muy dulce ${index + 1}`}
               categories={categories}
             />
           ))}
-        </Box>
-        {!showedItems ? (
-          <Divider
-            sx={{
-              "&::before, &::after": {
-                borderColor: "section.divider.main",
-              },
-            }}
-          >
-            <Button className="button-divider-section" onClick={handleShowMore}>
-              M<span>ostrar más</span>
-            </Button>
-          </Divider>
-        ) : (
-          <Divider sx={{ borderColor: "section.divider.main" }} />
-        )}
-      </FormatedBox>
-    );
-  }
-  export default Section;
+        {content === "tobacco" &&
+          [...Array(tobaccosToShow)].map((_, index) => (
+            <Tobacco
+              key={index}
+              name={`Two apples ${index + 1}`}
+              brand="Alfakher"
+              categories={categoriesTobacco}
+            />
+          ))}
+      </Box>
+      {!showedItems ? (
+        <Divider
+          sx={{
+            "&::before, &::after": {
+              borderColor: "section.divider.main",
+            },
+          }}
+        >
+          <Button className="button-divider-section" onClick={handleShowMore}>
+            M<span>ostrar más</span>
+          </Button>
+        </Divider>
+      ) : (
+        <Divider sx={{ borderColor: "section.divider.main" }} />
+      )}
+    </FormatedBox>
+  );
+}
+export default Section;

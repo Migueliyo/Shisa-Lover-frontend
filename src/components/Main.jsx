@@ -6,6 +6,7 @@ import { Box } from "@mui/material";
 import { DrawerContext } from "./drawerContext";
 import { appBarHeight } from "./AppBar";
 import Section from "./Section";
+// import Tobacco from "./Tobacco";
 
 const FormatedBox = styled(Box, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -26,7 +27,8 @@ function Main() {
   
   return (
     <FormatedBox open={open}>
-      <Section />
+      <Section featuredWordTittle="Mezclas" tittle="destacadas" content="mix"/>
+      <Section featuredWordTittle="Sabores" tittle="recien traídos al mercado" content="tobacco" />
     </FormatedBox>
   );
 }
