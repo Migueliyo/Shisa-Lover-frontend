@@ -8,9 +8,7 @@ import { DrawerContext } from "./drawerContext";
 import Mix from "./Mix";
 import Tobacco from "./Tobacco";
 
-const FormatedBox = styled(Box, {
-  shouldForwardProp: (prop) => prop !== "content",
-})(({ theme, content }) => {
+const FormatedBox = styled(Box)(({ theme }) => {
   return {
     color: theme.palette.primary.main,
     width: "100%",
@@ -44,7 +42,6 @@ const FormatedBox = styled(Box, {
       display: "flex",
       flexWrap: "wrap",
       paddingTop: 10,
-      gap: content == "mix" && "2%",
     },
     ".button-divider-section": {
       color: theme.palette.section.button.main,
