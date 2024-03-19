@@ -49,6 +49,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
     },
     ".button-divider-section:hover": {
       backgroundColor: theme.palette.section.button.hover,
+      color: theme.palette.primary.main,
     },
     ".button-divider-section span": {
       textTransform: "lowercase",

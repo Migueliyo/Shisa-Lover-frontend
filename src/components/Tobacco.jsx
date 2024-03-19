@@ -21,6 +21,16 @@ const FormatedBox = styled(Box, {
       display: "flex",
       flexWrap: "nowrap",
     },
+    ".content-div-logo": {
+      position: "relative",
+    },
+    ".content-div-logo-new": {
+      position: "absolute",
+      top: 5,
+      right: 5,
+      width: 30,
+      height: 30
+    },
     ".content-div-logo a img": {
       width: "100%",
     },
@@ -148,6 +158,7 @@ function Tobacco({ name, brand, url, categories }) {
         <a href="">
           <img src={url ? url : "src\\assets\\logo.png"} />
         </a>
+        <img className="content-div-logo-new" src="src\\assets\\new.png"></img>
       </Box>
       <Box className="content-div-main">
         <Box className="content-div-info">
