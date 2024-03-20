@@ -6,13 +6,14 @@ import { Box } from "@mui/material";
 import { DrawerContext } from "./drawerContext";
 import { appBarHeight } from "./AppBar";
 import Section from "./Section";
-// import Tobacco from "./Tobacco";
 
 const FormatedBox = styled(Box, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => {
   return {
     width: "100%",
+    height: `calc(100% - ${appBarHeight + 25}px)`, // El resultado de la altura del appbar y el paddingTop
+    overflowY: "auto",
     marginTop: appBarHeight,
     marginLeft: open ? "20%" : theme.spacing(7),
     backgroundColor: theme.palette.secondary.main,
@@ -24,11 +25,21 @@ const FormatedBox = styled(Box, {
 
 function Main() {
   const { open } = useContext(DrawerContext);
-  
+
   return (
     <FormatedBox open={open}>
-      <Section featuredWordTittle="Mezclas" tittle="destacadas" content="mix"/>
-      <Section featuredWordTittle="Sabores" tittle="recien traídos al mercado" content="tobacco" />
+      <Section 
+        featuredWordTittle="Mezclas" 
+        tittle="destacadas" 
+        content="mix" />
+      <Section
+        featuredWordTittle="Sabores"
+        tittle="recien traídos al mercado"
+        content="tobacco" />
+      <Section
+        featuredWordTittle="Entradas"
+        tittle="destacadas de nuestro foro de debate"
+        content="discussionEntry" />
     </FormatedBox>
   );
 }

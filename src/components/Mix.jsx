@@ -1,4 +1,5 @@
 import { useContext } from "react";
+
 import styled from "@emotion/styled";
 
 import { Avatar, Box, IconButton } from "@mui/material";
@@ -63,6 +64,7 @@ const FormatedBox = styled(Box, {
       flexWrap: "nowrap",
       gap: 5,
       marginTop: 8,
+      overflow: "hidden",
     },
     ".content-div-info-categories a": {
       display: "inline-block",

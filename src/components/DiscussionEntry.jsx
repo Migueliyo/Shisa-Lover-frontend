@@ -2,44 +2,29 @@ import { useContext } from "react";
 
 import styled from "@emotion/styled";
 
-import { Box, IconButton } from "@mui/material";
+import { Avatar, Box, IconButton } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { DrawerContext } from "./drawerContext";
 
-const FormatedBox = styled(Box, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => {
+const FormatedBox = styled(Box)(({ theme }) => {
   const commonStyles = {
-    width: open ? "11.6%" : "9.1%",
-    ".content-div-main": {
-      width: "100%",
-      border: 0,
-      marginTop: 5,
-      marginBottom: 30,
-      padding: 0,
-      verticalAlign: "baseline",
-      display: "flex",
-      flexWrap: "nowrap",
-    },
-    ".content-div-logo": {
-      position: "relative",
-    },
-    ".content-div-logo-new": {
-      position: "absolute",
-      top: 5,
-      right: 5,
-      width: 30,
-      height: 30
-    },
-    ".content-div-logo a img": {
-      width: "100%",
+    border: 0,
+    margin: 0,
+    marginBottom: 30,
+    padding: 0,
+    verticalAlign: "baseline",
+    width: "49%",
+    display: "flex",
+    flexWrap: "nowrap",
+    ".content-div-avatar": {
+      marginRight: 15,
     },
     ".content-div-info": {
       width: "100%",
       minWidth: 0,
     },
-    ".content-div-info-details": {
+    ".content-div-info-details-top": {
       marginBottom: "0.3rem",
     },
     ".content-div-info a": {
@@ -60,7 +45,7 @@ const FormatedBox = styled(Box, {
     ".content-div-info a h3": {
       color: theme.palette.mix.h3.main,
       fontWeight: 600,
-      fontSize: 15,
+      fontSize: 18,
       textOverflow: "ellipsis",
       whiteSpace: "nowrap",
       overflow: "hidden",
@@ -71,12 +56,27 @@ const FormatedBox = styled(Box, {
       fontSize: 12.5,
       marginTop: 5,
     },
+    ".content-div-info-details-lower": {
+      marginTop: 10,
+      border: "1px solid",
+      borderColor: theme.palette.section.divider.main,
+      borderRadius: theme.shape.borderRadius,
+      padding: "0px 7px 10px 7px",
+    },
+    ".content-div-info-description": {
+      color: theme.palette.mix.h3.main,
+      fontSize: 14,
+      marginTop: 5,
+      overflow: "hidden",
+      height: 90,
+      maskImage: "linear-gradient(to top, transparent, white 40%)",
+    },
     ".content-div-info-categories": {
       lineHeight: 1.5,
       display: "flex",
       flexWrap: "nowrap",
       gap: 5,
-      marginTop: 8,
+      marginTop: -10,
       overflow: "hidden",
     },
     ".content-div-info-categories a": {
@@ -110,68 +110,36 @@ const FormatedBox = styled(Box, {
       backgroundColor: theme.palette.button.main,
     },
   };
-  
+
   return {
     ...commonStyles,
-    //@media (max-width: 1550px)
-    [theme.breakpoints.down("1600")]: {
-      ...commonStyles,
-      width: open ? "13.4%" : "10.2%",
-    },
-    //@media (max-width: 1350px)
-    [theme.breakpoints.down("1350")]: {
-      ...commonStyles,
-      width: "13.4%",
-    },
-    //@media (max-width: 1150px)
+    //@media (max-width: 1100px)
     [theme.breakpoints.down("1150")]: {
       ...commonStyles,
-      width: "15.8%",
-    },
-    //@media (max-width: 1000px)
-    [theme.breakpoints.down("1000")]: {
-      ...commonStyles,
-      width: "19.2%",
-    },
-    //@media (max-width: 850px)
-    [theme.breakpoints.down("850")]: {
-      ...commonStyles,
-      width: "24.2%",
-    },
-    //@media (max-width: 700px)
-    [theme.breakpoints.down("700")]: {
-      ...commonStyles,
-      width: "31.3%",
-    },
-    //@media (max-width: 550px)
-    [theme.breakpoints.down("550")]: {
-      ...commonStyles,
-      width: "48.5%",
+      width: "100%"
     },
   };
 });
 
-function Tobacco({ name, brand, url, categories }) {
+function DiscussionEntry({ username, url, description, title, categories }) {
   const { open } = useContext(DrawerContext);
 
   return (
     <FormatedBox open={open}>
-      <Box className="content-div-logo">
-        <a href="">
-          <img src={url ? url : "src\\assets\\logo.png"} />
-        </a>
-        <img className="content-div-logo-new" src="src\\assets\\new.png"></img>
+      <Box className="content-div-avatar">
+        <Avatar src={url} />
       </Box>
-      <Box className="content-div-main">
-        <Box className="content-div-info">
-          <Box className="content-div-info-details">
-            <a href="">
-              <h3>{name}</h3>
-            </a>
-            <a href="">
-              <p>{brand}</p>
-            </a>
-          </Box>
+      <Box className="content-div-info">
+        <Box className="content-div-info-details-top">
+          <a href="">
+            <h3>{title}</h3>
+          </a>
+          <a href="">
+            <p>{username}</p>
+          </a>
+        </Box>
+        <Box className="content-div-info-details-lower">
+          <p className="content-div-info-description">{description}</p>
           <Box className="content-div-info-categories">
             {categories.map((category) => (
               <a key={category} href="">
@@ -180,13 +148,13 @@ function Tobacco({ name, brand, url, categories }) {
             ))}
           </Box>
         </Box>
-        <Box className="content-div-settings">
-          <IconButton>
-            <MoreVertIcon color="primary" />
-          </IconButton>
-        </Box>
+      </Box>
+      <Box className="content-div-settings">
+        <IconButton>
+          <MoreVertIcon color="primary" />
+        </IconButton>
       </Box>
     </FormatedBox>
   );
 }
-export default Tobacco;
+export default DiscussionEntry;

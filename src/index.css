@@ -33,5 +33,5 @@ html, body, #root {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #ababab;
+    background-color: hsla(0,0%,100%,.5)
 }
