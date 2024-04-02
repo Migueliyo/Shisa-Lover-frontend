@@ -15,7 +15,7 @@ const FormatedBox = styled(Box, {
     height: `calc(100% - ${appBarHeight + 25}px)`, // El resultado de la altura del appbar y el paddingTop
     overflowY: "auto",
     marginTop: appBarHeight,
-    marginLeft: open ? "20%" : theme.spacing(7),
+    marginLeft: open ? "320px" : theme.spacing(7),
     backgroundColor: theme.palette.secondary.main,
     paddingTop: 25,
     paddingLeft: 25,

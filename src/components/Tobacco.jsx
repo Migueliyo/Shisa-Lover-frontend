@@ -72,6 +72,7 @@ const FormatedBox = styled(Box, {
       marginTop: 5,
     },
     ".content-div-info-categories": {
+      width: "115%",
       lineHeight: 1.5,
       display: "flex",
       flexWrap: "nowrap",

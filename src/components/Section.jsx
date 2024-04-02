@@ -123,6 +123,7 @@ function Section({ featuredWordTittle, tittle, content }) {
   const handleShowMore = () => {
     setMixesToShow((prevItems) => prevItems + mixesToShow);
     setTobaccosToShow((prevItems) => prevItems + tobaccosToShow);
+    setDiscussionEntriesToShow((prevItems) => prevItems + discussionEntriesToShow);
     setShowedItems(true);
   };
 
