@@ -91,6 +91,17 @@ const FormatedDrawer = styled(MuiDrawer, {
       height: "42px",
       padding: "5px 10px 5px 10px",
     },
+    ".content-list-button:hover": {
+      backgroundColor: theme.palette.section.button.hover,
+    },
+    ".toolbar-icon": {
+      padding: 5,
+      marginRight: -5
+    },
+    ".toolbar-icon:hover": {
+      borderRadius: 4,
+      backgroundColor: theme.palette.section.button.hover,
+    }
   };
 });
 
@@ -207,11 +218,11 @@ function Drawer() {
           <IconButton onClick={toggleDrawer}>
             {open ? (
               <Tooltip title="Contraer" placement="right">
-                <KeyboardReturnIcon color="primary" />
+                <KeyboardReturnIcon color="primary" className="toolbar-icon" />
               </Tooltip>
             ) : (
               <Tooltip title="Expandir" placement="right">
-                <KeyboardTabIcon color="primary" />
+                <KeyboardTabIcon color="primary" className="toolbar-icon" />
               </Tooltip>
             )}
           </IconButton>

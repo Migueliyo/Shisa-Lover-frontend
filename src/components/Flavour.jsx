@@ -152,7 +152,7 @@ const FormatedBox = styled(Box, {
   };
 });
 
-function Tobacco({ name, brand, url, categories }) {
+function Flavour({ name, brand, url, categories }) {
   const { open } = useContext(DrawerContext);
 
   return (
@@ -175,8 +175,8 @@ function Tobacco({ name, brand, url, categories }) {
           </Box>
           <Box className="content-div-info-categories">
             {categories.map((category) => (
-              <a key={category} href="">
-                <span>{category}</span>
+              <a key={category.id} href="">
+                <span>{category.name}</span>
               </a>
             ))}
           </Box>
@@ -190,4 +190,4 @@ function Tobacco({ name, brand, url, categories }) {
     </FormatedBox>
   );
 }
-export default Tobacco;
+export default Flavour;

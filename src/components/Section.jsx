@@ -6,7 +6,7 @@ import { Box, Button, Divider, useMediaQuery } from "@mui/material";
 
 import { DrawerContext } from "./drawerContext";
 import Mix from "./Mix";
-import Tobacco from "./Tobacco";
+import Flavour from "./Flavour";
 import DiscussionEntry from "./DiscussionEntry";
 import { lorem } from "./lorem";
 
@@ -59,10 +59,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
   };
 });
 
-let categories = ["Afrutada", "Dulce", "Mentolada"];
-let categoriesTobacco = ["Afrutado", "Dulce"];
-
-function Section({ featuredWordTittle, tittle, content }) {
+function Section({ featuredWordTittle, tittle, content, data }) {
   const { open } = useContext(DrawerContext);
   const [mixesToShow, setMixesToShow] = useState(open ? 8 : 10);
   const [tobaccosToShow, setTobaccosToShow] = useState(open ? 8 : 10);
@@ -123,7 +120,9 @@ function Section({ featuredWordTittle, tittle, content }) {
   const handleShowMore = () => {
     setMixesToShow((prevItems) => prevItems + mixesToShow);
     setTobaccosToShow((prevItems) => prevItems + tobaccosToShow);
-    setDiscussionEntriesToShow((prevItems) => prevItems + discussionEntriesToShow);
+    setDiscussionEntriesToShow(
+      (prevItems) => prevItems + discussionEntriesToShow
+    );
     setShowedItems(true);
   };
 
@@ -139,24 +138,33 @@ function Section({ featuredWordTittle, tittle, content }) {
       </Box>
       <Box
         className="content-div-section"
-        style={{ gap: content === "mix" ? "2%" : is700 ? "3%" : content === "discussionEntry" ? "2%" : "1%" }}
+        style={{
+          gap:
+            content === "mix"
+              ? "2%"
+              : is700
+              ? "3%"
+              : content === "discussionEntry"
+              ? "2%"
+              : "1%",
+        }}
       >
         {content === "mix" &&
-          [...Array(mixesToShow)].map((_, index) => (
+          data.map((mix) => (
             <Mix
-              key={index}
-              username="migueliyo"
-              description={`Mezcla afrutada y muy dulce ${index + 1}`}
-              categories={categories}
+              key={mix.id}
+              username={mix.username}
+              name={mix.mix_name}
+              categories={mix.categories}
             />
           ))}
-        {content === "tobacco" &&
-          [...Array(tobaccosToShow)].map((_, index) => (
-            <Tobacco
-              key={index}
-              name={`Two apples ${index + 1}`}
-              brand="Alfakher"
-              categories={categoriesTobacco}
+        {content === "flavour" &&
+          data.map((flavour) => (
+            <Flavour
+              key={flavour.id}
+              name={flavour.flavour_name}
+              brand={flavour.brand_name}
+              categories={flavour.categories}
             />
           ))}
         {content === "discussionEntry" &&

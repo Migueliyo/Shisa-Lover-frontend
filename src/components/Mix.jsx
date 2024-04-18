@@ -124,18 +124,18 @@ const FormatedBox = styled(Box, {
   };
 });
 
-function Mix({ username, url, description, categories }) {
+function Mix({ username, name, categories }) {
   const { open } = useContext(DrawerContext);
 
   return (
     <FormatedBox open={open}>
       <Box className="content-div-avatar">
-        <Avatar src={url} />
+        <Avatar src="" />
       </Box>
       <Box className="content-div-info">
         <Box className="content-div-info-details">
           <a href="">
-            <h3>{description}</h3>
+            <h3>{name}</h3>
           </a>
           <a href="">
             <p>{username}</p>
@@ -143,8 +143,8 @@ function Mix({ username, url, description, categories }) {
         </Box>
         <Box className="content-div-info-categories">
           {categories.map((category) => (
-            <a key={category} href="">
-              <span>{category}</span>
+            <a key={category.id} href="">
+              <span>{category.name}</span>
             </a>
           ))}
         </Box>
