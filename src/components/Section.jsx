@@ -8,7 +8,6 @@ import { DrawerContext } from "./drawerContext";
 import Mix from "./Mix";
 import Flavour from "./Flavour";
 import DiscussionEntry from "./DiscussionEntry";
-import { lorem } from "./lorem";
 
 const FormatedBox = styled(Box)(({ theme }) => {
   return {
@@ -168,13 +167,13 @@ function Section({ featuredWordTittle, tittle, content, data }) {
             />
           ))}
         {content === "discussionEntry" &&
-          [...Array(discussionEntriesToShow)].map((_, index) => (
+          data.map((entry) => (
             <DiscussionEntry
-              key={index}
-              username="Creador"
-              title="Cómo mantener tu cachimba limpia con el paso del tiempo"
-              description={lorem}
-              categories={["consejos", "limpieza", "mantenimiento"]}
+              key={entry.id}
+              username={entry.username}
+              title={entry.entry_title}
+              description={entry.description}
+              categories={entry.categories}
             />
           ))}
       </Box>

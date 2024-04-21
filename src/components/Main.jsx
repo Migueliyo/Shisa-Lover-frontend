@@ -31,29 +31,40 @@ function Main() {
 
   const [mixes, setMixes] = useState([]);
   const [flavours, setFlavours] = useState([]);
+  const [entries, setEntries] = useState([]);
   // const [refresh, setRefresh] = useState(false);
 
   const getMixes = async () => {
     const response = await api.getMixes();
-    if (response) {
-      setMixes(response);
+    if (!response.error) {
+      setMixes(response.data);
     } else {
-      console.log("Error en la consulta a la API");
+      console.log(response.message);
     }
   };
 
   const getFlavours = async () => {
     const response = await api.getFlavours();
-    if (response) {
-      setFlavours(response);
+    if (!response.error) {
+      setFlavours(response.data);
     } else {
-      console.log("Error en la consulta a la API");
+      console.log(response.message);
+    }
+  }
+
+  const getEntries = async () => {
+    const response = await api.getEntries();
+    if (!response.error) {
+      setEntries(response.data);
+    } else {
+      console.log(response.message);
     }
   }
 
   useEffect(() => {
     getMixes();
     getFlavours();
+    getEntries();
   }, []);
 
   return (
@@ -71,7 +82,8 @@ function Main() {
       <Section
         featuredWordTittle="Entradas"
         tittle="destacadas de nuestro foro de debate"
-        content="discussionEntry" />
+        content="discussionEntry" 
+        data={entries} />
     </FormatedBox>
   );
 }

@@ -116,18 +116,18 @@ const FormatedBox = styled(Box)(({ theme }) => {
     //@media (max-width: 1100px)
     [theme.breakpoints.down("1150")]: {
       ...commonStyles,
-      width: "100%"
+      width: "100%",
     },
   };
 });
 
-function DiscussionEntry({ username, url, description, title, categories }) {
+function DiscussionEntry({ username, description, title, categories }) {
   const { open } = useContext(DrawerContext);
 
   return (
     <FormatedBox open={open}>
       <Box className="content-div-avatar">
-        <Avatar src={url} />
+        <Avatar src="" />
       </Box>
       <Box className="content-div-info">
         <Box className="content-div-info-details-top">
@@ -142,8 +142,8 @@ function DiscussionEntry({ username, url, description, title, categories }) {
           <p className="content-div-info-description">{description}</p>
           <Box className="content-div-info-categories">
             {categories.map((category) => (
-              <a key={category} href="">
-                <span>{category}</span>
+              <a key={category.id} href="">
+                <span>{category.name}</span>
               </a>
             ))}
           </Box>
