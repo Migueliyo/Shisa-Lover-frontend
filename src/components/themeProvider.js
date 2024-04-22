@@ -11,8 +11,19 @@ export const theme = createTheme({
       secondary: {
         main: '#0f0e11',
       },
+      tertiary: {
+        main: '#ff7400',
+      },
       appbar: {
-        main: '#18181b'
+        main: '#18181b',
+        login: {
+          main: 'rgba(83,83,95,.30)',
+          hover: 'rgba(83,83,95,.45)'
+        },
+        register: {
+          main: '#a1570b',
+          hover: '#d1710d'
+        }
       },
       drawer: {
         main: '#1f1f23'

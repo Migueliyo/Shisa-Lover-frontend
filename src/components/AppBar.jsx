@@ -1,7 +1,7 @@
 import { useState } from "react";
 //import { useTheme } from "@emotion/react";
 
-import { InputBase } from "@mui/material";
+import { Button, InputBase } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import { AccountCircle } from "@mui/icons-material";
@@ -16,6 +16,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import SearchIcon from "@mui/icons-material/Search";
+import Login from "./Login";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -35,11 +36,68 @@ const FormatedAppBar = styled(MuiAppBar)(({ theme }) => {
       alignItems: "stretch",
       flexWrap: "nowrap",
     },
+    ".menu-div": {
+      width: "25%",
+      justifyContent: "left",
+    },
     ".search-bar": {
       width: "100%",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+    },
+    ".login-div": {
+      width: "25%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "right",
+      flexWrap: "nowrap",
+    },
+    ".login-button": {
+      backgroundColor: theme.palette.appbar.login.main,
+      display: "inline-flex",
+      position: "relative",
+      alignItems: "center",
+      justifyContent: "center",
+      verticalAlign: "middle",
+      overflow: "hidden",
+      textDecoration: "none",
+      whiteSpace: "nowrap",
+      userSelect: "none",
+      fontWeight: 600,
+      borderRadius: "0.4 rem",
+      fontSize: 13,
+      height: "65%",
+      marginRight: 10,
+    },
+    ".login-button:hover": {
+      backgroundColor: theme.palette.appbar.login.hover,
+    },
+    ".register-button": {
+      backgroundColor: theme.palette.appbar.register.main,
+      color: "#fff",
+      display: "inline-flex",
+      position: "relative",
+      alignItems: "center",
+      justifyContent: "center",
+      verticalAlign: "middle",
+      overflow: "hidden",
+      textDecoration: "none",
+      whiteSpace: "nowrap",
+      userSelect: "none",
+      fontWeight: 600,
+      borderRadius: "0.4 rem",
+      fontSize: 13,
+      height: "65%",
+    },
+    ".register-button:hover": {
+      backgroundColor: theme.palette.appbar.register.hover,
+    },
+    ".login-button span": {
+      textTransform: "lowercase",
+    },
+    ".register-button span": {
+      textTransform: "lowercase",
     },
   };
 
@@ -60,7 +118,7 @@ const Search = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   position: "relative",
-  width: 350,
+  width: 380,
   height: "70%",
   borderRadius: theme.shape.borderRadius,
   border: "1px solid",
@@ -94,6 +152,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function AppBar() {
   //const theme = useTheme();
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [seen, setSeen] = useState(false)
 
   const handleClick = (event) => {
     console.log(event.currentTarget);
@@ -107,22 +166,27 @@ function AppBar() {
     setAnchorElUser(null);
   };
 
+  const togglePop = () => {
+    setSeen(!seen);
+  };
+
   return (
     <FormatedAppBar variant="permanent">
       <Toolbar variant="paper">
-        <Box
-          sx={{
-            width: 50,
-          }}
-        >
-          <IconButton
-            onClick={handleClick}
-            sx={{ height: "100%", width: "100%" }}
+        <Box className="menu-div">
+          <Box
+            sx={{
+              width: 50,
+            }}
           >
-            <GitHubIcon color="primary" sx={{ height: 32, width: 32 }} />
-          </IconButton>
+            <IconButton
+              onClick={handleClick}
+              sx={{ height: "100%", width: "100%" }}
+            >
+              <GitHubIcon color="primary" sx={{ height: 32, width: 32 }} />
+            </IconButton>
+          </Box>
         </Box>
-
         <Box className="search-bar">
           <Search>
             <StyledInputBase
@@ -135,56 +199,65 @@ function AppBar() {
           </Search>
         </Box>
 
-        <Box
-          sx={{
-            width: 50,
-          }}
-        >
-          <Tooltip
-            title="Open settings"
-            slotProps={{
-              popper: {
-                modifiers: [
-                  {
-                    name: "offset",
-                    options: {
-                      offset: [0, -14],
+        <Box className="login-div">
+          <Button className="login-button" onClick={togglePop}>
+            I<span>niciar sesión</span>
+          </Button>
+          {seen ? <Login toggle={togglePop} /> : null}
+          <Button className="register-button">
+            R<span>egistrarse</span>
+          </Button>
+          <Box
+            sx={{
+              width: 50,
+            }}
+          >
+            <Tooltip
+              title="Open settings"
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: "offset",
+                      options: {
+                        offset: [0, -14],
+                      },
                     },
-                  },
-                ],
-              },
-            }}
-          >
-            <IconButton
-              onClick={handleOpenUserMenu}
-              sx={{ height: "100%", width: "100%" }}
+                  ],
+                },
+              }}
             >
-              <AccountCircle color="avatar" sx={{ height: 36, width: 36 }} />
-              {/* <Avatar alt="Remy Sharp" src="public\vite.svg" /> */}
-            </IconButton>
-          </Tooltip>
-          <Menu
-            sx={{ mt: "35px" }}
-            id="menu-appbar"
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
-          >
-            {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">{setting}</Typography>
-              </MenuItem>
-            ))}
-          </Menu>
+              <IconButton
+                onClick={handleOpenUserMenu}
+                sx={{ height: "100%", width: "100%" }}
+              >
+                <AccountCircle color="avatar" sx={{ height: 36, width: 36 }} />
+                {/* <Avatar alt="Remy Sharp" src="public\vite.svg" /> */}
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "35px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
         </Box>
       </Toolbar>
     </FormatedAppBar>
