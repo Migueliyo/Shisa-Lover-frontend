@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 
 import { Box } from "@mui/material";
 
-import { DrawerContext } from "./drawerContext";
+import { DrawerContext } from "../context/drawerContext";
 import { appBarHeight } from "./AppBar";
 import Section from "./Section";
 

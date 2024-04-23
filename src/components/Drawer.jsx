@@ -22,7 +22,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 
-import { DrawerContext } from "./drawerContext";
+import { DrawerContext } from "../context/drawerContext";
 import { appBarHeight } from "./AppBar";
 
 const FormatedDrawer = styled(MuiDrawer, {

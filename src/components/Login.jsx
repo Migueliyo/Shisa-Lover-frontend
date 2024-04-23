@@ -180,7 +180,7 @@ function Login(props) {
         </Box>
         <Box className="popup-inner-title">
           <Box className="popup-inner-title-icon">
-            <img src="public\vite.svg"></img>
+            <img src="vite.svg"></img>
           </Box>
           <h2>Iniciar sesión en Shisha Lover</h2>
         </Box>

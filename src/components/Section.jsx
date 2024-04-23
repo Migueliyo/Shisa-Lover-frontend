@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 
 import { Box, Button, Divider, useMediaQuery } from "@mui/material";
 
-import { DrawerContext } from "./drawerContext";
+import { DrawerContext } from "../context/drawerContext";
 import Mix from "./Mix";
 import Flavour from "./Flavour";
 import DiscussionEntry from "./DiscussionEntry";

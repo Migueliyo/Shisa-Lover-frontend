@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles';
 
-import { theme } from './components/themeProvider';
-import { DrawerProvider } from './components/drawerContext';
+import { theme } from './context/themeProvider';
+import { DrawerProvider } from './context/drawerContext';
 
 import Drawer from './components/Drawer';
 import AppBar from './components/AppBar';

@@ -29,7 +29,6 @@ export const DrawerProvider = ({ children }) => {
         setOpen(true)
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSm]);
 
   return (
