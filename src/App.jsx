@@ -1,22 +1,26 @@
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from "@mui/material/styles";
+import { Provider } from "react-redux";
 
-import { theme } from './context/themeProvider';
-import { DrawerProvider } from './context/drawerContext';
+import { store } from "./store/index.js";
+import { theme } from "./components/themeProvider.js";
+import { DrawerProvider } from "./context/drawerContext";
 
-import Drawer from './components/Drawer';
-import AppBar from './components/AppBar';
-import Main from './components/Main';
+import Drawer from "./components/Drawer";
+import AppBar from "./components/AppBar";
+import Main from "./components/Main";
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <AppBar />
-      <DrawerProvider>
-        <Drawer />
-        <Main />
-      </DrawerProvider>
-    </ThemeProvider>
-  )
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <AppBar />
+        <DrawerProvider>
+          <Drawer />
+          <Main />
+        </DrawerProvider>
+      </ThemeProvider>
+    </Provider>
+  );
 }
 
 export default App;
