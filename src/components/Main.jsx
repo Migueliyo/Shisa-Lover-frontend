@@ -10,8 +10,11 @@ import Section from "./Section";
 
 import { useAppDispatch } from "../hooks/store";
 import { fetchMixes } from "../store/mixes/slice";
-import { useUserActions } from "../hooks/useMixesActions"
-
+import { fetchFlavours } from "../store/flavours/slice";
+import { fetchEntries } from "../store/entries/slice";
+import { useMixesActions } from "../hooks/useMixesActions";
+import { useFlavoursActions } from "../hooks/useFlavoursActions";
+import { useEntriesActions } from "../hooks/useEntriesActions";
 
 const FormatedBox = styled(Box, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -32,72 +35,48 @@ const FormatedBox = styled(Box, {
 function Main() {
   const { open } = useContext(DrawerContext);
   const dispatch = useAppDispatch();
-  const { mixes, status, error } = useUserActions()
-
-  // const [mixes, setMixes] = useState([]);
-  // const [flavours, setFlavours] = useState([]);
-  // const [entries, setEntries] = useState([]);
-  // const [refresh, setRefresh] = useState(false);
-
-  // const getMixes = async () => {
-  //   const response = await api.getMixes();
-  //   if (!response.error) {
-  //     setMixes(response.data);
-  //   } else {
-  //     console.log(response.message);
-  //   }
-  // };
-
-  // const getFlavours = async () => {
-  //   const response = await api.getFlavours();
-  //   if (!response.error) {
-  //     setFlavours(response.data);
-  //   } else {
-  //     console.log(response.message);
-  //   }
-  // }
-
-  // const getEntries = async () => {
-  //   const response = await api.getEntries();
-  //   if (!response.error) {
-  //     setEntries(response.data);
-  //   } else {
-  //     console.log(response.message);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   getMixes();
-  //   getFlavours();
-  //   getEntries();
-  // }, []);
+  const { mixes, statusMixes, errorMixes } = useMixesActions();
+  const { flavours, statusFlavours, errorFlavours } = useFlavoursActions();
+  const { entries, statusEntries, errorEntries } = useEntriesActions();
 
   useEffect(() => {
     dispatch(fetchMixes());
+    dispatch(fetchFlavours());
+    dispatch(fetchEntries());
   }, [dispatch]);
 
   return (
     <FormatedBox open={open}>
-      {status === "loading" && <h1>Loading...</h1>}
-      {status === "failed" && <p>Error: {error}</p>}
-      {status === "succeeded" && (
+      {statusMixes === "loading" && <h1>Loading...</h1>}
+      {statusMixes === "failed" && <p>Error: {errorMixes}</p>}
+      {statusMixes === "succeeded" && (
         <Section
           featuredWordTittle="Mezclas"
           tittle="destacadas"
           content="mix"
           data={mixes}
-        />  
+        />
       )}
-      {/* <Section
-        featuredWordTittle="Sabores"
-        tittle="recien traídos al mercado"
-        content="flavour"
-        data={flavours} />
-      <Section
-        featuredWordTittle="Entradas"
-        tittle="destacadas de nuestro foro de debate"
-        content="discussionEntry" 
-        data={entries} /> */}
+      {statusFlavours === "loading" && <h1>Loading...</h1>}
+      {statusFlavours === "failed" && <p>Error: {errorFlavours}</p>}
+      {statusFlavours === "succeeded" && (
+        <Section
+          featuredWordTittle="Sabores"
+          tittle="recien traídos al mercado"
+          content="flavour"
+          data={flavours}
+        />
+      )}
+      {statusEntries === "loading" && <h1>Loading...</h1>}
+      {statusEntries === "failed" && <p>Error: {errorEntries}</p>}
+      {statusEntries === "succeeded" && (
+        <Section
+          featuredWordTittle="Entradas"
+          tittle="destacadas de nuestro foro de debate"
+          content="discussionEntry"
+          data={entries}
+        />
+      )}
     </FormatedBox>
   );
 }
