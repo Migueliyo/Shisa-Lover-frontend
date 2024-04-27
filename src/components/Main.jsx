@@ -16,6 +16,10 @@ import { useMixesActions } from "../hooks/useMixesActions";
 import { useFlavoursActions } from "../hooks/useFlavoursActions";
 import { useEntriesActions } from "../hooks/useEntriesActions";
 
+import LoadingMixes from "./LoadingMixes";
+import LoadingFlavours from "./LoadingFlavours";
+import LoadingEntries from "./LoadingEntries";
+
 const FormatedBox = styled(Box, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => {
@@ -47,7 +51,7 @@ function Main() {
 
   return (
     <FormatedBox open={open}>
-      {statusMixes === "loading" && <h1>Loading...</h1>}
+      {statusMixes === "loading" && <LoadingMixes />}
       {statusMixes === "failed" && <p>Error: {errorMixes}</p>}
       {statusMixes === "succeeded" && (
         <Section
@@ -57,7 +61,7 @@ function Main() {
           data={mixes}
         />
       )}
-      {statusFlavours === "loading" && <h1>Loading...</h1>}
+      {statusFlavours === "loading" && <LoadingFlavours />}
       {statusFlavours === "failed" && <p>Error: {errorFlavours}</p>}
       {statusFlavours === "succeeded" && (
         <Section
@@ -67,7 +71,7 @@ function Main() {
           data={flavours}
         />
       )}
-      {statusEntries === "loading" && <h1>Loading...</h1>}
+      {statusEntries === "loading" && <LoadingEntries />}
       {statusEntries === "failed" && <p>Error: {errorEntries}</p>}
       {statusEntries === "succeeded" && (
         <Section
