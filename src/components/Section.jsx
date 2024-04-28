@@ -149,7 +149,7 @@ function Section({ featuredWordTittle, tittle, content, data }) {
         }}
       >
         {content === "mix" &&
-          data.map((mix) => (
+          data.slice(0, mixesToShow).map((mix) => (
             <Mix
               key={mix.id}
               username={mix.username}
@@ -158,7 +158,7 @@ function Section({ featuredWordTittle, tittle, content, data }) {
             />
           ))}
         {content === "flavour" &&
-          data.map((flavour) => (
+          data.slice(0, tobaccosToShow).map((flavour) => (
             <Flavour
               key={flavour.id}
               name={flavour.flavour_name}
@@ -167,7 +167,7 @@ function Section({ featuredWordTittle, tittle, content, data }) {
             />
           ))}
         {content === "discussionEntry" &&
-          data.map((entry) => (
+          data.slice(0, discussionEntriesToShow).map((entry) => (
             <DiscussionEntry
               key={entry.id}
               username={entry.username}

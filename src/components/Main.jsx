@@ -51,7 +51,7 @@ function Main() {
 
   return (
     <FormatedBox open={open}>
-      {statusMixes === "loading" && <LoadingMixes />}
+      {statusMixes === "loading" && <LoadingMixes open={open} />}
       {statusMixes === "failed" && <p>Error: {errorMixes}</p>}
       {statusMixes === "succeeded" && (
         <Section
@@ -61,7 +61,7 @@ function Main() {
           data={mixes}
         />
       )}
-      {statusFlavours === "loading" && <LoadingFlavours />}
+      {statusFlavours === "loading" && <LoadingFlavours open={open} />}
       {statusFlavours === "failed" && <p>Error: {errorFlavours}</p>}
       {statusFlavours === "succeeded" && (
         <Section
@@ -71,7 +71,7 @@ function Main() {
           data={flavours}
         />
       )}
-      {statusEntries === "loading" && <LoadingEntries />}
+      {statusEntries === "loading" && <LoadingEntries open={open} />}
       {statusEntries === "failed" && <p>Error: {errorEntries}</p>}
       {statusEntries === "succeeded" && (
         <Section
