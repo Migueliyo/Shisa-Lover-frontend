@@ -71,7 +71,7 @@ function Main() {
           data={flavours}
         />
       )}
-      {statusEntries === "loading" && <LoadingEntries open={open} />}
+      {statusEntries === "loading" && <LoadingEntries />}
       {statusEntries === "failed" && <p>Error: {errorEntries}</p>}
       {statusEntries === "succeeded" && (
         <Section
