@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styled from "@emotion/styled";
 
@@ -18,7 +18,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
     overflow: "auto",
     backgroundColor: "rgba(0, 0, 0, 0.4)",
 
-    ".popup-inner": {
+    ".popup-inner-register": {
       backgroundColor: theme.palette.drawer.main,
       color: theme.palette.primary.main,
       position: "absolute",
@@ -29,10 +29,9 @@ const FormatedBox = styled(Box)(({ theme }) => {
       borderRadius: "5px",
       boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
       width: "440px",
-      height: "340px",
     },
 
-    ".close-icon": {
+    ".close-icon-register": {
       margin: 0,
       padding: 0,
       width: 30,
@@ -45,7 +44,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
       alignItems: "center",
     },
 
-    ".close-icon button": {
+    ".close-icon-register button": {
       color: "#fff",
       borderRadius: 4,
       padding: 0,
@@ -53,16 +52,16 @@ const FormatedBox = styled(Box)(({ theme }) => {
       height: "100%",
     },
 
-    ".close-icon button:hover": {
+    ".close-icon-register button:hover": {
       backgroundColor: theme.palette.appbar.login.hover,
     },
 
-    ".close-icon svg": {
+    ".close-icon-register svg": {
       width: "23px",
       height: "23px",
     },
 
-    ".popup-inner-title": {
+    ".popup-inner-register-title": {
       marginTop: 10,
       width: "100%",
       height: "50px",
@@ -72,20 +71,20 @@ const FormatedBox = styled(Box)(({ theme }) => {
       marginBottom: 20,
     },
 
-    ".popup-inner-title h2": {
+    ".popup-inner-register-title h2": {
       marginLeft: 5,
       fontSize: 24,
       fontWeight: 600,
     },
 
-    ".popup-inner-title-icon": {
+    ".popup-inner-register-title-icon": {
       width: "50px",
       height: "50px",
       display: "inline-flex",
       alignItems: "center",
     },
 
-    ".popup-inner-title-icon img": {
+    ".popup-inner-register-title-icon img": {
       margin: 0,
       padding: 0,
       width: "90%",
@@ -110,8 +109,8 @@ const FormatedBox = styled(Box)(({ theme }) => {
     "& .MuiOutlinedInput-root": {
       color: theme.palette.primary.main,
       fontSize: 14,
-      "& .MuiOutlinedInput-input":{
-        padding: "15px 14px"
+      "& .MuiOutlinedInput-input": {
+        padding: "15px 14px",
       },
       "& fieldset": {
         borderColor: "#808080",
@@ -129,21 +128,27 @@ const FormatedBox = styled(Box)(({ theme }) => {
       },
     },
 
-    ".popup-inner-form a": {
+    ".popup-inner-register-form a": {
       textDecoration: "none",
     },
 
-    ".popup-inner-form-pass" : {
+    ".date-text": {
+        fontSize: 15,
+        marginTop: 5,
+        marginBottom: 5,
+      },
+
+    ".popup-inner-register-form-pass": {
       color: theme.palette.section.a.main,
-      fontSize: 14
+      fontSize: 14,
     },
 
-    ".popup-inner-form-pass:hover" : {
+    ".popup-inner-register-form-pass:hover": {
       color: theme.palette.section.a.hover,
       textDecoration: "underline",
     },
 
-    ".form-login-button": {
+    ".popup-inner-register-form-button": {
       backgroundColor: theme.palette.appbar.register.main,
       color: "#fff",
       display: "inline-flex",
@@ -161,27 +166,45 @@ const FormatedBox = styled(Box)(({ theme }) => {
       height: "65%",
     },
 
-    ".form-login-button:hover": {
+    ".popup-inner-register-form-button:hover": {
       backgroundColor: theme.palette.appbar.register.hover,
     },
 
-    ".form-login-button span": {
+    ".popup-inner-register-form-button span": {
       textTransform: "lowercase",
     },
 
-    ".form-register-button": {
+    ".popup-inner-login-form-button": {
       width: "100%",
       fontSize: 13,
       color: theme.palette.section.button.main,
       fontWeight: 600,
     },
-    ".form-register-button:hover": {
+    ".popup-inner-login-form-button:hover": {
       backgroundColor: theme.palette.section.button.hover,
       color: theme.palette.primary.main,
     },
-    ".form-register-button span": {
+    ".popup-inner-login-form-button span": {
       textTransform: "lowercase",
     },
+    ".popup-inner-register-form-date-div": {
+        display: "flex",
+        gap: 10
+    },
+    ".username-info-text":{
+        height: 0,
+        overflow: "hidden",
+        transition: "height .25s linear .1s",
+    },
+    ".username-info-text-clicked":{
+        height: 10,
+        marginTop: -18,
+        marginBottom: 28,
+        fontFamily: '"Inter", "Roobert",  Helvetica, Arial, sans-serif',
+        fontSize: 12,
+        color: "#BFBFBF",
+        transition: "height .25s linear .1s"
+    }
   };
   return {
     ...commonStyles,
@@ -192,26 +215,50 @@ const FormatedBox = styled(Box)(({ theme }) => {
   };
 });
 
-function Login(props) {
+function Register(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [day, setDay] = useState();
+  const [month, setMonth] = useState();
+  const [year, setYear] = useState();
+  const [isUsernameClicked, setIsUsernameClicked] = useState(false);
+
+  const handleUsernameClick = () => {
+    setIsUsernameClicked(true);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const registerBox = document.querySelector(".username-input");
+      if (registerBox && !registerBox.contains(event.target)) {
+        setIsUsernameClicked(false);
+      }
+    };
+
+    document.body.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.body.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
     <FormatedBox>
-      <Box className="popup-inner">
-        <Box className="close-icon">
+      <Box className="popup-inner-register">
+        <Box className="close-icon-register">
           <IconButton onClick={props.toggle}>
             <CloseIcon color="primary" />
           </IconButton>
         </Box>
-        <Box className="popup-inner-title">
-          <Box className="popup-inner-title-icon">
+        <Box className="popup-inner-register-title">
+          <Box className="popup-inner-register-title-icon">
             <img src="vite.svg"></img>
           </Box>
-          <h2>Iniciar sesión en Shisha Lover</h2>
+          <h2>Únete a Shisha Lover hoy</h2>
         </Box>
         <Box
-          className="popup-inner-form"
+          className="popup-inner-register-form"
           component="form"
           sx={{
             "& .MuiTextField-root": { my: 1, width: "100%" },
@@ -231,17 +278,58 @@ function Login(props) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <TextField
+            required
+            className="username-input"
+            label="Nombre de usuario:"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            onClick={handleUsernameClick}
+          />
+          <Box className={isUsernameClicked ? "username-info-text-clicked" : "username-info-text"}>
+            <p>Este es el nombre con el que se te identificará en Shisa Lover. Puedes cambiarlo más tarde.</p>
+          </Box>
+          <p className="date-text">
+            Fecha de nacimiento:
+          </p>
+          <Box className="popup-inner-register-form-date-div">
+            <TextField
+              sx={ {flexShrink: 2} }
+              required
+              label="Día:"
+              type="number"
+              value={day}
+              onChange={(e) => setDay(e.target.value)}
+            />
+            <TextField
+              sx={ {flexShrink: 1} }
+            //   component="select"
+              required
+              label="Mes:"
+              value={month}
+              onChange={(e) => setMonth(e.target.value)}
+            />
+            <TextField
+              sx={ {flexShrink: 2} }
+              required
+              label="Año:"
+              type="number"
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+            />
+          </Box>
 
-          <a className="popup-inner-form-pass" href="">¿Olvidaste tu contraseña?</a>
-
-          <Button className="form-login-button" 
+          <Button
+            className="popup-inner-register-form-button"
             sx={{ my: 2, width: "100%" }}
           >
-            I<span>niciar sesión</span>
+            R<span>egistrarse</span>
           </Button>
 
-          <Button className="form-register-button">
-            ¿N<span>o tienes una cuenta?</span>&nbsp;R<span>egístrate aquí.</span>
+          <Button className="popup-inner-login-form-button">
+            ¿Y<span>a tienes una cuenta?</span>&nbsp;I
+            <span>niciar sesión aquí.</span>
           </Button>
         </Box>
       </Box>
@@ -249,4 +337,4 @@ function Login(props) {
   );
 }
 
-export default Login;
+export default Register;

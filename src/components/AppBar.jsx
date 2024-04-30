@@ -16,7 +16,9 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import SearchIcon from "@mui/icons-material/Search";
+
 import Login from "./Login";
+import Register from "./Register";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -152,7 +154,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function AppBar() {
   //const theme = useTheme();
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [seen, setSeen] = useState(false)
+  const [clickedLogin, setClickedLogin] = useState(false);
+  const [clickedRegister, setClickedRegister] = useState(false);
 
   const handleClick = (event) => {
     console.log(event.currentTarget);
@@ -166,8 +169,12 @@ function AppBar() {
     setAnchorElUser(null);
   };
 
-  const togglePop = () => {
-    setSeen(!seen);
+  const handleTogglePopLogin = () => {
+    setClickedLogin(!clickedLogin);
+  };
+
+  const handleTogglePopRegister = () => {
+    setClickedRegister(!clickedRegister);
   };
 
   return (
@@ -200,13 +207,18 @@ function AppBar() {
         </Box>
 
         <Box className="login-div">
-          <Button className="login-button" onClick={togglePop}>
-            I<span>niciar sesión</span>
-          </Button>
-          {seen ? <Login toggle={togglePop} /> : null}
-          <Button className="register-button">
-            R<span>egistrarse</span>
-          </Button>
+          <Box>
+            <Button className="login-button" onClick={handleTogglePopLogin}>
+              I<span>niciar sesión</span>
+            </Button>
+            {clickedLogin ? <Login toggle={handleTogglePopLogin} /> : null}
+          </Box>
+          <Box>
+            <Button className="register-button" onClick={handleTogglePopRegister}>
+              R<span>egistrarse</span>
+            </Button>
+            {clickedRegister ? <Register toggle={handleTogglePopRegister} /> : null}
+          </Box>
           <Box
             sx={{
               width: 50,
