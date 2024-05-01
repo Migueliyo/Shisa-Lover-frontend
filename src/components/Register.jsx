@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import styled from "@emotion/styled";
 
-import { Box, Button, IconButton, TextField } from "@mui/material";
+import { Box, Button, IconButton, MenuItem, TextField } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -126,6 +126,9 @@ const FormatedBox = styled(Box)(({ theme }) => {
       "&.Mui-focused label": {
         color: "#ff7400",
       },
+      "& .MuiSvgIcon-root": {
+        color: theme.palette.primary.main,
+      },
     },
 
     ".popup-inner-register-form a": {
@@ -133,10 +136,10 @@ const FormatedBox = styled(Box)(({ theme }) => {
     },
 
     ".date-text": {
-        fontSize: 15,
-        marginTop: 5,
-        marginBottom: 5,
-      },
+      fontSize: 15,
+      marginTop: 5,
+      marginBottom: 5,
+    },
 
     ".popup-inner-register-form-pass": {
       color: theme.palette.section.a.main,
@@ -188,23 +191,23 @@ const FormatedBox = styled(Box)(({ theme }) => {
       textTransform: "lowercase",
     },
     ".popup-inner-register-form-date-div": {
-        display: "flex",
-        gap: 10
+      display: "flex",
+      gap: 10,
     },
-    ".username-info-text":{
-        height: 0,
-        overflow: "hidden",
-        transition: "height .25s linear .1s",
+    ".username-info-text": {
+      height: 0,
+      overflow: "hidden",
+      transition: "height .25s linear .1s",
     },
-    ".username-info-text-clicked":{
-        height: 10,
-        marginTop: -18,
-        marginBottom: 28,
-        fontFamily: '"Inter", "Roobert",  Helvetica, Arial, sans-serif',
-        fontSize: 12,
-        color: "#BFBFBF",
-        transition: "height .25s linear .1s"
-    }
+    ".username-info-text-clicked": {
+      height: 10,
+      marginTop: -18,
+      marginBottom: 28,
+      fontFamily: '"Inter", "Roobert",  Helvetica, Arial, sans-serif',
+      fontSize: 12,
+      color: "#BFBFBF",
+      transition: "height .25s linear .1s",
+    },
   };
   return {
     ...commonStyles,
@@ -219,10 +222,24 @@ function Register(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [day, setDay] = useState();
-  const [month, setMonth] = useState();
+  const [day, setDay] = useState("");
+  const [month, setMonth] = useState("");
   const [year, setYear] = useState();
   const [isUsernameClicked, setIsUsernameClicked] = useState(false);
+  const meses = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+  ];
 
   const handleUsernameClick = () => {
     setIsUsernameClicked(true);
@@ -288,30 +305,51 @@ function Register(props) {
             onClick={handleUsernameClick}
           />
           <Box className={isUsernameClicked ? "username-info-text-clicked" : "username-info-text"}>
-            <p>Este es el nombre con el que se te identificará en Shisa Lover. Puedes cambiarlo más tarde.</p>
+            <p>
+              Este es el nombre con el que se te identificará en Shisa Lover.
+              Puedes cambiarlo más tarde.
+            </p>
           </Box>
-          <p className="date-text">
-            Fecha de nacimiento:
-          </p>
+          <p className="date-text">Fecha de nacimiento:</p>
           <Box className="popup-inner-register-form-date-div">
             <TextField
-              sx={ {flexShrink: 2} }
+              sx={{ flexShrink: 2 }}
               required
               label="Día:"
               type="number"
               value={day}
               onChange={(e) => setDay(e.target.value)}
+              inputProps={{ min: 1, max: 31 }}
             />
             <TextField
-              sx={ {flexShrink: 1} }
-            //   component="select"
+              sx={{ flexShrink: 1 }}
               required
               label="Mes:"
+              select
               value={month}
               onChange={(e) => setMonth(e.target.value)}
-            />
+              SelectProps={{
+                MenuProps: {
+                  PaperProps: {
+                    sx: {
+                      maxHeight: 300,
+                    },
+                  },
+                },
+              }}
+            >
+              {meses.map((mes, index) => (
+                <MenuItem
+                  key={index}
+                  sx={{ fontSize: 14, maxHeight: 25 }}
+                  value={index + 1}
+                >
+                  {mes}
+                </MenuItem>
+              ))}
+            </TextField>
             <TextField
-              sx={ {flexShrink: 2} }
+              sx={{ flexShrink: 2 }}
               required
               label="Año:"
               type="number"
