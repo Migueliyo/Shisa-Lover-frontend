@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@mui/material/styles";
 import { Provider } from "react-redux";
 
-import { store } from "./store/index.js";
+import { store } from "./app/store.js";
 import { theme } from "./components/themeProvider.js";
 import { DrawerProvider } from "./context/drawerContext";
 

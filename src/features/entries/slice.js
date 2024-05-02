@@ -1,10 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+import { statusActions } from '../../hooks/statusActions';
 import api from "../../api/api";
 
-const INITIAL_STATUS = "idle";
-const PENDING_STATUS = "loading";
-const FULLFILLED_STATUS = "succeeded";
-const REJECTED_STATUS = "failed";
+const {INITIAL_STATUS, PENDING_STATUS, FULLFILLED_STATUS, REJECTED_STATUS } = statusActions();
 
 // Acciones asincrónicas utilizando createAsyncThunk
 export const fetchEntries = createAsyncThunk("entries/fetchEntries", async () => {

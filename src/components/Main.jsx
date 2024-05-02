@@ -9,12 +9,13 @@ import { appBarHeight } from "./AppBar";
 import Section from "./Section";
 
 import { useAppDispatch } from "../hooks/store";
-import { fetchMixes } from "../store/mixes/slice";
-import { fetchFlavours } from "../store/flavours/slice";
-import { fetchEntries } from "../store/entries/slice";
 import { useMixesActions } from "../hooks/useMixesActions";
 import { useFlavoursActions } from "../hooks/useFlavoursActions";
 import { useEntriesActions } from "../hooks/useEntriesActions";
+import { statusActions } from "../hooks/statusActions";
+import { fetchMixes } from "../features/mixes/slice";
+import { fetchFlavours } from "../features/flavours/slice";
+import { fetchEntries } from "../features/entries/slice";
 
 import LoadingMixes from "./LoadingMixes";
 import LoadingFlavours from "./LoadingFlavours";
@@ -42,6 +43,7 @@ function Main() {
   const { mixes, statusMixes, errorMixes } = useMixesActions();
   const { flavours, statusFlavours, errorFlavours } = useFlavoursActions();
   const { entries, statusEntries, errorEntries } = useEntriesActions();
+  const { PENDING_STATUS, FULLFILLED_STATUS, REJECTED_STATUS } = statusActions();
 
   useEffect(() => {
     dispatch(fetchMixes());
@@ -51,9 +53,9 @@ function Main() {
 
   return (
     <FormatedBox open={open}>
-      {statusMixes === "loading" && <LoadingMixes open={open} />}
-      {statusMixes === "failed" && <p>Error: {errorMixes}</p>}
-      {statusMixes === "succeeded" && (
+      {statusMixes === PENDING_STATUS && <LoadingMixes open={open} />}
+      {statusMixes === REJECTED_STATUS && <p>Error: {errorMixes}</p>}
+      {statusMixes === FULLFILLED_STATUS && (
         <Section
           featuredWordTittle="Mezclas"
           tittle="destacadas"
@@ -61,9 +63,9 @@ function Main() {
           data={mixes}
         />
       )}
-      {statusFlavours === "loading" && <LoadingFlavours open={open} />}
-      {statusFlavours === "failed" && <p>Error: {errorFlavours}</p>}
-      {statusFlavours === "succeeded" && (
+      {statusFlavours === PENDING_STATUS && <LoadingFlavours open={open} />}
+      {statusFlavours === REJECTED_STATUS && <p>Error: {errorFlavours}</p>}
+      {statusFlavours === FULLFILLED_STATUS && (
         <Section
           featuredWordTittle="Sabores"
           tittle="recien traídos al mercado"
@@ -71,9 +73,9 @@ function Main() {
           data={flavours}
         />
       )}
-      {statusEntries === "loading" && <LoadingEntries />}
-      {statusEntries === "failed" && <p>Error: {errorEntries}</p>}
-      {statusEntries === "succeeded" && (
+      {statusEntries === PENDING_STATUS && <LoadingEntries />}
+      {statusEntries === REJECTED_STATUS && <p>Error: {errorEntries}</p>}
+      {statusEntries === FULLFILLED_STATUS && (
         <Section
           featuredWordTittle="Entradas"
           tittle="destacadas de nuestro foro de debate"

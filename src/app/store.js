@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import mixesReducer from "./mixes/slice"
-import usersReducer from "./users/slice"
-import entriesReducer from "./entries/slice"
-import flavourReducer from "./flavours/slice"
+import mixesReducer from "../features/mixes/slice"
+import usersReducer from "../features/users/slice"
+import entriesReducer from "../features/entries/slice"
+import flavourReducer from "../features/flavours/slice"
 
 export const store = configureStore({
     reducer: {
