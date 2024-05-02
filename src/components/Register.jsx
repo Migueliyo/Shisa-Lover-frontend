@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import { Box, Button, IconButton, MenuItem, TextField } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
+import PasswordChecker from "./PasswordChecker";
 
 const FormatedBox = styled(Box)(({ theme }) => {
   const commonStyles = {
@@ -183,31 +184,58 @@ const FormatedBox = styled(Box)(({ theme }) => {
       color: theme.palette.section.button.main,
       fontWeight: 600,
     },
+
     ".popup-inner-login-form-button:hover": {
       backgroundColor: theme.palette.section.button.hover,
       color: theme.palette.primary.main,
     },
+
     ".popup-inner-login-form-button span": {
       textTransform: "lowercase",
     },
+
     ".popup-inner-register-form-date-div": {
       display: "flex",
       gap: 10,
     },
+
     ".username-info-text": {
       height: 0,
       overflow: "hidden",
-      transition: "height .25s linear .1s",
-    },
-    ".username-info-text-clicked": {
-      height: 10,
-      marginTop: -18,
-      marginBottom: 28,
       fontFamily: '"Inter", "Roobert",  Helvetica, Arial, sans-serif',
       fontSize: 12,
       color: "#BFBFBF",
       transition: "height .25s linear .1s",
     },
+
+    ".username-info-text-clicked": {
+      height: 30,
+      marginBottom: 10,
+      fontFamily: '"Inter", "Roobert",  Helvetica, Arial, sans-serif',
+      fontSize: 12,
+      color: "#BFBFBF",
+      overflow: "hidden",
+      transition: "height .25s linear .1s",
+    },
+
+    ".password-info-text": {
+      height: 0,
+      overflow: "hidden",
+      transition: "height .25s linear .1s",
+    },
+
+    ".password-info-text-clicked": {
+      height: 120,
+      marginBottom: 10,
+      overflow: "hidden",
+      transition: "height .25s linear .1s",
+    },
+
+    "input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button":
+      {
+        "-webkit-appearance": "none",
+        margin: 0,
+      },
   };
   return {
     ...commonStyles,
@@ -226,6 +254,8 @@ function Register(props) {
   const [month, setMonth] = useState("");
   const [year, setYear] = useState();
   const [isUsernameClicked, setIsUsernameClicked] = useState(false);
+  const [isPasswordClicked, setIsPasswordClicked] = useState(false);
+  //  const [error, setError] = useState(false);
   const meses = [
     "Enero",
     "Febrero",
@@ -245,20 +275,35 @@ function Register(props) {
     setIsUsernameClicked(true);
   };
 
+  const handlePasswordClick = () => {
+    setIsPasswordClicked(true);
+  };
+
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      const registerBox = document.querySelector(".username-input");
-      if (registerBox && !registerBox.contains(event.target)) {
+    const handleClickOutsideUsername = (event) => {
+      const usernameBox = document.querySelector(".username-input");
+      if (usernameBox && !usernameBox.contains(event.target)) {
         setIsUsernameClicked(false);
       }
     };
 
-    document.body.addEventListener("click", handleClickOutside);
+    const handleClickOutsidePassword = (event) => {
+      const passwordBox = document.querySelector(".password-input");
+      if (passwordBox && !passwordBox.contains(event.target)) {
+        setIsPasswordClicked(false);
+      }
+    };
+
+    document.body.addEventListener("click", handleClickOutsideUsername);
+    document.body.addEventListener("click", handleClickOutsidePassword);
 
     return () => {
-      document.body.removeEventListener("click", handleClickOutside);
+      document.body.removeEventListener("click", handleClickOutsideUsername);
+      document.body.removeEventListener("click", handleClickOutsidePassword);
     };
   }, []);
+
+  const handleSubmit = () => {};
 
   return (
     <FormatedBox>
@@ -282,21 +327,29 @@ function Register(props) {
           }}
         >
           <TextField
-            required
             label="Email:"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
-            required
+            className="password-input"
             label="Contraseña:"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onClick={handlePasswordClick}
           />
+          <Box
+            className={
+              isPasswordClicked
+                ? "password-info-text-clicked"
+                : "password-info-text"
+            }
+          >
+            <PasswordChecker password={password} />
+          </Box>
           <TextField
-            required
             className="username-input"
             label="Nombre de usuario:"
             type="text"
@@ -304,8 +357,14 @@ function Register(props) {
             onChange={(e) => setUsername(e.target.value)}
             onClick={handleUsernameClick}
           />
-          <Box className={isUsernameClicked ? "username-info-text-clicked" : "username-info-text"}>
-            <p>
+          <Box
+            className={
+              isUsernameClicked
+                ? "username-info-text-clicked"
+                : "username-info-text"
+            }
+          >
+            <p style={{ marginTop: -2 }}>
               Este es el nombre con el que se te identificará en Shisa Lover.
               Puedes cambiarlo más tarde.
             </p>
@@ -314,7 +373,7 @@ function Register(props) {
           <Box className="popup-inner-register-form-date-div">
             <TextField
               sx={{ flexShrink: 2 }}
-              required
+              className="password-input"
               label="Día:"
               type="number"
               value={day}
@@ -323,7 +382,6 @@ function Register(props) {
             />
             <TextField
               sx={{ flexShrink: 1 }}
-              required
               label="Mes:"
               select
               value={month}
@@ -350,7 +408,6 @@ function Register(props) {
             </TextField>
             <TextField
               sx={{ flexShrink: 2 }}
-              required
               label="Año:"
               type="number"
               value={year}
@@ -359,6 +416,7 @@ function Register(props) {
           </Box>
 
           <Button
+            onClick={handleSubmit}
             className="popup-inner-register-form-button"
             sx={{ my: 2, width: "100%" }}
           >

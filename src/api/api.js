@@ -43,13 +43,23 @@ const getCookie = (name) => {
   return "";
 };
 
+const getAuthHeaders = (token) => {
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+  return headers;
+};
+
 const fetchWithAuth = async (url, options) => {
   const token = getCookie("api_token");
   if (token) {
     if (!options.headers) {
       options.headers = {};
     }
-    options.headers["Authorization"] = `Bearer ${token}`;
+    options.headers = { ...options.headers, ...getAuthHeaders(token) };
   }
   return fetch(url, options);
 };
