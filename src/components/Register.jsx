@@ -103,6 +103,11 @@ const FormatedBox = styled(Box)(({ theme }) => {
       fontWeight: 600,
     },
 
+    "& label.Mui-error": {
+      fontSize: 13.5,
+      color: "#ff4a47",
+    },
+
     "& .MuiInputLabel-shrink": {
       fontSize: 15,
     },
@@ -124,16 +129,23 @@ const FormatedBox = styled(Box)(({ theme }) => {
         color: "#ff7400",
         borderColor: "#ff7400",
       },
+      "&.Mui-error fieldset": {
+        borderWidth: 3,
+        color: "#d32f2f",
+        borderColor: "#d32f2f",
+      },
+      "&.Mui-error:hover fieldset": {
+        borderColor: "#ff4a47",
+      },
+      "&.Mui-focused.Mui-error .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#ff4a47",
+      },
       "&.Mui-focused label": {
         color: "#ff7400",
       },
       "& .MuiSvgIcon-root": {
         color: theme.palette.primary.main,
       },
-    },
-
-    ".popup-inner-register-form a": {
-      textDecoration: "none",
     },
 
     ".date-text": {
@@ -199,6 +211,25 @@ const FormatedBox = styled(Box)(({ theme }) => {
       gap: 10,
     },
 
+    ".email-info-text-error, .date-info-text-error": {
+      height: 0,
+      overflow: "hidden",
+      fontFamily: '"Inter", "Roobert",  Helvetica, Arial, sans-serif',
+      fontSize: 12,
+      color: "#ff4a47",
+      transition: "height .25s linear .1s",
+    },
+
+    ".email-info-text-error-clicked, .username-info-text-error-clicked, .date-info-text-error-clicked": {
+      height: 15,
+      marginBottom: 5,
+      fontFamily: '"Inter", "Roobert",  Helvetica, Arial, sans-serif',
+      fontSize: 12,
+      color: "#ff4a47",
+      overflow: "hidden",
+      transition: "height .25s linear .1s",
+    },
+
     ".username-info-text": {
       height: 0,
       overflow: "hidden",
@@ -226,16 +257,23 @@ const FormatedBox = styled(Box)(({ theme }) => {
 
     ".password-info-text-clicked": {
       height: 120,
-      marginBottom: 10,
       overflow: "hidden",
       transition: "height .25s linear .1s",
     },
 
-    "input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button":
-      {
-        "-webkit-appearance": "none",
-        margin: 0,
-      },
+    "input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button": {
+      display: "none",
+    },
+
+    ".button-hover-disabled": {
+      cursor: "not-allowed"
+    },
+
+    "& .MuiButtonBase-root:disabled": {
+      color: "#fff",
+      opacity: 0.7
+    }
+
   };
   return {
     ...commonStyles,
@@ -255,7 +293,11 @@ function Register(props) {
   const [year, setYear] = useState();
   const [isUsernameClicked, setIsUsernameClicked] = useState(false);
   const [isPasswordClicked, setIsPasswordClicked] = useState(false);
-  //  const [error, setError] = useState(false);
+  const [emailValid, setEmailValid] = useState(true);
+  const [usernameValid, setUsernameValid] = useState(true);
+  const [dayValid, setDayValid] = useState(true);
+  const [yearValid, setYearValid] = useState(true);
+  const [allFieldsValid, setAllFieldsValid] = useState(false);
   const meses = [
     "Enero",
     "Febrero",
@@ -278,6 +320,37 @@ function Register(props) {
   const handlePasswordClick = () => {
     setIsPasswordClicked(true);
   };
+
+  const validateEmail = () => {
+    setEmailValid(
+      email.match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      )
+    );
+  };
+
+  const validateUsername = () => {
+    setUsernameValid(username.length >= 4 && username.length <= 25);
+  };
+
+  const validateDay = () => {
+    setDayValid(day >= 1 && day <= 31);
+  };
+
+  const validateYear = () => {
+    setYearValid(year >= 1900 && year <= new Date().getFullYear());
+  };
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (email && email.length > 0) validateEmail();
+      if (username && username.length > 0) validateUsername();
+      if (day && day.length > 0) validateDay();
+      if (year && year.length > 0) validateYear();
+    }, 600);
+
+    return () => clearTimeout(timeoutId);
+  }, [email, username, day, year]);
 
   useEffect(() => {
     const handleClickOutsideUsername = (event) => {
@@ -303,6 +376,21 @@ function Register(props) {
     };
   }, []);
 
+  useEffect(() => {
+    if (
+      email &&
+      email.length > 0 &&
+      username &&
+      username.length > 0 &&
+      day &&
+      day.length > 0 &&
+      year &&
+      year.length > 0
+    ) {
+      setAllFieldsValid(emailValid && usernameValid && dayValid && yearValid);
+    }
+  }, [emailValid, usernameValid, dayValid, yearValid]);
+
   const handleSubmit = () => {};
 
   return (
@@ -320,8 +408,9 @@ function Register(props) {
           <h2>Únete a Shisha Lover hoy</h2>
         </Box>
         <Box
-          className="popup-inner-register-form"
+          id="popup-inner-register-form"
           component="form"
+          noValidate
           sx={{
             "& .MuiTextField-root": { my: 1, width: "100%" },
           }}
@@ -331,7 +420,19 @@ function Register(props) {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            error={!emailValid}
           />
+          <Box
+            className={
+              emailValid
+                ? "email-info-text-error"
+                : "email-info-text-error-clicked"
+            }
+          >
+            <p style={{ marginTop: -2 }}>
+              * Introduce una dirección de correo electrónico válida
+            </p>
+          </Box>
           <TextField
             className="password-input"
             label="Contraseña:"
@@ -356,18 +457,31 @@ function Register(props) {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             onClick={handleUsernameClick}
+            error={!usernameValid}
           />
           <Box
             className={
-              isUsernameClicked
-                ? "username-info-text-clicked"
-                : "username-info-text"
+              usernameValid
+                ? isUsernameClicked
+                  ? "username-info-text-clicked"
+                  : "username-info-text"
+                : "username-info-text-error-clicked"
             }
           >
-            <p style={{ marginTop: -2 }}>
-              Este es el nombre con el que se te identificará en Shisa Lover.
-              Puedes cambiarlo más tarde.
-            </p>
+            {usernameValid ? (
+              isUsernameClicked ? (
+                <p style={{ marginTop: -2 }}>
+                  Este es el nombre con el que se te identificará en Shisa
+                  Lover. Puedes cambiarlo más tarde.
+                </p>
+              ) : (
+                <></>
+              )
+            ) : (
+              <p style={{ marginTop: -2 }}>
+                * Los nombres de usuario deben tener entre 4 y 25 caracteres.
+              </p>
+            )}
           </Box>
           <p className="date-text">Fecha de nacimiento:</p>
           <Box className="popup-inner-register-form-date-div">
@@ -378,7 +492,7 @@ function Register(props) {
               type="number"
               value={day}
               onChange={(e) => setDay(e.target.value)}
-              inputProps={{ min: 1, max: 31 }}
+              error={!dayValid}
             />
             <TextField
               sx={{ flexShrink: 1 }}
@@ -412,18 +526,35 @@ function Register(props) {
               type="number"
               value={year}
               onChange={(e) => setYear(e.target.value)}
+              error={!yearValid}
             />
           </Box>
-
-          <Button
-            onClick={handleSubmit}
-            className="popup-inner-register-form-button"
-            sx={{ my: 2, width: "100%" }}
+          <Box
+            className={
+              dayValid && yearValid
+                ? "date-info-text-error"
+                : "date-info-text-error-clicked"
+            }
           >
-            R<span>egistrarse</span>
-          </Button>
+            <p style={{ marginTop: -2 }}>
+              * Introduce una fecha de nacimiento válida
+            </p>
+          </Box>
+          <Box sx={{ height: 10 }}></Box>
+          <Box className="button-hover-disabled">
+            <Button
+              disabled={!allFieldsValid}
+              onClick={handleSubmit}
+              className="popup-inner-register-form-button"
+              sx={{
+                width: "100%",
+              }}
+            >
+              R<span>egistrarse</span>
+            </Button>
+          </Box>
 
-          <Button className="popup-inner-login-form-button">
+          <Button sx={{ mt: 2 }} className="popup-inner-login-form-button">
             ¿Y<span>a tienes una cuenta?</span>&nbsp;I
             <span>niciar sesión aquí.</span>
           </Button>

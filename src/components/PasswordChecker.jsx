@@ -79,16 +79,17 @@ const PasswordChecker = ({ password }) => {
           }}
         />
       </Box>
-      <Typography
-        style={{
-          marginBottom: 10,
-          fontFamily:
-            '"Inter", "Roobert",  Helvetica, Arial, sans-serif',
-          fontSize: 12,
-          color: color,
-        }}
-      >
-        {message}
+      <Box>
+        <Typography
+          style={{
+            fontFamily:
+              '"Inter", "Roobert",  Helvetica, Arial, sans-serif',
+            fontSize: 12,
+            color: color,
+          }}
+        >
+          {message}
+        </Typography>
         <ValidationMessage
           condition={testResult.length >= 10}
           message="Contiene mínimo 10 caracteres"
@@ -101,11 +102,11 @@ const PasswordChecker = ({ password }) => {
           condition={testResult.contains.includes("number")}
           message="Contiene un número"
         />
-        <ValidationMessage
+        <ValidationMessage 
           condition={testResult.contains.includes("symbol")}
           message="Contiene un carácter especial"
         />
-      </Typography>
+      </Box>
     </Box>
   );
 };
