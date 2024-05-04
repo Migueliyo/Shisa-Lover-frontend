@@ -18,8 +18,7 @@ const ValidationMessage = ({ condition, message }) => (
     <Grid item>
       <Typography
         style={{
-          fontFamily:
-            '"Inter", "Roobert",  Helvetica, Arial, sans-serif',
+          fontFamily: '"Inter", "Roobert",  Helvetica, Arial, sans-serif',
           fontSize: 12,
           lineHeight: 1.5,
           color: "#BFBFBF",
@@ -32,7 +31,7 @@ const ValidationMessage = ({ condition, message }) => (
   </Grid>
 );
 
-const PasswordChecker = ({ password }) => {
+const PasswordChecker = ({ password, setPasswordValid }) => {
   const testResult = passwordStrength(password);
   const num = ((testResult.id + 1) * 100) / 4;
   const [color, setColor] = useState("");
@@ -67,6 +66,18 @@ const PasswordChecker = ({ password }) => {
     funcProgressPassword();
   }, [testResult.id]);
 
+  useEffect(() => {
+    // Validar todas las condiciones de la contraseña
+    const isPasswordValid =
+      testResult.length >= 10 &&
+      testResult.contains.includes("uppercase") &&
+      testResult.contains.includes("number") &&
+      testResult.contains.includes("symbol");
+
+    // Actualizar el estado en el componente padre
+    setPasswordValid(isPasswordValid);
+  }, [password, testResult, setPasswordValid]);
+
   return (
     <Box>
       <Box style={{ width: "100%", height: "7px" }}>
@@ -82,13 +93,24 @@ const PasswordChecker = ({ password }) => {
       <Box>
         <Typography
           style={{
-            fontFamily:
-              '"Inter", "Roobert",  Helvetica, Arial, sans-serif',
+            fontFamily: '"Inter", "Roobert",  Helvetica, Arial, sans-serif',
             fontSize: 12,
             color: color,
           }}
         >
           {message}
+        </Typography>
+        <Typography
+          style={{
+            fontFamily: '"Inter", "Roobert",  Helvetica, Arial, sans-serif',
+            fontSize: 12,
+            lineHeight: 1.5,
+            color: "#BFBFBF",
+            paddingTop: 3,
+            paddingBottom: 2,
+          }}
+        >
+          La contraseña debe cumplir las siguientes condiciones: 
         </Typography>
         <ValidationMessage
           condition={testResult.length >= 10}
@@ -102,7 +124,7 @@ const PasswordChecker = ({ password }) => {
           condition={testResult.contains.includes("number")}
           message="Contiene un número"
         />
-        <ValidationMessage 
+        <ValidationMessage
           condition={testResult.contains.includes("symbol")}
           message="Contiene un carácter especial"
         />
@@ -113,6 +135,7 @@ const PasswordChecker = ({ password }) => {
 
 PasswordChecker.propTypes = {
   password: PropTypes.string.isRequired,
+  setPasswordValid: PropTypes.func.isRequired,
 };
 
 export default PasswordChecker;

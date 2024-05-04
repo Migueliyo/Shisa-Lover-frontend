@@ -104,7 +104,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
     },
 
     "& label.Mui-error": {
-      fontSize: 13.5,
+      fontSize: 14.5,
       color: "#ff4a47",
     },
 
@@ -220,15 +220,16 @@ const FormatedBox = styled(Box)(({ theme }) => {
       transition: "height .25s linear .1s",
     },
 
-    ".email-info-text-error-clicked, .username-info-text-error-clicked, .date-info-text-error-clicked": {
-      height: 15,
-      marginBottom: 5,
-      fontFamily: '"Inter", "Roobert",  Helvetica, Arial, sans-serif',
-      fontSize: 12,
-      color: "#ff4a47",
-      overflow: "hidden",
-      transition: "height .25s linear .1s",
-    },
+    ".email-info-text-error-clicked, .username-info-text-error-clicked, .date-info-text-error-clicked":
+      {
+        height: 15,
+        marginBottom: 5,
+        fontFamily: '"Inter", "Roobert",  Helvetica, Arial, sans-serif',
+        fontSize: 12,
+        color: "#ff4a47",
+        overflow: "hidden",
+        transition: "height .25s linear .1s",
+      },
 
     ".username-info-text": {
       height: 0,
@@ -256,24 +257,25 @@ const FormatedBox = styled(Box)(({ theme }) => {
     },
 
     ".password-info-text-clicked": {
-      height: 120,
+      height: 145,
+      marginBottom: 5,
       overflow: "hidden",
       transition: "height .25s linear .1s",
     },
 
-    "input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button": {
-      display: "none",
-    },
+    "input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button":
+      {
+        display: "none",
+      },
 
     ".button-hover-disabled": {
-      cursor: "not-allowed"
+      cursor: "not-allowed",
     },
 
     "& .MuiButtonBase-root:disabled": {
       color: "#fff",
-      opacity: 0.7
-    }
-
+      opacity: 0.7,
+    },
   };
   return {
     ...commonStyles,
@@ -290,13 +292,20 @@ function Register(props) {
   const [username, setUsername] = useState("");
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
-  const [year, setYear] = useState();
+  const [year, setYear] = useState("");
   const [isUsernameClicked, setIsUsernameClicked] = useState(false);
   const [isPasswordClicked, setIsPasswordClicked] = useState(false);
   const [emailValid, setEmailValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(true);
   const [usernameValid, setUsernameValid] = useState(true);
+  const [usernameError, setUsernameError] = useState("");
   const [dayValid, setDayValid] = useState(true);
   const [yearValid, setYearValid] = useState(true);
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
+  const [usernameTouched, setUsernameTouched] = useState(false);
+  const [dayTouched, setDayTouched] = useState(false);
+  const [yearTouched, setYearTouched] = useState(false);
   const [allFieldsValid, setAllFieldsValid] = useState(false);
   const meses = [
     "Enero",
@@ -330,7 +339,18 @@ function Register(props) {
   };
 
   const validateUsername = () => {
-    setUsernameValid(username.length >= 4 && username.length <= 25);
+    const isValid = /[a-zA-Z0-9]+$/;
+    if (username.length < 4 || username.length > 25) {
+      setUsernameValid(false);
+      setUsernameError(
+        "* Los nombres de usuario deben tener entre 4 y 25 caracteres."
+      );
+    } else if (!username.match(isValid)) {
+      setUsernameValid(false);
+      setUsernameError(
+        "* Los nombres de usuario solo pueden contener caracteres alfanuméricos."
+      );
+    } else setUsernameValid(true);
   };
 
   const validateDay = () => {
@@ -343,53 +363,39 @@ function Register(props) {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      if (email && email.length > 0) validateEmail();
-      if (username && username.length > 0) validateUsername();
-      if (day && day.length > 0) validateDay();
-      if (year && year.length > 0) validateYear();
+      if (emailTouched) validateEmail();
+      if (usernameTouched) validateUsername();
+      if (dayTouched) validateDay();
+      if (yearTouched) validateYear();
     }, 600);
 
     return () => clearTimeout(timeoutId);
-  }, [email, username, day, year]);
+  }, [email, username, day, year, emailTouched, usernameTouched, dayTouched, yearTouched]);
 
   useEffect(() => {
-    const handleClickOutsideUsername = (event) => {
-      const usernameBox = document.querySelector(".username-input");
-      if (usernameBox && !usernameBox.contains(event.target)) {
+    const handleFieldBlur = (event) => {
+      const targetClassList = event.target.classList;
+      if (
+        !targetClassList.contains("username-input") &&
+        !targetClassList.contains("password-input")
+      ) {
         setIsUsernameClicked(false);
-      }
-    };
-
-    const handleClickOutsidePassword = (event) => {
-      const passwordBox = document.querySelector(".password-input");
-      if (passwordBox && !passwordBox.contains(event.target)) {
         setIsPasswordClicked(false);
       }
     };
 
-    document.body.addEventListener("click", handleClickOutsideUsername);
-    document.body.addEventListener("click", handleClickOutsidePassword);
+    document.body.addEventListener("focusout", handleFieldBlur);
 
     return () => {
-      document.body.removeEventListener("click", handleClickOutsideUsername);
-      document.body.removeEventListener("click", handleClickOutsidePassword);
+      document.body.removeEventListener("focusout", handleFieldBlur);
     };
   }, []);
 
   useEffect(() => {
-    if (
-      email &&
-      email.length > 0 &&
-      username &&
-      username.length > 0 &&
-      day &&
-      day.length > 0 &&
-      year &&
-      year.length > 0
-    ) {
-      setAllFieldsValid(emailValid && usernameValid && dayValid && yearValid);
-    }
-  }, [emailValid, usernameValid, dayValid, yearValid]);
+    const anyFieldEmpty = !email || !password || !username || !day || !year;
+  
+    setAllFieldsValid(!(anyFieldEmpty || !emailValid || !passwordValid || !usernameValid || !dayValid || !yearValid));
+  }, [email, password, username, day, year, emailValid, passwordValid, usernameValid, dayValid, yearValid]);
 
   const handleSubmit = () => {};
 
@@ -419,8 +425,11 @@ function Register(props) {
             label="Email:"
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            error={!emailValid}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setEmailTouched(true);
+            }}
+            error={!emailValid && emailTouched}
           />
           <Box
             className={
@@ -438,8 +447,13 @@ function Register(props) {
             label="Contraseña:"
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setPasswordTouched(true);
+            }}
+            error={!passwordValid && passwordTouched}
             onClick={handlePasswordClick}
+            onSelect={handlePasswordClick}
           />
           <Box
             className={
@@ -448,16 +462,20 @@ function Register(props) {
                 : "password-info-text"
             }
           >
-            <PasswordChecker password={password} />
+            <PasswordChecker password={password} setPasswordValid={setPasswordValid} />
           </Box>
           <TextField
             className="username-input"
             label="Nombre de usuario:"
             type="text"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => {
+              setUsername(e.target.value);
+              setUsernameTouched(true);
+            }}
+            error={!usernameValid && usernameTouched}
             onClick={handleUsernameClick}
-            error={!usernameValid}
+            onSelect={handleUsernameClick}
           />
           <Box
             className={
@@ -478,9 +496,7 @@ function Register(props) {
                 <></>
               )
             ) : (
-              <p style={{ marginTop: -2 }}>
-                * Los nombres de usuario deben tener entre 4 y 25 caracteres.
-              </p>
+              <p style={{ marginTop: -2 }}>{usernameError}</p>
             )}
           </Box>
           <p className="date-text">Fecha de nacimiento:</p>
@@ -491,8 +507,11 @@ function Register(props) {
               label="Día:"
               type="number"
               value={day}
-              onChange={(e) => setDay(e.target.value)}
-              error={!dayValid}
+              onChange={(e) => {
+                setDay(e.target.value);
+                setDayTouched(true);
+              }}
+              error={!dayValid && dayTouched}
             />
             <TextField
               sx={{ flexShrink: 1 }}
@@ -525,8 +544,11 @@ function Register(props) {
               label="Año:"
               type="number"
               value={year}
-              onChange={(e) => setYear(e.target.value)}
-              error={!yearValid}
+              onChange={(e) => {
+                setYear(e.target.value);
+                setYearTouched(true);
+              }}
+              error={!yearValid && yearTouched}
             />
           </Box>
           <Box
@@ -540,7 +562,7 @@ function Register(props) {
               * Introduce una fecha de nacimiento válida
             </p>
           </Box>
-          <Box sx={{ height: 10 }}></Box>
+          <Box sx={{ height: 20 }}></Box>
           <Box className="button-hover-disabled">
             <Button
               disabled={!allFieldsValid}
