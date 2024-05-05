@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styled from "@emotion/styled";
 
@@ -110,8 +110,8 @@ const FormatedBox = styled(Box)(({ theme }) => {
     "& .MuiOutlinedInput-root": {
       color: theme.palette.primary.main,
       fontSize: 14,
-      "& .MuiOutlinedInput-input":{
-        padding: "15px 14px"
+      "& .MuiOutlinedInput-input": {
+        padding: "15px 14px",
       },
       "& fieldset": {
         borderColor: "#808080",
@@ -133,12 +133,12 @@ const FormatedBox = styled(Box)(({ theme }) => {
       textDecoration: "none",
     },
 
-    ".popup-inner-form-pass" : {
+    ".popup-inner-form-pass": {
       color: theme.palette.section.a.main,
-      fontSize: 14
+      fontSize: 14,
     },
 
-    ".popup-inner-form-pass:hover" : {
+    ".popup-inner-form-pass:hover": {
       color: theme.palette.section.a.hover,
       textDecoration: "underline",
     },
@@ -182,6 +182,15 @@ const FormatedBox = styled(Box)(({ theme }) => {
     ".form-register-button span": {
       textTransform: "lowercase",
     },
+
+    ".button-hover-disabled": {
+      cursor: "not-allowed",
+    },
+
+    "& .MuiButtonBase-root:disabled": {
+      color: "#fff",
+      opacity: 0.7,
+    },
   };
   return {
     ...commonStyles,
@@ -195,6 +204,16 @@ const FormatedBox = styled(Box)(({ theme }) => {
 function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [allFieldsValid, setAllFieldsValid] = useState(false);
+
+  useEffect(() => {
+    const areFieldsNotEmpty = email.trim() !== "" && password.trim() !== "";
+    setAllFieldsValid(areFieldsNotEmpty);
+  }, [email, password]);
+
+  const handleSubmit = () => {
+
+  }
 
   return (
     <FormatedBox>
@@ -232,16 +251,27 @@ function Login(props) {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <a className="popup-inner-form-pass" href="">¿Olvidaste tu contraseña?</a>
+          <a className="popup-inner-form-pass" href="">
+            ¿Olvidaste tu contraseña?
+          </a>
 
-          <Button className="form-login-button" 
-            sx={{ my: 2, width: "100%" }}
-          >
-            I<span>niciar sesión</span>
-          </Button>
+          <Box sx={{ height: 20 }}></Box>
+          <Box className="button-hover-disabled">
+            <Button
+              disabled={!allFieldsValid}
+              onClick={handleSubmit}
+              className="form-login-button"
+              sx={{
+                width: "100%",
+              }}
+            >
+              I<span>niciar sesión</span>
+            </Button>
+          </Box>
 
-          <Button className="form-register-button">
-            ¿N<span>o tienes una cuenta?</span>&nbsp;R<span>egístrate aquí.</span>
+          <Button sx={{ mt: 2 }} className="form-register-button">
+            ¿N<span>o tienes una cuenta?</span>&nbsp;R
+            <span>egístrate aquí.</span>
           </Button>
         </Box>
       </Box>
