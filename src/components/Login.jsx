@@ -6,6 +6,11 @@ import { Box, Button, IconButton, TextField } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
 
+import { useAppDispatch } from "../hooks/store";
+import { useAuthActions } from "../hooks/useAuthActions";
+import { statusActions } from "../hooks/statusActions";
+import { login } from "../features/auth/slice";
+
 const FormatedBox = styled(Box)(({ theme }) => {
   const commonStyles = {
     fontFamily: ' "Roobert", "Inter", Helvetica, Arial, sans-serif',
@@ -194,9 +199,12 @@ const FormatedBox = styled(Box)(({ theme }) => {
   };
   return {
     ...commonStyles,
-    //@media (max-width: 1100px)
-    [theme.breakpoints.down("1150")]: {
+    //@media (max-width: 520px)
+    [theme.breakpoints.down("520")]: {
       ...commonStyles,
+      ".popup-inner": {
+        width: "340px",
+      },
     },
   };
 });
@@ -205,14 +213,31 @@ function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [allFieldsValid, setAllFieldsValid] = useState(false);
+  const dispatch = useAppDispatch();
+  const { statusAuth, errorAuth } = useAuthActions();
+  const { FULLFILLED_STATUS, REJECTED_STATUS } = statusActions();
 
   useEffect(() => {
     const areFieldsNotEmpty = email.trim() !== "" && password.trim() !== "";
     setAllFieldsValid(areFieldsNotEmpty);
   }, [email, password]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
+    if (allFieldsValid) {
+      const credentials = {email, password};
+      dispatch(login(credentials))
+
+      if (statusAuth === FULLFILLED_STATUS) {
+        // TODO
+      }
+
+      if (statusAuth === REJECTED_STATUS) {
+        console.log(errorAuth)
+      }
+    }
+    
   }
 
   return (
@@ -232,19 +257,18 @@ function Login(props) {
         <Box
           className="popup-inner-form"
           component="form"
+          noValidate
           sx={{
             "& .MuiTextField-root": { my: 1, width: "100%" },
           }}
         >
           <TextField
-            required
             label="Email:"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
-            required
             label="Contraseña:"
             type="password"
             value={password}
@@ -258,6 +282,7 @@ function Login(props) {
           <Box sx={{ height: 20 }}></Box>
           <Box className="button-hover-disabled">
             <Button
+              type="submit"
               disabled={!allFieldsValid}
               onClick={handleSubmit}
               className="form-login-button"

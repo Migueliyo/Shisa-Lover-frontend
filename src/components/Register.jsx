@@ -5,6 +5,12 @@ import styled from "@emotion/styled";
 import { Box, Button, IconButton, MenuItem, TextField } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
+
+import { useAppDispatch } from "../hooks/store";
+import { useAuthActions } from "../hooks/useAuthActions";
+import { statusActions } from "../hooks/statusActions";
+import { register } from "../features/auth/slice";
+
 import PasswordChecker from "./PasswordChecker";
 
 const FormatedBox = styled(Box)(({ theme }) => {
@@ -279,9 +285,12 @@ const FormatedBox = styled(Box)(({ theme }) => {
   };
   return {
     ...commonStyles,
-    //@media (max-width: 1100px)
-    [theme.breakpoints.down("1150")]: {
+    //@media (max-width: 520px)
+    [theme.breakpoints.down("520")]: {
       ...commonStyles,
+      ".popup-inner": {
+        width: "340px",
+      },
     },
   };
 });
@@ -307,6 +316,9 @@ function Register(props) {
   const [dayTouched, setDayTouched] = useState(false);
   const [yearTouched, setYearTouched] = useState(false);
   const [allFieldsValid, setAllFieldsValid] = useState(false);
+  const dispatch = useAppDispatch();
+  const { statusAuth, errorAuth } = useAuthActions();
+  const { FULLFILLED_STATUS, REJECTED_STATUS } = statusActions();
   const meses = [
     "Enero",
     "Febrero",
@@ -397,7 +409,39 @@ function Register(props) {
     setAllFieldsValid(!(anyFieldEmpty || !emailValid || !passwordValid || !usernameValid || !dayValid || !yearValid));
   }, [email, password, username, day, year, emailValid, passwordValid, usernameValid, dayValid, yearValid]);
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (allFieldsValid) {
+      const birthDate = new Date(year, month, day);
+      const currentDate = new Date();
+      
+      let age = currentDate.getFullYear() - birthDate.getFullYear();
+      const monthDifference = currentDate.getMonth() - birthDate.getMonth();
+      
+      if (monthDifference < 0 || (monthDifference === 0 && currentDate.getDate() < birthDate.getDate())) {
+        age--;
+      }
+  
+      // Verificar si la edad es mayor o igual a 18
+      if (age >= 18) {
+        const userData = { username, email, password, date_of_birth: birthDate };
+        dispatch(register(userData));
+
+        if (statusAuth === FULLFILLED_STATUS) {
+          // TODO
+        }
+
+        if (statusAuth === REJECTED_STATUS) {
+          console.log(errorAuth)
+        }
+
+      } else {
+        // TODO El usuario no es mayor de edad
+        console.log("El usuario no es mayor de edad");
+      }
+    }
+  }
 
   return (
     <FormatedBox>
@@ -533,7 +577,7 @@ function Register(props) {
                 <MenuItem
                   key={index}
                   sx={{ fontSize: 14, maxHeight: 25 }}
-                  value={index + 1}
+                  value={index}
                 >
                   {mes}
                 </MenuItem>
