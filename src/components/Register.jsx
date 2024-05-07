@@ -7,11 +7,10 @@ import { Box, Button, IconButton, MenuItem, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { useAppDispatch } from "../hooks/store";
-import { useAuthActions } from "../hooks/useAuthActions";
-import { statusActions } from "../hooks/statusActions";
 import { register } from "../features/auth/slice";
 
 import PasswordChecker from "./PasswordChecker";
+import ErrorCard from "./ErrorCard";
 
 const FormatedBox = styled(Box)(({ theme }) => {
   const commonStyles = {
@@ -26,7 +25,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
     backgroundColor: "rgba(0, 0, 0, 0.4)",
 
     ".popup-inner-register": {
-      backgroundColor: theme.palette.drawer.main,
+      backgroundColor: theme.palette.popup.main,
       color: theme.palette.primary.main,
       position: "absolute",
       left: "50%",
@@ -317,8 +316,9 @@ function Register(props) {
   const [yearTouched, setYearTouched] = useState(false);
   const [allFieldsValid, setAllFieldsValid] = useState(false);
   const dispatch = useAppDispatch();
-  const { statusAuth, errorAuth } = useAuthActions();
-  const { FULLFILLED_STATUS, REJECTED_STATUS } = statusActions();
+  const [errorRegister, setErrorRegister] = useState(false);
+  const [messageError, setMessageError] = useState("");
+
   const meses = [
     "Enero",
     "Febrero",
@@ -409,7 +409,7 @@ function Register(props) {
     setAllFieldsValid(!(anyFieldEmpty || !emailValid || !passwordValid || !usernameValid || !dayValid || !yearValid));
   }, [email, password, username, day, year, emailValid, passwordValid, usernameValid, dayValid, yearValid]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (allFieldsValid) {
@@ -422,23 +422,22 @@ function Register(props) {
       if (monthDifference < 0 || (monthDifference === 0 && currentDate.getDate() < birthDate.getDate())) {
         age--;
       }
-  
-      // Verificar si la edad es mayor o igual a 18
+
       if (age >= 18) {
-        const userData = { username, email, password, date_of_birth: birthDate };
-        dispatch(register(userData));
-
-        if (statusAuth === FULLFILLED_STATUS) {
-          // TODO
+        const userData = { username, email, password, date_of_birth: birthDate, first_name: "", last_name: "",  };
+        const res = await dispatch(register(userData));
+        if (res.payload === true) {
+          setErrorRegister(false);
+          props.toggle();
+        } else {
+          setMessageError("Ha ocurrido un error durante el registro.")
+          setErrorRegister(true);
+          setAllFieldsValid(false);
         }
-
-        if (statusAuth === REJECTED_STATUS) {
-          console.log(errorAuth)
-        }
-
       } else {
-        // TODO El usuario no es mayor de edad
-        console.log("El usuario no es mayor de edad");
+        setMessageError("Debes ser mayor de edad para unirte a Shisha Lover.")
+        setErrorRegister(true);
+        setAllFieldsValid(false);
       }
     }
   }
@@ -457,6 +456,9 @@ function Register(props) {
           </Box>
           <h2>Únete a Shisha Lover hoy</h2>
         </Box>
+        {errorRegister ? (
+          <ErrorCard text={messageError} />
+        ) : null}
         <Box
           id="popup-inner-register-form"
           component="form"
@@ -472,6 +474,7 @@ function Register(props) {
             onChange={(e) => {
               setEmail(e.target.value);
               setEmailTouched(true);
+              setErrorRegister(false);
             }}
             error={!emailValid && emailTouched}
           />
@@ -494,6 +497,7 @@ function Register(props) {
             onChange={(e) => {
               setPassword(e.target.value);
               setPasswordTouched(true);
+              setErrorRegister(false);
             }}
             error={!passwordValid && passwordTouched}
             onClick={handlePasswordClick}
@@ -516,6 +520,7 @@ function Register(props) {
             onChange={(e) => {
               setUsername(e.target.value);
               setUsernameTouched(true);
+              setErrorRegister(false);
             }}
             error={!usernameValid && usernameTouched}
             onClick={handleUsernameClick}
@@ -554,6 +559,7 @@ function Register(props) {
               onChange={(e) => {
                 setDay(e.target.value);
                 setDayTouched(true);
+                setErrorRegister(false);
               }}
               error={!dayValid && dayTouched}
             />
@@ -562,7 +568,10 @@ function Register(props) {
               label="Mes:"
               select
               value={month}
-              onChange={(e) => setMonth(e.target.value)}
+              onChange={(e) => {
+                setMonth(e.target.value);
+                setErrorRegister(false);
+              }}
               SelectProps={{
                 MenuProps: {
                   PaperProps: {
@@ -591,6 +600,7 @@ function Register(props) {
               onChange={(e) => {
                 setYear(e.target.value);
                 setYearTouched(true);
+                setErrorRegister(false);
               }}
               error={!yearValid && yearTouched}
             />

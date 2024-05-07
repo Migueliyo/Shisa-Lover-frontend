@@ -58,6 +58,9 @@ export const theme = createTheme({
         a: {
           main: '#adadb8'
         }
+      },
+      popup: {
+        main: '#18181B',
       }
     },
     components: {

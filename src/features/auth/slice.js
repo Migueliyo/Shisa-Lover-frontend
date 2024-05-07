@@ -46,7 +46,10 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = FULLFILLED_STATUS;
-        if (!action.payload.error) state.userToken = action.payload.data;
+        if (!action.payload.error) {
+          state.userToken = action.payload.data;
+          setUser();
+        } else state.error = action.payload.error;
       })
       .addCase(login.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
@@ -57,7 +60,10 @@ const authSlice = createSlice({
       })
       .addCase(register.fulfilled, (state, action) => {
         state.status = FULLFILLED_STATUS;
-        if (!action.payload.error) state.userToken = action.payload.data;
+        if (!action.payload.error) {
+          state.userToken = action.payload.data;
+          setUser();
+        } else state.error = action.payload.error;
       })
       .addCase(register.rejected, (state, action) => {
         state.status = REJECTED_STATUS;

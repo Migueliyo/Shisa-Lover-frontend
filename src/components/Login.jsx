@@ -7,9 +7,11 @@ import { Box, Button, IconButton, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { useAppDispatch } from "../hooks/store";
-import { useAuthActions } from "../hooks/useAuthActions";
-import { statusActions } from "../hooks/statusActions";
+// import { useAuthActions } from "../hooks/useAuthActions";
+// import { statusActions } from "../hooks/statusActions";
 import { login } from "../features/auth/slice";
+
+import ErrorCard from "./ErrorCard";
 
 const FormatedBox = styled(Box)(({ theme }) => {
   const commonStyles = {
@@ -24,7 +26,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
     backgroundColor: "rgba(0, 0, 0, 0.4)",
 
     ".popup-inner": {
-      backgroundColor: theme.palette.drawer.main,
+      backgroundColor: theme.palette.popup.main,
       color: theme.palette.primary.main,
       position: "absolute",
       left: "50%",
@@ -34,7 +36,6 @@ const FormatedBox = styled(Box)(({ theme }) => {
       borderRadius: "5px",
       boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
       width: "440px",
-      height: "340px",
     },
 
     ".close-icon": {
@@ -213,32 +214,29 @@ function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [allFieldsValid, setAllFieldsValid] = useState(false);
+  const [errorLogin, setErrorLogin] = useState(false);
   const dispatch = useAppDispatch();
-  const { statusAuth, errorAuth } = useAuthActions();
-  const { FULLFILLED_STATUS, REJECTED_STATUS } = statusActions();
 
   useEffect(() => {
     const areFieldsNotEmpty = email.trim() !== "" && password.trim() !== "";
     setAllFieldsValid(areFieldsNotEmpty);
   }, [email, password]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (allFieldsValid) {
-      const credentials = {email, password};
-      dispatch(login(credentials))
-
-      if (statusAuth === FULLFILLED_STATUS) {
-        // TODO
-      }
-
-      if (statusAuth === REJECTED_STATUS) {
-        console.log(errorAuth)
+      const credentials = { email, password };
+      const res = await dispatch(login(credentials));
+      if (res.payload === true) {
+        setErrorLogin(false);
+        props.toggle();
+      } else {
+        setErrorLogin(true);
+        setAllFieldsValid(false);
       }
     }
-    
-  }
+  };
 
   return (
     <FormatedBox>
@@ -254,6 +252,9 @@ function Login(props) {
           </Box>
           <h2>Iniciar sesión en Shisha Lover</h2>
         </Box>
+        {errorLogin ? (
+          <ErrorCard text={"Usuario o contraseña incorrectos."} />
+        ) : null}
         <Box
           className="popup-inner-form"
           component="form"
@@ -266,13 +267,19 @@ function Login(props) {
             label="Email:"
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setErrorLogin(false);
+            }}
           />
           <TextField
             label="Contraseña:"
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setErrorLogin(false);
+            }}
           />
 
           <a className="popup-inner-form-pass" href="">
