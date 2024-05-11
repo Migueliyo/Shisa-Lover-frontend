@@ -11,9 +11,8 @@ const login = async (credentials) => {
   const data = await response.json();
   if (!data.error) {
     document.cookie = `api_token=${data.data}; SameSite=Strict`;
-    return true;
   }
-  return false;
+  return data;
 };
 
 const register = async (userData) => {
@@ -27,9 +26,8 @@ const register = async (userData) => {
   const data = await response.json();
   if (!data.error) {
     document.cookie = `api_token=${data.data}; SameSite=Strict`;
-    return true;
   }
-  return false;
+  return data;
 };
 
 const getCookie = (name) => {

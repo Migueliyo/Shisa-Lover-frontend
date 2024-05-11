@@ -228,7 +228,7 @@ function Login(props) {
     if (allFieldsValid) {
       const credentials = { email, password };
       const res = await dispatch(login(credentials));
-      if (res.payload === true) {
+      if (!res.payload.error) {
         setErrorLogin(false);
         props.toggle();
       } else {

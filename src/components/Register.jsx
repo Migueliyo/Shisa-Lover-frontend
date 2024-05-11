@@ -426,7 +426,7 @@ function Register(props) {
       if (age >= 18) {
         const userData = { username, email, password, date_of_birth: birthDate, first_name: "", last_name: "",  };
         const res = await dispatch(register(userData));
-        if (res.payload === true) {
+        if (!res.payload.error) {
           setErrorRegister(false);
           props.toggle();
         } else {

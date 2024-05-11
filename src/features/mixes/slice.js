@@ -36,8 +36,8 @@ const mixesSlice = createSlice({
   initialState: {
     data: [],
     status: INITIAL_STATUS,
-    error: null,
-    selectedMix: null,
+    error: undefined,
+    selectedMix: undefined,
   },
   extraReducers: (builder) => {
     builder
@@ -50,7 +50,7 @@ const mixesSlice = createSlice({
       })
       .addCase(fetchMixes.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(getMixById.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -61,7 +61,7 @@ const mixesSlice = createSlice({
       })
       .addCase(getMixById.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(addMix.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -72,7 +72,7 @@ const mixesSlice = createSlice({
       })
       .addCase(addMix.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(updateMix.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -88,7 +88,7 @@ const mixesSlice = createSlice({
       })
       .addCase(updateMix.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(partiallyUpdateMix.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -104,7 +104,7 @@ const mixesSlice = createSlice({
       })
       .addCase(partiallyUpdateMix.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(deleteMix.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -118,7 +118,7 @@ const mixesSlice = createSlice({
       })
       .addCase(deleteMix.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       });
   },
 });

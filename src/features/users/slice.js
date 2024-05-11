@@ -36,8 +36,8 @@ const usersSlice = createSlice({
   initialState: {
     data: [],
     status: INITIAL_STATUS,
-    error: null,
-    selectedUser: null,
+    error: undefined,
+    selectedUser: undefined,
   },
   extraReducers: (builder) => {
     builder
@@ -51,7 +51,7 @@ const usersSlice = createSlice({
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(getUserById.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -62,7 +62,7 @@ const usersSlice = createSlice({
       })
       .addCase(getUserById.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(addUser.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -73,7 +73,7 @@ const usersSlice = createSlice({
       })
       .addCase(addUser.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(updateUser.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -89,7 +89,7 @@ const usersSlice = createSlice({
       })
       .addCase(updateUser.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(partiallyUpdateUser.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -105,7 +105,7 @@ const usersSlice = createSlice({
       })
       .addCase(partiallyUpdateUser.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(deleteUser.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -119,7 +119,7 @@ const usersSlice = createSlice({
       })
       .addCase(deleteUser.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       });
   },
 });

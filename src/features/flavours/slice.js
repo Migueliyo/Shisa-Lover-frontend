@@ -36,8 +36,8 @@ const flavoursSlice = createSlice({
   initialState: {
     data: [],
     status: INITIAL_STATUS,
-    error: null,
-    selectedFlavour: null,
+    error: undefined,
+    selectedFlavour: undefined,
   },
   extraReducers: (builder) => {
     builder
@@ -50,7 +50,7 @@ const flavoursSlice = createSlice({
       })
       .addCase(fetchFlavours.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(getFlavourById.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -61,7 +61,7 @@ const flavoursSlice = createSlice({
       })
       .addCase(getFlavourById.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(addFlavour.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -72,7 +72,7 @@ const flavoursSlice = createSlice({
       })
       .addCase(addFlavour.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(updateFlavour.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -88,7 +88,7 @@ const flavoursSlice = createSlice({
       })
       .addCase(updateFlavour.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(partiallyUpdateFlavour.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -104,7 +104,7 @@ const flavoursSlice = createSlice({
       })
       .addCase(partiallyUpdateFlavour.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(deleteFlavour.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -118,7 +118,7 @@ const flavoursSlice = createSlice({
       })
       .addCase(deleteFlavour.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       });
   },
 });

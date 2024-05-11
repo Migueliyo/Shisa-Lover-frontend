@@ -11,11 +11,13 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-//import Avatar from '@mui/material/Avatar';
+import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import SearchIcon from "@mui/icons-material/Search";
+
+import { useAuthActions } from "../hooks/useAuthActions";
 
 import Login from "./Login";
 import Register from "./Register";
@@ -156,6 +158,7 @@ function AppBar() {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [clickedLogin, setClickedLogin] = useState(false);
   const [clickedRegister, setClickedRegister] = useState(false);
+  const { user } = useAuthActions();
 
   const handleClick = (event) => {
     console.log(event.currentTarget);
@@ -214,10 +217,15 @@ function AppBar() {
             {clickedLogin ? <Login toggle={handleTogglePopLogin} /> : null}
           </Box>
           <Box>
-            <Button className="register-button" onClick={handleTogglePopRegister}>
+            <Button
+              className="register-button"
+              onClick={handleTogglePopRegister}
+            >
               R<span>egistrarse</span>
             </Button>
-            {clickedRegister ? <Register toggle={handleTogglePopRegister} /> : null}
+            {clickedRegister ? (
+              <Register toggle={handleTogglePopRegister} />
+            ) : null}
           </Box>
           <Box
             sx={{
@@ -243,8 +251,18 @@ function AppBar() {
                 onClick={handleOpenUserMenu}
                 sx={{ height: "100%", width: "100%" }}
               >
-                <AccountCircle color="avatar" sx={{ height: 36, width: 36 }} />
-                {/* <Avatar alt="Remy Sharp" src="public\vite.svg" /> */}
+                {user ? (
+                  user.avatar ? (
+                    <Avatar sx={{ height: 30, width: 30 }} alt={user.username} src={user.avatar} />
+                  ) : (
+                    <Avatar sx={{ bgcolor: "#ff7400", height: 30, width: 30 }} alt={user.username}>{user.username[0]}</Avatar>
+                  )
+                ) : (
+                  <AccountCircle
+                    color="avatar"
+                    sx={{ height: 36, width: 36 }}
+                  />
+                )}
               </IconButton>
             </Tooltip>
             <Menu

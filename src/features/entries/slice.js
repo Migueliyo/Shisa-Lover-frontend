@@ -36,8 +36,8 @@ const entriesSlice = createSlice({
   initialState: {
     data: [],
     status: INITIAL_STATUS,
-    error: null,
-    selectedEntry: null,
+    error: undefined,
+    selectedEntry: undefined,
   },
   extraReducers: (builder) => {
     builder
@@ -50,7 +50,7 @@ const entriesSlice = createSlice({
       })
       .addCase(fetchEntries.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(getEntryById.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -61,7 +61,7 @@ const entriesSlice = createSlice({
       })
       .addCase(getEntryById.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(addEntry.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -72,7 +72,7 @@ const entriesSlice = createSlice({
       })
       .addCase(addEntry.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(updateEntry.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -88,7 +88,7 @@ const entriesSlice = createSlice({
       })
       .addCase(updateEntry.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(partiallyUpdateEntry.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -104,7 +104,7 @@ const entriesSlice = createSlice({
       })
       .addCase(partiallyUpdateEntry.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       })
       .addCase(deleteEntry.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -118,7 +118,7 @@ const entriesSlice = createSlice({
       })
       .addCase(deleteEntry.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = action.data.message;
       });
   },
 });
