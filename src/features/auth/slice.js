@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
 
 import { statusActions } from "../../hooks/statusActions";
-import api from "../../api/api";
+import api from "../../services/api";
 
 const { INITIAL_STATUS, PENDING_STATUS, FULLFILLED_STATUS, REJECTED_STATUS } =
   statusActions();

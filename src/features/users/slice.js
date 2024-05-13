@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { statusActions } from '../../hooks/statusActions';
-import api from "../../api/api";
+import api from "../../services/api";
 
 const {INITIAL_STATUS, PENDING_STATUS, FULLFILLED_STATUS, REJECTED_STATUS } = statusActions();
 
