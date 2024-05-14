@@ -111,6 +111,19 @@ const partiallyUpdateUser = async (userId, partialData) => {
   return data;
 };
 
+const uploadUserAvatar = async (file) => {
+  const formData = new FormData();
+  formData.append("avatar", file);
+
+  const response = await fetchWithAuth(`${BASE_URL}/upload`, {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = await response.json();
+  return data;
+};
+
 const deleteUser = async (userId) => {
   const response = await fetchWithAuth(`${BASE_URL}/users/${userId}`, {
     method: "DELETE",
@@ -358,6 +371,7 @@ const api = {
   addUser,
   updateUser,
   partiallyUpdateUser,
+  uploadUserAvatar,
   deleteUser,
   getMixes,
   getMixById,

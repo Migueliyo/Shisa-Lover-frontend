@@ -17,10 +17,13 @@ import MenuItem from "@mui/material/MenuItem";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import SearchIcon from "@mui/icons-material/Search";
 
+import { useAppDispatch } from "../hooks/store";
 import { useAuthActions } from "../hooks/useAuthActions";
+import { uploadAvatar } from "../features/users/slice";
 
 import Login from "./Login";
 import Register from "./Register";
+
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -158,6 +161,8 @@ function AppBar() {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [clickedLogin, setClickedLogin] = useState(false);
   const [clickedRegister, setClickedRegister] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const dispatch = useAppDispatch();
   const { user } = useAuthActions();
 
   const handleClick = (event) => {
@@ -178,6 +183,22 @@ function AppBar() {
 
   const handleTogglePopRegister = () => {
     setClickedRegister(!clickedRegister);
+  };
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleUploadAvatar = async () => {
+    if (!selectedFile) return;
+
+    try {
+      const resultAction = await dispatch(uploadAvatar(selectedFile)).unwrap();
+      console.log(resultAction);
+      // Actualiza el estado del avatar del usuario en tu aplicación aquí si es necesario
+    } catch (error) {
+      console.error("Error uploading avatar:", error);
+    }
   };
 
   return (
@@ -286,6 +307,21 @@ function AppBar() {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem key="update-avatar">
+                <label htmlFor="avatar-upload">
+                  <input
+                    style={{ display: "none" }}
+                    id="avatar-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                  />
+                  <Button component="span">Actualizar avatar</Button>
+                </label>
+              </MenuItem>
+              <MenuItem key="upload-avatar">
+                <Button onClick={handleUploadAvatar}>Subir Avatar</Button>
+              </MenuItem>
             </Menu>
           </Box>
         </Box>
@@ -293,4 +329,5 @@ function AppBar() {
     </FormatedAppBar>
   );
 }
+
 export default AppBar;
