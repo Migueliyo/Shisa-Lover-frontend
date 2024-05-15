@@ -42,9 +42,7 @@ const getCookie = (name) => {
 };
 
 const getAuthHeaders = (token) => {
-  const headers = {
-    "Content-Type": "application/json",
-  };
+  const headers = {};
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
@@ -113,7 +111,7 @@ const partiallyUpdateUser = async (userId, partialData) => {
 
 const uploadUserAvatar = async (file) => {
   const formData = new FormData();
-  formData.append("avatar", file);
+  formData.append("avatar", file, file.name);
 
   const response = await fetchWithAuth(`${BASE_URL}/upload`, {
     method: "POST",

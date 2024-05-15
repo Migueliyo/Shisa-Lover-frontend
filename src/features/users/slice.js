@@ -26,10 +26,6 @@ export const partiallyUpdateUser = createAsyncThunk("users/partiallyUpdateUser",
   return await api.partiallyUpdateUser(userId, partialData);
 });
 
-export const uploadAvatar = createAsyncThunk("users/uploadUserAvatar", async (file) => {
-  return await api.uploadUserAvatar(file);
-});
-
 export const deleteUser = createAsyncThunk("users/deleteUser", async (userId) => {
   return await api.deleteUser(userId);
 });
@@ -110,25 +106,6 @@ const usersSlice = createSlice({
       .addCase(partiallyUpdateUser.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
         state.error = action.data.message;
-      })
-      .addCase(uploadAvatar.pending, (state) => {
-        state.status = PENDING_STATUS;
-      })
-      .addCase(uploadAvatar.fulfilled, (state, action) => {
-        state.status = FULLFILLED_STATUS;
-        if (!action.payload.error) {
-          const updatedUser = action.payload.data;
-          state.data = state.data.map(user =>
-            user.id === updatedUser.id ? updatedUser : user
-          );
-          if (state.selectedUser && state.selectedUser.id === updatedUser.id) {
-            state.selectedUser = updatedUser;
-          }
-        }
-      })
-      .addCase(uploadAvatar.rejected, (state, action) => {
-        state.status = REJECTED_STATUS;
-        state.error = action.error.message;
       })
       .addCase(deleteUser.pending, (state) => {
         state.status = PENDING_STATUS;

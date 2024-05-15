@@ -16,6 +16,10 @@ export const register = createAsyncThunk("auth/register", async (userData) => {
   return await api.register(userData);
 });
 
+export const uploadAvatar = createAsyncThunk("users/uploadUserAvatar", async (file) => {
+  return await api.uploadUserAvatar(file);
+});
+
 const initialState = {
   userInfo: undefined,
   userToken: undefined,
@@ -73,6 +77,19 @@ const authSlice = createSlice({
       .addCase(register.rejected, (state, action) => {
         state.status = REJECTED_STATUS;
         state.error = action.payload.message;
+      })
+      .addCase(uploadAvatar.pending, (state) => {
+        state.status = PENDING_STATUS;
+      })
+      .addCase(uploadAvatar.fulfilled, (state, action) => {
+        state.status = FULLFILLED_STATUS;
+        if (!action.payload.error) {
+          state.userInfo = action.payload.data;
+        }
+      })
+      .addCase(uploadAvatar.rejected, (state, action) => {
+        state.status = REJECTED_STATUS;
+        state.error = action.error.message;
       });
   },
 });

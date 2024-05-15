@@ -19,7 +19,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import { useAppDispatch } from "../hooks/store";
 import { useAuthActions } from "../hooks/useAuthActions";
-import { uploadAvatar } from "../features/users/slice";
+import { uploadAvatar } from "../features/auth/slice";
 
 import Login from "./Login";
 import Register from "./Register";
@@ -191,14 +191,7 @@ function AppBar() {
 
   const handleUploadAvatar = async () => {
     if (!selectedFile) return;
-
-    try {
-      const resultAction = await dispatch(uploadAvatar(selectedFile)).unwrap();
-      console.log(resultAction);
-      // Actualiza el estado del avatar del usuario en tu aplicación aquí si es necesario
-    } catch (error) {
-      console.error("Error uploading avatar:", error);
-    }
+    dispatch(uploadAvatar(selectedFile));
   };
 
   return (
@@ -312,6 +305,7 @@ function AppBar() {
                   <input
                     style={{ display: "none" }}
                     id="avatar-upload"
+                    name="avatar"
                     type="file"
                     accept="image/*"
                     onChange={handleFileChange}
