@@ -1,12 +1,6 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 
-import styled from "@emotion/styled";
-
-import { Box } from "@mui/material";
-
-import { DrawerContext } from "../context/drawerContext";
-import { appBarHeight } from "./AppBar";
-import Section from "./Section";
+import Section from "../components/Section";
 
 import { useAppDispatch } from "../hooks/store";
 import { useMixesActions } from "../hooks/useMixesActions";
@@ -17,28 +11,11 @@ import { fetchMixes } from "../features/mixes/slice";
 import { fetchFlavours } from "../features/flavours/slice";
 import { fetchEntries } from "../features/entries/slice";
 
-import LoadingMixes from "./LoadingMixes";
-import LoadingFlavours from "./LoadingFlavours";
-import LoadingEntries from "./LoadingEntries";
-
-const FormatedBox = styled(Box, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => {
-  return {
-    width: "100%",
-    height: `calc(100% - ${appBarHeight + 25}px)`, // El resultado de la altura del appbar y el paddingTop
-    overflowY: "auto",
-    marginTop: appBarHeight,
-    marginLeft: open ? "320px" : theme.spacing(7),
-    backgroundColor: theme.palette.secondary.main,
-    paddingTop: 25,
-    paddingLeft: 25,
-    paddingRight: 25,
-  };
-});
+import LoadingMixes from "../components/LoadingMixes";
+import LoadingFlavours from "../components/LoadingFlavours";
+import LoadingEntries from "../components/LoadingEntries";
 
 function Main() {
-  const { open } = useContext(DrawerContext);
   const dispatch = useAppDispatch();
   const { mixes, statusMixes, errorMixes } = useMixesActions();
   const { flavours, statusFlavours, errorFlavours } = useFlavoursActions();
@@ -52,7 +29,7 @@ function Main() {
   }, [dispatch]);
 
   return (
-    <FormatedBox open={open}>
+    <>
       {statusMixes === PENDING_STATUS && <LoadingMixes open={open} />}
       {statusMixes === REJECTED_STATUS && <p>Error: {errorMixes}</p>}
       {statusMixes === FULLFILLED_STATUS && (
@@ -83,7 +60,7 @@ function Main() {
           data={entries}
         />
       )}
-    </FormatedBox>
+    </>
   );
 }
 export default Main;

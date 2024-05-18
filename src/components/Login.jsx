@@ -301,7 +301,11 @@ function Login(props) {
             </Button>
           </Box>
 
-          <Button sx={{ mt: 2 }} className="form-register-button">
+          <Button
+            sx={{ mt: 2 }}
+            className="form-register-button"
+            onClick={props.switchToRegister}
+          >
             ¿N<span>o tienes una cuenta?</span>&nbsp;R
             <span>egístrate aquí.</span>
           </Button>

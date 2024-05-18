@@ -24,7 +24,6 @@ import { uploadAvatar } from "../features/auth/slice";
 import Login from "./Login";
 import Register from "./Register";
 
-
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export const appBarHeight = 50;
@@ -179,10 +178,12 @@ function AppBar() {
 
   const handleTogglePopLogin = () => {
     setClickedLogin(!clickedLogin);
+    setClickedRegister(false);
   };
 
   const handleTogglePopRegister = () => {
     setClickedRegister(!clickedRegister);
+    setClickedLogin(false);
   };
 
   const handleFileChange = (event) => {
@@ -228,7 +229,12 @@ function AppBar() {
             <Button className="login-button" onClick={handleTogglePopLogin}>
               I<span>niciar sesión</span>
             </Button>
-            {clickedLogin ? <Login toggle={handleTogglePopLogin} /> : null}
+            {clickedLogin ? (
+              <Login
+                toggle={handleTogglePopLogin}
+                switchToRegister={handleTogglePopRegister}
+              />
+            ) : null}
           </Box>
           <Box>
             <Button
@@ -238,7 +244,10 @@ function AppBar() {
               R<span>egistrarse</span>
             </Button>
             {clickedRegister ? (
-              <Register toggle={handleTogglePopRegister} />
+              <Register
+                toggle={handleTogglePopRegister}
+                switchToLogin={handleTogglePopLogin}
+              />
             ) : null}
           </Box>
           <Box
@@ -267,9 +276,18 @@ function AppBar() {
               >
                 {user ? (
                   user.avatar ? (
-                    <Avatar sx={{ height: 30, width: 30 }} alt={user.username} src={user.avatar} />
+                    <Avatar
+                      sx={{ height: 30, width: 30 }}
+                      alt={user.username}
+                      src={user.avatar}
+                    />
                   ) : (
-                    <Avatar sx={{ bgcolor: "#ff7400", height: 30, width: 30 }} alt={user.username}>{user.username[0]}</Avatar>
+                    <Avatar
+                      sx={{ bgcolor: "#ff7400", height: 30, width: 30 }}
+                      alt={user.username}
+                    >
+                      {user.username[0]}
+                    </Avatar>
                   )
                 ) : (
                   <AccountCircle

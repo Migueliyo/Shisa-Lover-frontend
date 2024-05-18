@@ -629,10 +629,13 @@ function Register(props) {
               R<span>egistrarse</span>
             </Button>
           </Box>
-
-          <Button sx={{ mt: 2 }} className="popup-inner-login-form-button">
+          <Button 
+            sx={{ mt: 2 }} 
+            className="popup-inner-login-form-button" 
+            onClick={props.switchToLogin}
+          >
             ¿Y<span>a tienes una cuenta?</span>&nbsp;I
-            <span>niciar sesión aquí.</span>
+            <span>nicia sesión aquí.</span>
           </Button>
         </Box>
       </Box>
