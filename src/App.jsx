@@ -4,8 +4,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { store } from "./app/store.js";
 import { theme } from "./components/themeProvider.js";
+
 import Layout from "./layout/Layout.jsx";
+
 import Main from "./pages/Main.jsx";
+import Mixes from "./pages/Mixes.jsx";
+import Flavours from "./pages/Flavours.jsx";
 import NoPage from "./pages/NoPage.jsx";
 
 function App() {
@@ -16,6 +20,8 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route index element={<Main />} />
+              <Route path="/mezclas" element={<Mixes />} />
+              <Route path="/sabores" element={<Flavours />} />
               <Route path="*" element={<NoPage />} />
             </Routes>
           </BrowserRouter>
