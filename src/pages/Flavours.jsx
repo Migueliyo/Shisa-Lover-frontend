@@ -27,7 +27,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
       padding: 0,
       verticalAlign: "baseline",
       fontWeight: 600,
-      fontSize: 20,
+      fontSize: 54,
       lineHeight: 1.2,
     },
     ".content-div-section": {
@@ -50,7 +50,7 @@ function Flavours() {
   return (
     <FormatedBox>
       <Box className="title-div-section">
-        <h2>Tabacos</h2>
+        <h2>Sabores</h2>
       </Box>
       <Box
         className="content-div-section"
