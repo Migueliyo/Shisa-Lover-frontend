@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { passwordStrength } from "check-password-strength";
 import { Box, Grid, LinearProgress, Typography } from "@mui/material";
-import PropTypes from "prop-types";
 import CloseIcon from "@mui/icons-material/Close";
 import DoneIcon from "@mui/icons-material/Done";
 
@@ -131,11 +130,6 @@ const PasswordChecker = ({ password, setPasswordValid }) => {
       </Box>
     </Box>
   );
-};
-
-PasswordChecker.propTypes = {
-  password: PropTypes.string.isRequired,
-  setPasswordValid: PropTypes.func.isRequired,
 };
 
 export default PasswordChecker;
