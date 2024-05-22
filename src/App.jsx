@@ -10,6 +10,7 @@ import Layout from "./layout/Layout.jsx";
 import Main from "./pages/Main.jsx";
 import Mixes from "./pages/Mixes.jsx";
 import Flavours from "./pages/Flavours.jsx";
+import Entries from "./pages/Entries.jsx";
 import NoPage from "./pages/NoPage.jsx";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
               <Route index element={<Main />} />
               <Route path="/mezclas" element={<Mixes />} />
               <Route path="/sabores" element={<Flavours />} />
+              <Route path="/entradas" element={<Entries />} />
               <Route path="*" element={<NoPage />} />
             </Routes>
           </BrowserRouter>

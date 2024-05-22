@@ -190,7 +190,7 @@ function Section({ featuredWordTittle, tittle, content, data }) {
           </Button>
         </Divider>
       ) : (
-        <Divider sx={{ borderColor: "section.divider.main" }} />
+        <Divider sx={{ borderColor: "section.divider.main", mb: "20px" }} />
       )}
     </FormatedBox>
   );

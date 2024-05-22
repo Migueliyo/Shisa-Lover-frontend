@@ -117,7 +117,7 @@ const FormatedBox = styled(Box, {
       width: "49%",
     },
     //@media (max-width: 700px)
-    [theme.breakpoints.down("700")]: {
+    [theme.breakpoints.down("600")]: {
       ...commonStyles,
       width: "100%",
     },
