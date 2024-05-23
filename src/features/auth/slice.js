@@ -51,9 +51,9 @@ const authSlice = createSlice({
           state.status = REJECTED_STATUS;
         }
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(login.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.payload.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(register.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -74,9 +74,9 @@ const authSlice = createSlice({
           state.status = REJECTED_STATUS;
         }
       })
-      .addCase(register.rejected, (state, action) => {
+      .addCase(register.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.payload.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(uploadAvatar.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -87,9 +87,9 @@ const authSlice = createSlice({
           state.userInfo = action.payload.data;
         }
       })
-      .addCase(uploadAvatar.rejected, (state, action) => {
+      .addCase(uploadAvatar.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.error.message;
+        state.error = 'Failed to fetch';
       });
   },
 });

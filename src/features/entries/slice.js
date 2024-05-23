@@ -48,9 +48,9 @@ const entriesSlice = createSlice({
         state.status = FULLFILLED_STATUS;
         if (!action.payload.error) state.data = action.payload.data;
       })
-      .addCase(fetchEntries.rejected, (state, action) => {
+      .addCase(fetchEntries.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(getEntryById.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -59,9 +59,9 @@ const entriesSlice = createSlice({
         state.status = FULLFILLED_STATUS;
         if (!action.payload.error) state.selectedEntry = action.payload.data;
       })
-      .addCase(getEntryById.rejected, (state, action) => {
+      .addCase(getEntryById.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(addEntry.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -70,9 +70,9 @@ const entriesSlice = createSlice({
         state.status = FULLFILLED_STATUS;
         if (!action.payload.error) state.data.push(action.payload.data);
       })
-      .addCase(addEntry.rejected, (state, action) => {
+      .addCase(addEntry.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(updateEntry.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -86,9 +86,9 @@ const entriesSlice = createSlice({
           );
         }
       })
-      .addCase(updateEntry.rejected, (state, action) => {
+      .addCase(updateEntry.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(partiallyUpdateEntry.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -102,9 +102,9 @@ const entriesSlice = createSlice({
           );
         }
       })
-      .addCase(partiallyUpdateEntry.rejected, (state, action) => {
+      .addCase(partiallyUpdateEntry.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(deleteEntry.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -116,9 +116,9 @@ const entriesSlice = createSlice({
           state.data = state.data.filter(entry => entry.id !== entryId);
         }
       })
-      .addCase(deleteEntry.rejected, (state, action) => {
+      .addCase(deleteEntry.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       });
   },
 });

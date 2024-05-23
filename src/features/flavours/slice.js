@@ -48,9 +48,9 @@ const flavoursSlice = createSlice({
         state.status = FULLFILLED_STATUS;
         if (!action.payload.error) state.data = action.payload.data;
       })
-      .addCase(fetchFlavours.rejected, (state, action) => {
+      .addCase(fetchFlavours.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(getFlavourById.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -59,9 +59,9 @@ const flavoursSlice = createSlice({
         state.status = FULLFILLED_STATUS;
         if (!action.payload.error) state.selectedFlavour = action.payload.data;
       })
-      .addCase(getFlavourById.rejected, (state, action) => {
+      .addCase(getFlavourById.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(addFlavour.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -70,9 +70,9 @@ const flavoursSlice = createSlice({
         state.status = FULLFILLED_STATUS;
         if (!action.payload.error) state.data.push(action.payload.data);
       })
-      .addCase(addFlavour.rejected, (state, action) => {
+      .addCase(addFlavour.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(updateFlavour.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -86,9 +86,9 @@ const flavoursSlice = createSlice({
           );
         }
       })
-      .addCase(updateFlavour.rejected, (state, action) => {
+      .addCase(updateFlavour.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(partiallyUpdateFlavour.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -102,9 +102,9 @@ const flavoursSlice = createSlice({
           );
         }
       })
-      .addCase(partiallyUpdateFlavour.rejected, (state, action) => {
+      .addCase(partiallyUpdateFlavour.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(deleteFlavour.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -116,9 +116,9 @@ const flavoursSlice = createSlice({
           state.data = state.data.filter(flavour => flavour.id !== flavourId);
         }
       })
-      .addCase(deleteFlavour.rejected, (state, action) => {
+      .addCase(deleteFlavour.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       });
   },
 });

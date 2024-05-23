@@ -48,9 +48,9 @@ const mixesSlice = createSlice({
         state.status = FULLFILLED_STATUS;
         if (!action.payload.error) state.data = action.payload.data;
       })
-      .addCase(fetchMixes.rejected, (state, action) => {
+      .addCase(fetchMixes.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(getMixById.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -59,9 +59,9 @@ const mixesSlice = createSlice({
         state.status = FULLFILLED_STATUS;
         if (!action.payload.error) state.selectedMix = action.payload.data;
       })
-      .addCase(getMixById.rejected, (state, action) => {
+      .addCase(getMixById.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(addMix.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -70,9 +70,9 @@ const mixesSlice = createSlice({
         state.status = FULLFILLED_STATUS;
         if (!action.payload.error) state.data.push(action.payload.data);
       })
-      .addCase(addMix.rejected, (state, action) => {
+      .addCase(addMix.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(updateMix.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -86,9 +86,9 @@ const mixesSlice = createSlice({
           );
         }
       })
-      .addCase(updateMix.rejected, (state, action) => {
+      .addCase(updateMix.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(partiallyUpdateMix.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -102,9 +102,9 @@ const mixesSlice = createSlice({
           );
         }
       })
-      .addCase(partiallyUpdateMix.rejected, (state, action) => {
+      .addCase(partiallyUpdateMix.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(deleteMix.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -116,9 +116,9 @@ const mixesSlice = createSlice({
           state.data = state.data.filter(mix => mix.id !== mixId);
         }
       })
-      .addCase(deleteMix.rejected, (state, action) => {
+      .addCase(deleteMix.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       });
   },
 });

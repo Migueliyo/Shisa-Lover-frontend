@@ -49,9 +49,9 @@ const usersSlice = createSlice({
         if (!action.payload.error)
             state.data = action.payload.data
       })
-      .addCase(fetchUsers.rejected, (state, action) => {
+      .addCase(fetchUsers.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(getUserById.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -60,9 +60,9 @@ const usersSlice = createSlice({
         state.status = FULLFILLED_STATUS;
         if (!action.payload.error) state.selectedUser = action.payload.data;
       })
-      .addCase(getUserById.rejected, (state, action) => {
+      .addCase(getUserById.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(addUser.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -71,9 +71,9 @@ const usersSlice = createSlice({
         state.status = FULLFILLED_STATUS;
         if (!action.payload.error) state.data.push(action.payload.data);
       })
-      .addCase(addUser.rejected, (state, action) => {
+      .addCase(addUser.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(updateUser.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -87,9 +87,9 @@ const usersSlice = createSlice({
           );
         }
       })
-      .addCase(updateUser.rejected, (state, action) => {
+      .addCase(updateUser.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(partiallyUpdateUser.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -103,9 +103,9 @@ const usersSlice = createSlice({
           );
         }
       })
-      .addCase(partiallyUpdateUser.rejected, (state, action) => {
+      .addCase(partiallyUpdateUser.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       })
       .addCase(deleteUser.pending, (state) => {
         state.status = PENDING_STATUS;
@@ -117,9 +117,9 @@ const usersSlice = createSlice({
           state.data = state.data.filter(user => user.id !== userId);
         }
       })
-      .addCase(deleteUser.rejected, (state, action) => {
+      .addCase(deleteUser.rejected, (state) => {
         state.status = REJECTED_STATUS;
-        state.error = action.data.message;
+        state.error = 'Failed to fetch';
       });
   },
 });
