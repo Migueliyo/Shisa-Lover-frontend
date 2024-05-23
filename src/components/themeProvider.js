@@ -28,6 +28,9 @@ export const theme = createTheme({
       drawer: {
         main: '#1f1f23'
       },
+      card: {
+        main: 'rgba(255,255,255,0.015)'
+      },
       avatar: {
         main: '#00c8af'
       },

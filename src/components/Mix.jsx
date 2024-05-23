@@ -1,24 +1,57 @@
-import { useContext } from "react";
+import { useCallback, useContext, useEffect, useRef } from "react";
 
 import styled from "@emotion/styled";
 
-import { Avatar, Box, IconButton } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  IconButton,
+} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { DrawerContext } from "../context/drawerContext";
 
-const FormatedBox = styled(Box, {
+const FormatedCard = styled(Card, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => {
   const commonStyles = {
+    fontFamily: "inherit",
     border: 0,
     margin: 0,
     marginBottom: 30,
     padding: 0,
     verticalAlign: "baseline",
     width: open ? "23.5%" : "18.4%",
-    display: "flex",
-    flexWrap: "nowrap",
+    backgroundColor: theme.palette.card.main,
+    borderRadius: "7px",
+    transition: "transform 0.2s ease, border-color 0.2s ease",
+    position: "relative",
+    "::after": {
+      content: '""',
+      position: "absolute",
+      bottom: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: "7px",
+      borderLeft: "5px solid transparent",
+      borderBottom: "5px solid transparent",
+      transition: "border-color 0.2s ease",
+      pointerEvents: "none"
+    },
+    "&:hover": {
+      transform: "translate(5px, -3px)",
+      "::after": {
+        borderLeftColor: "var(--random-color)",
+        borderBottomColor: "var(--random-color)",
+      },
+    },
+    "& .MuiCardContent-root": {
+      fontFamily: '"Inter", "Roobert", Helvetica, Arial, sans-serif',
+    },
     ".content-div-avatar": {
       marginRight: 12,
     },
@@ -33,10 +66,10 @@ const FormatedBox = styled(Box, {
       color: theme.palette.primary.main,
       textDecoration: "none",
     },
-    ".content-div-info a h3:hover": {
+    ".content-div-info a p:hover": {
       color: theme.palette.section.a.hover,
     },
-    ".content-div-info a h3, .content-div-info a p": {
+    ".content-div-info h3, .content-div-info a p": {
       border: 0,
       boxSizing: "border-box",
       margin: 0,
@@ -44,7 +77,7 @@ const FormatedBox = styled(Box, {
       verticalAlign: "baseline",
       lineHeight: 1.2,
     },
-    ".content-div-info a h3": {
+    ".content-div-info h3": {
       color: theme.palette.mix.h3.main,
       fontWeight: 600,
       fontSize: 15,
@@ -55,6 +88,7 @@ const FormatedBox = styled(Box, {
     },
     ".content-div-info a p": {
       color: theme.palette.mix.p.main,
+      display: "inline-block",
       fontSize: 12.5,
       marginTop: 5,
     },
@@ -110,7 +144,7 @@ const FormatedBox = styled(Box, {
     [theme.breakpoints.down("1350")]: {
       ...commonStyles,
       width: "32%",
-    },    
+    },
     //@media (max-width: 1000px)
     [theme.breakpoints.down("1000")]: {
       ...commonStyles,
@@ -126,35 +160,49 @@ const FormatedBox = styled(Box, {
 
 function Mix({ username, name, categories }) {
   const { open } = useContext(DrawerContext);
+  const cardRef = useRef();
+
+  const generateRandomColor = useCallback(() => {
+    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  }, []);
+
+  useEffect(() => {
+    if (cardRef.current) {
+      cardRef.current.style.setProperty('--random-color', generateRandomColor());
+    }
+  }, [generateRandomColor]);
 
   return (
-    <FormatedBox open={open}>
-      <Box className="content-div-avatar">
-        <Avatar src="" />
-      </Box>
-      <Box className="content-div-info">
-        <Box className="content-div-info-details">
-          <a href="">
-            <h3>{name}</h3>
-          </a>
-          <a href="">
-            <p>{username}</p>
-          </a>
-        </Box>
-        <Box className="content-div-info-categories">
-          {categories.map((category) => (
-            <a key={category.id} href="">
-              <span>{category.name}</span>
-            </a>
-          ))}
-        </Box>
-      </Box>
-      <Box className="content-div-settings">
-        <IconButton>
-          <MoreVertIcon color="primary" />
-        </IconButton>
-      </Box>
-    </FormatedBox>
+    <FormatedCard ref={cardRef} open={open}>
+      <CardActionArea>
+        <CardContent sx={{ display: 'flex', flexWrap: 'nowrap' }}>
+          <Box className="content-div-avatar">
+            <a href=""><Avatar src="" /></a>
+          </Box>
+          <Box className="content-div-info">
+            <Box className="content-div-info-details">
+              <h3>{name}</h3>
+              <a href="">
+                <p>{username}</p>
+              </a>
+            </Box>
+            <Box className="content-div-info-categories">
+              {categories.map((category) => (
+                <a key={category.id} href="">
+                  <span>{category.name}</span>
+                </a>
+              ))}
+            </Box>
+          </Box>
+          <Box className="content-div-settings">
+            <IconButton>
+              <MoreVertIcon color="primary" />
+            </IconButton>
+          </Box>
+        </CardContent>
+      </CardActionArea>
+    </FormatedCard>
   );
 }
+
 export default Mix;
