@@ -7,6 +7,7 @@ import {
   Card,
   CardActionArea,
   CardContent,
+  CardMedia,
   IconButton,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -54,14 +55,10 @@ const FormatedCard = styled(Card, {
     ".content-div-main": {
       width: "100%",
       border: 0,
-      marginTop: 5,
       padding: 0,
       verticalAlign: "baseline",
       display: "flex",
       flexWrap: "nowrap",
-    },
-    ".content-div-logo": {
-      position: "relative",
     },
     ".content-div-logo-new": {
       position: "absolute",
@@ -69,9 +66,6 @@ const FormatedCard = styled(Card, {
       right: 5,
       width: 30,
       height: 30,
-    },
-    ".content-div-logo a img": {
-      width: "100%",
     },
     ".content-div-info": {
       width: "100%",
@@ -210,16 +204,13 @@ function Flavour({ name, brand, url, categories }) {
   return (
     <FormatedCard ref={cardRef} open={open}>
       <CardActionArea>
+        <CardMedia
+          component="img"
+          image={url ? url : "src\\assets\\logo.png"}
+          alt={name}
+        />
+        <img className="content-div-logo-new" src="src\\assets\\new.png"></img>
         <CardContent>
-          <Box className="content-div-logo">
-            <a href="">
-              <img src={url ? url : "src\\assets\\logo.png"} />
-            </a>
-            <img
-              className="content-div-logo-new"
-              src="src\\assets\\new.png"
-            ></img>
-          </Box>
           <Box className="content-div-main">
             <Box className="content-div-info">
               <Box className="content-div-info-details">
