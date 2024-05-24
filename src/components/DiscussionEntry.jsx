@@ -8,7 +8,6 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  IconButton,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
@@ -132,14 +131,14 @@ const FormatedCard = styled(Card)(({ theme }) => {
       webkitBoxAlign: "center",
       alignItems: "center",
     },
-    ".content-div-settings button": {
+    ".content-div-settings div": {
       border: 0,
       boxSizing: "border-box",
       margin: 0,
       padding: 0,
       borderRadius: "0.2rem",
     },
-    ".content-div-settings button:hover": {
+    ".content-div-settings div:hover": {
       backgroundColor: theme.palette.button.main,
     },
   };
@@ -199,9 +198,9 @@ function DiscussionEntry({ username, description, title, categories }) {
             </Box>
           </Box>
           <Box className="content-div-settings">
-            <IconButton>
+            <Box>
               <MoreVertIcon color="primary" />
-            </IconButton>
+            </Box>
           </Box>
         </CardContent>
       </CardActionArea>

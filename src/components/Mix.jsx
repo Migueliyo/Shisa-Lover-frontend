@@ -8,7 +8,6 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  IconButton,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
@@ -40,7 +39,7 @@ const FormatedCard = styled(Card, {
       borderLeft: "5px solid transparent",
       borderBottom: "5px solid transparent",
       transition: "border-color 0.2s ease",
-      pointerEvents: "none"
+      pointerEvents: "none",
     },
     "&:hover": {
       transform: "translate(5px, -3px)",
@@ -121,14 +120,14 @@ const FormatedCard = styled(Card, {
       webkitBoxAlign: "center",
       alignItems: "center",
     },
-    ".content-div-settings button": {
+    ".content-div-settings div": {
       border: 0,
       boxSizing: "border-box",
       margin: 0,
       padding: 0,
       borderRadius: "0.2rem",
     },
-    ".content-div-settings button:hover": {
+    ".content-div-settings div:hover": {
       backgroundColor: theme.palette.button.main,
     },
   };
@@ -168,16 +167,21 @@ function Mix({ username, name, categories }) {
 
   useEffect(() => {
     if (cardRef.current) {
-      cardRef.current.style.setProperty('--random-color', generateRandomColor());
+      cardRef.current.style.setProperty(
+        "--random-color",
+        generateRandomColor()
+      );
     }
   }, [generateRandomColor]);
 
   return (
     <FormatedCard ref={cardRef} open={open}>
       <CardActionArea>
-        <CardContent sx={{ display: 'flex', flexWrap: 'nowrap' }}>
+        <CardContent sx={{ display: "flex", flexWrap: "nowrap" }}>
           <Box className="content-div-avatar">
-            <a href=""><Avatar src="" /></a>
+            <a href="">
+              <Avatar src="" />
+            </a>
           </Box>
           <Box className="content-div-info">
             <Box className="content-div-info-details">
@@ -195,9 +199,9 @@ function Mix({ username, name, categories }) {
             </Box>
           </Box>
           <Box className="content-div-settings">
-            <IconButton>
+            <Box>
               <MoreVertIcon color="primary" />
-            </IconButton>
+            </Box>
           </Box>
         </CardContent>
       </CardActionArea>
