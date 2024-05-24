@@ -11,6 +11,7 @@ import { register } from "../features/auth/slice";
 
 import PasswordChecker from "./PasswordChecker";
 import ErrorCard from "./ErrorCard";
+import api from "../services/api";
 
 const FormatedBox = styled(Box)(({ theme }) => {
   const commonStyles = {
@@ -304,15 +305,18 @@ function Register(props) {
   const [isUsernameClicked, setIsUsernameClicked] = useState(false);
   const [isPasswordClicked, setIsPasswordClicked] = useState(false);
   const [emailValid, setEmailValid] = useState(true);
+  const [emailError, setEmailError] = useState("");
   const [passwordValid, setPasswordValid] = useState(true);
   const [usernameValid, setUsernameValid] = useState(true);
   const [usernameError, setUsernameError] = useState("");
   const [dayValid, setDayValid] = useState(true);
+  const [monthValid, setMonthValid] = useState(true);
   const [yearValid, setYearValid] = useState(true);
   const [emailTouched, setEmailTouched] = useState(false);
   const [passwordTouched, setPasswordTouched] = useState(false);
   const [usernameTouched, setUsernameTouched] = useState(false);
   const [dayTouched, setDayTouched] = useState(false);
+  const [monthTouched, setMonthTouched] = useState(false);
   const [yearTouched, setYearTouched] = useState(false);
   const [allFieldsValid, setAllFieldsValid] = useState(false);
   const dispatch = useAppDispatch();
@@ -342,16 +346,26 @@ function Register(props) {
     setIsPasswordClicked(true);
   };
 
-  const validateEmail = () => {
-    setEmailValid(
-      email.match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      )
-    );
+  const validateEmail = async () => {
+    const isValid = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const response = await api.getUserByEmail(email);
+    if (!email.match(isValid)) {
+      setEmailValid(false);
+      setEmailError(
+        "* Introduce una dirección de correo electrónico válida."
+      );
+    } else if (!response.error) {
+      setEmailValid(false);
+      setEmailError(
+        "* El email ya está en uso."
+      );
+    } else setEmailValid(true);
+    
   };
 
-  const validateUsername = () => {
+  const validateUsername = async () => {
     const isValid = /[a-zA-Z0-9]+$/;
+    const response = await api.getUserByUsername(username);
     if (username.length < 4 || username.length > 25) {
       setUsernameValid(false);
       setUsernameError(
@@ -362,11 +376,20 @@ function Register(props) {
       setUsernameError(
         "* Los nombres de usuario solo pueden contener caracteres alfanuméricos."
       );
+    } else if (!response.error) { 
+      setUsernameValid(false);
+      setUsernameError(
+        "* El nombre de usuario ya está en uso."
+      );
     } else setUsernameValid(true);
   };
 
   const validateDay = () => {
     setDayValid(day >= 1 && day <= 31);
+  };
+
+  const validateMonth = () => {
+    setMonthValid(month !== "");
   };
 
   const validateYear = () => {
@@ -378,6 +401,7 @@ function Register(props) {
       if (emailTouched) validateEmail();
       if (usernameTouched) validateUsername();
       if (dayTouched) validateDay();
+      if (monthTouched) validateMonth();
       if (yearTouched) validateYear();
     }, 600);
 
@@ -404,10 +428,10 @@ function Register(props) {
   }, []);
 
   useEffect(() => {
-    const anyFieldEmpty = !email || !password || !username || !day || !year;
+    const anyFieldEmpty = !email || !password || !username || !day || !month || !year;
   
-    setAllFieldsValid(!(anyFieldEmpty || !emailValid || !passwordValid || !usernameValid || !dayValid || !yearValid));
-  }, [email, password, username, day, year, emailValid, passwordValid, usernameValid, dayValid, yearValid]);
+    setAllFieldsValid(!(anyFieldEmpty || !emailValid || !passwordValid || !usernameValid || !dayValid || !monthValid || !yearValid));
+  }, [email, password, username, day, month, year, emailValid, passwordValid, usernameValid, dayValid, monthValid, yearValid]);  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -485,9 +509,7 @@ function Register(props) {
                 : "email-info-text-error-clicked"
             }
           >
-            <p style={{ marginTop: -2 }}>
-              * Introduce una dirección de correo electrónico válida
-            </p>
+            <p style={{ marginTop: -2 }}>{emailError}</p>
           </Box>
           <TextField
             className="password-input"
@@ -570,8 +592,10 @@ function Register(props) {
               value={month}
               onChange={(e) => {
                 setMonth(e.target.value);
+                setMonthTouched(true);
                 setErrorRegister(false);
               }}
+              error={!monthValid && monthTouched} 
               SelectProps={{
                 MenuProps: {
                   PaperProps: {
@@ -607,7 +631,7 @@ function Register(props) {
           </Box>
           <Box
             className={
-              dayValid && yearValid
+              dayValid && monthValid && yearValid
                 ? "date-info-text-error"
                 : "date-info-text-error-clicked"
             }

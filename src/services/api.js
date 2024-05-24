@@ -73,6 +73,18 @@ const getUserById = async (userId) => {
   return data;
 };
 
+const getUserByEmail = async (email) => {
+  const response = await fetch(`${BASE_URL}/users?email=${email}`);
+  const data = await response.json();
+  return data;
+}
+
+const getUserByUsername = async (username) => {
+  const response = await fetch(`${BASE_URL}/users?username=${username}`);
+  const data = await response.json();
+  return data;
+}
+
 const addUser = async (user) => {
   const response = await fetchWithAuth(`${BASE_URL}/users`, {
     method: "POST",
@@ -366,6 +378,8 @@ const api = {
   register,
   getUsers,
   getUserById,
+  getUserByEmail,
+  getUserByUsername,
   addUser,
   updateUser,
   partiallyUpdateUser,

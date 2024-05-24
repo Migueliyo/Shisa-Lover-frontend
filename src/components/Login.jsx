@@ -215,6 +215,7 @@ function Login(props) {
   const [password, setPassword] = useState("");
   const [allFieldsValid, setAllFieldsValid] = useState(false);
   const [errorLogin, setErrorLogin] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('Usuario o contraseña incorrectos.');
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -233,6 +234,7 @@ function Login(props) {
         props.toggle();
       } else {
         setErrorLogin(true);
+        setErrorMessage(res.payload.message);
         setAllFieldsValid(false);
       }
     }
@@ -253,7 +255,7 @@ function Login(props) {
           <h2>Iniciar sesión en Shisha Lover</h2>
         </Box>
         {errorLogin ? (
-          <ErrorCard text={"Usuario o contraseña incorrectos."} />
+          <ErrorCard text={errorMessage} />
         ) : null}
         <Box
           className="popup-inner-form"
