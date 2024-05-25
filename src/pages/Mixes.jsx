@@ -6,7 +6,7 @@ import { fetchMixes } from "../features/mixes/slice";
 import { useAppDispatch } from "../hooks/store";
 import { useMixesActions } from "../hooks/useMixesActions";
 
-import Mix from "../components/Mix";
+import MixCard from "../components/MixCard";
 import NavSection from "../components/NavSection";
 
 const categories = [
@@ -38,8 +38,9 @@ function Mixes() {
         }}
       >
         {mixes.slice(0, mixesToShow).map((mix) => (
-          <Mix
+          <MixCard
             key={mix.id}
+            id={mix.id}
             username={mix.username}
             name={mix.mix_name}
             categories={mix.categories}

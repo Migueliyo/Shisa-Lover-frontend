@@ -6,7 +6,7 @@ import { fetchEntries } from "../features/entries/slice";
 import { useAppDispatch } from "../hooks/store";
 import { useEntriesActions } from "../hooks/useEntriesActions";
 
-import DiscussionEntry from "../components/DiscussionEntry";
+import EntryCard from "../components/EntryCard";
 import NavSection from "../components/NavSection";
 
 const categories = [
@@ -38,8 +38,9 @@ function Entries() {
         }}
       >
         {entries.slice(0, entriesToShow).map((entry) => (
-          <DiscussionEntry
+          <EntryCard
             key={entry.id}
+            id={entry.id}
             username={entry.username}
             title={entry.entry_title}
             description={entry.description}

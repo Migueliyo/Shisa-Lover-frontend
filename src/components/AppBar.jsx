@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 //import { useTheme } from "@emotion/react";
 
 import { Button, InputBase } from "@mui/material";
@@ -157,6 +158,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function AppBar() {
   //const theme = useTheme();
+  const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [clickedLogin, setClickedLogin] = useState(false);
   const [clickedRegister, setClickedRegister] = useState(false);
@@ -164,8 +166,8 @@ function AppBar() {
   const dispatch = useAppDispatch();
   const { user } = useAuthActions();
 
-  const handleClick = (event) => {
-    console.log(event.currentTarget);
+  const handleClick = () => {
+    navigate('/')
   };
 
   const handleOpenUserMenu = (event) => {

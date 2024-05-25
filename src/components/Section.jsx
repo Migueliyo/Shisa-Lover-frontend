@@ -5,9 +5,10 @@ import styled from "@emotion/styled";
 import { Box, Button, Divider, useMediaQuery } from "@mui/material";
 
 import { DrawerContext } from "../context/drawerContext";
-import Mix from "./Mix";
-import Flavour from "./Flavour";
-import DiscussionEntry from "./DiscussionEntry";
+
+import MixCard from "./MixCard";
+import FlavourCard from "./FlavourCard";
+import EntryCard from "./EntryCard";
 
 const FormatedBox = styled(Box)(({ theme }) => {
   return {
@@ -150,8 +151,9 @@ function Section({ featuredWordTittle, tittle, content, data }) {
       >
         {content === "mix" &&
           data.slice(0, mixesToShow).map((mix) => (
-            <Mix
+            <MixCard
               key={mix.id}
+              id={mix.id}
               username={mix.username}
               name={mix.mix_name}
               categories={mix.categories}
@@ -159,8 +161,9 @@ function Section({ featuredWordTittle, tittle, content, data }) {
           ))}
         {content === "flavour" &&
           data.slice(0, tobaccosToShow).map((flavour) => (
-            <Flavour
+            <FlavourCard
               key={flavour.id}
+              id={flavour.id}
               name={flavour.flavour_name}
               brand={flavour.brand_name}
               categories={flavour.categories}
@@ -168,8 +171,9 @@ function Section({ featuredWordTittle, tittle, content, data }) {
           ))}
         {content === "discussionEntry" &&
           data.slice(0, discussionEntriesToShow).map((entry) => (
-            <DiscussionEntry
+            <EntryCard
               key={entry.id}
+              id={entry.id}
               username={entry.username}
               title={entry.entry_title}
               description={entry.description}

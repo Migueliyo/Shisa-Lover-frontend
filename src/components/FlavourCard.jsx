@@ -1,13 +1,14 @@
 import { useCallback, useContext, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import styled from "@emotion/styled";
 
 import {
-  Avatar,
   Box,
   Card,
   CardActionArea,
   CardContent,
+  CardMedia,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
@@ -17,13 +18,13 @@ const FormatedCard = styled(Card, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => {
   const commonStyles = {
+    width: open ? "11.6%" : "9.1%",
     fontFamily: "inherit",
     border: 0,
     margin: 0,
     marginBottom: 30,
     padding: 0,
     verticalAlign: "baseline",
-    width: open ? "23.5%" : "18.4%",
     backgroundColor: theme.palette.card.main,
     borderRadius: "7px",
     transition: "transform 0.2s ease, border-color 0.2s ease",
@@ -51,8 +52,20 @@ const FormatedCard = styled(Card, {
     "& .MuiCardContent-root": {
       fontFamily: '"Inter", "Roobert", Helvetica, Arial, sans-serif',
     },
-    ".content-div-avatar": {
-      marginRight: 12,
+    ".content-div-main": {
+      width: "100%",
+      border: 0,
+      padding: 0,
+      verticalAlign: "baseline",
+      display: "flex",
+      flexWrap: "nowrap",
+    },
+    ".content-div-logo-new": {
+      position: "absolute",
+      top: 5,
+      right: 5,
+      width: 30,
+      height: 30,
     },
     ".content-div-info": {
       width: "100%",
@@ -87,12 +100,11 @@ const FormatedCard = styled(Card, {
     },
     ".content-div-info a p": {
       color: theme.palette.mix.p.main,
-      display: "inline-block",
       fontSize: 12.5,
       marginTop: 5,
     },
     ".content-div-info-categories": {
-      width: "108%",
+      width: "125%",
       lineHeight: 1.5,
       display: "flex",
       flexWrap: "nowrap",
@@ -137,29 +149,45 @@ const FormatedCard = styled(Card, {
     //@media (max-width: 1550px)
     [theme.breakpoints.down("1600")]: {
       ...commonStyles,
-      width: open ? "32%" : "23.5%",
+      width: open ? "13.4%" : "10.2%",
     },
     //@media (max-width: 1350px)
     [theme.breakpoints.down("1350")]: {
       ...commonStyles,
-      width: "32%",
+      width: "13.4%",
+    },
+    //@media (max-width: 1150px)
+    [theme.breakpoints.down("1150")]: {
+      ...commonStyles,
+      width: "15.8%",
     },
     //@media (max-width: 1000px)
     [theme.breakpoints.down("1000")]: {
       ...commonStyles,
-      width: "49%",
+      width: "19.2%",
+    },
+    //@media (max-width: 850px)
+    [theme.breakpoints.down("850")]: {
+      ...commonStyles,
+      width: "24.2%",
     },
     //@media (max-width: 700px)
-    [theme.breakpoints.down("600")]: {
+    [theme.breakpoints.down("700")]: {
       ...commonStyles,
-      width: "100%",
+      width: "31.3%",
+    },
+    //@media (max-width: 550px)
+    [theme.breakpoints.down("550")]: {
+      ...commonStyles,
+      width: "48.5%",
     },
   };
 });
 
-function Mix({ username, name, categories }) {
+function FlavourCard({ id, name, brand, url, categories }) {
   const { open } = useContext(DrawerContext);
   const cardRef = useRef();
+  const navigate = useNavigate();
 
   const generateRandomColor = useCallback(() => {
     return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
@@ -174,33 +202,40 @@ function Mix({ username, name, categories }) {
     }
   }, [generateRandomColor]);
 
+  const handleClickedMix = () => {
+    navigate(`/sabores/${id}`);
+  }
+
   return (
     <FormatedCard ref={cardRef} open={open}>
-      <CardActionArea>
-        <CardContent sx={{ display: "flex", flexWrap: "nowrap" }}>
-          <Box className="content-div-avatar">
-            <a href="">
-              <Avatar src="" />
-            </a>
-          </Box>
-          <Box className="content-div-info">
-            <Box className="content-div-info-details">
-              <h3>{name}</h3>
-              <a href="">
-                <p>{username}</p>
-              </a>
-            </Box>
-            <Box className="content-div-info-categories">
-              {categories.map((category) => (
-                <a key={category.id} href="">
-                  <span>{category.name}</span>
+      <CardActionArea onClick={handleClickedMix}>
+        <CardMedia
+          component="img"
+          image={url ? url : "src\\assets\\logo.png"}
+          alt={name}
+        />
+        <img className="content-div-logo-new" src="src\\assets\\new.png"></img>
+        <CardContent>
+          <Box className="content-div-main">
+            <Box className="content-div-info">
+              <Box className="content-div-info-details">
+                <h3>{name}</h3>
+                <a href="">
+                  <p>{brand}</p>
                 </a>
-              ))}
+              </Box>
+              <Box className="content-div-info-categories">
+                {categories.map((category) => (
+                  <a key={category.id} href="">
+                    <span>{category.name}</span>
+                  </a>
+                ))}
+              </Box>
             </Box>
-          </Box>
-          <Box className="content-div-settings">
-            <Box>
-              <MoreVertIcon color="primary" />
+            <Box className="content-div-settings">
+              <Box>
+                <MoreVertIcon color="primary" />
+              </Box>
             </Box>
           </Box>
         </CardContent>
@@ -208,5 +243,4 @@ function Mix({ username, name, categories }) {
     </FormatedCard>
   );
 }
-
-export default Mix;
+export default FlavourCard;

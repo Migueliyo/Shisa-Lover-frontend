@@ -1,4 +1,5 @@
 import { useCallback, useContext, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import styled from "@emotion/styled";
 
@@ -153,9 +154,10 @@ const FormatedCard = styled(Card)(({ theme }) => {
   };
 });
 
-function DiscussionEntry({ username, description, title, categories }) {
+function EntryCard({ id, username, description, title, categories }) {
   const { open } = useContext(DrawerContext);
   const cardRef = useRef();
+  const navigate = useNavigate();
 
   const generateRandomColor = useCallback(() => {
     return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
@@ -170,9 +172,13 @@ function DiscussionEntry({ username, description, title, categories }) {
     }
   }, [generateRandomColor]);
 
+  const handleClickedEntry = () => {
+    navigate(`/entradas/${id}`);
+  }
+
   return (
     <FormatedCard ref={cardRef} open={open}>
-      <CardActionArea>
+      <CardActionArea onClick={handleClickedEntry}>
         <CardContent sx={{ display: "flex", flexWrap: "nowrap" }}>
           <Box className="content-div-avatar">
             <a href="">
@@ -207,4 +213,4 @@ function DiscussionEntry({ username, description, title, categories }) {
     </FormatedCard>
   );
 }
-export default DiscussionEntry;
+export default EntryCard;

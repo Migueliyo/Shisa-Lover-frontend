@@ -6,7 +6,7 @@ import { fetchFlavours } from "../features/flavours/slice";
 import { useAppDispatch } from "../hooks/store";
 import { useFlavoursActions } from "../hooks/useFlavoursActions";
 
-import Flavour from "../components/Flavour";
+import FlavourCard from "../components/FlavourCard";
 import NavSection from "../components/NavSection";
 
 const categories = [
@@ -39,8 +39,9 @@ function Flavours() {
         }}
       >
         {flavours.slice(0, flavoursToShow).map((flavour) => (
-          <Flavour
+          <FlavourCard
             key={flavour.id}
+            id={flavour.id}
             name={flavour.flavour_name}
             brand={flavour.brand_name}
             categories={flavour.categories}
