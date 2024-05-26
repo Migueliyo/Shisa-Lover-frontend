@@ -10,11 +10,11 @@ import MixCard from "../components/MixCard";
 import NavSection from "../components/NavSection";
 
 const categories = [
-  { name: "Dulces", imgSrc: "src/assets/donut.svg" },
-  { name: "Afrutadas", imgSrc: "src/assets/fruit.svg" },
-  { name: "Cítricas", imgSrc: "src/assets/lemon.svg" },
-  { name: "Mentoladas", imgSrc: "src/assets/mint.svg" },
-  { name: "Otras", imgSrc: "src/assets/wind-face.svg" },
+  { name: "Dulces", imgSrc: "/src/assets/donut.svg" },
+  { name: "Afrutadas", imgSrc: "/src/assets/fruit.svg" },
+  { name: "Cítricas", imgSrc: "/src/assets/lemon.svg" },
+  { name: "Mentoladas", imgSrc: "/src/assets/mint.svg" },
+  { name: "Otras", imgSrc: "/src/assets/wind-face.svg" },
 ];
 
 function Mixes() {

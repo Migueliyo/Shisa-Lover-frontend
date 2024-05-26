@@ -22,7 +22,7 @@ function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <BrowserRouter basename="/">
+        <BrowserRouter>
           <Layout>
             <Routes>
               <Route index element={<Main />} />

@@ -211,10 +211,10 @@ function FlavourCard({ id, name, brand, url, categories }) {
       <CardActionArea onClick={handleClickedMix}>
         <CardMedia
           component="img"
-          image={url ? url : "src\\assets\\logo.png"}
+          image={url ? url : "/src/assets/logo.png"}
           alt={name}
         />
-        <img className="content-div-logo-new" src="src\\assets\\new.png"></img>
+        <img className="content-div-logo-new" src="/src/assets/new.png"></img>
         <CardContent>
           <Box className="content-div-main">
             <Box className="content-div-info">

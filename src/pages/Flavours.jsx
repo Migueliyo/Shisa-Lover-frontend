@@ -10,11 +10,11 @@ import FlavourCard from "../components/FlavourCard";
 import NavSection from "../components/NavSection";
 
 const categories = [
-  { name: "Dulces", imgSrc: "src/assets/pancakes.svg" },
-  { name: "Afrutados", imgSrc: "src/assets/amoras-fruit.svg" },
-  { name: "Cítricos", imgSrc: "src/assets/orange.svg" },
-  { name: "Mentolados", imgSrc: "src/assets/mint.svg" },
-  { name: "Otros", imgSrc: "src/assets/wind-face.svg" },
+  { name: "Dulces", imgSrc: "/src/assets/pancakes.svg" },
+  { name: "Afrutados", imgSrc: "/src/assets/amoras-fruit.svg" },
+  { name: "Cítricos", imgSrc: "/src/assets/orange.svg" },
+  { name: "Mentolados", imgSrc: "/src/assets/mint.svg" },
+  { name: "Otros", imgSrc: "/src/assets/wind-face.svg" },
 ];
 
 function Flavours() {

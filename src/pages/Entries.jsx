@@ -10,11 +10,11 @@ import EntryCard from "../components/EntryCard";
 import NavSection from "../components/NavSection";
 
 const categories = [
-  { name: "Consejos", imgSrc: "src/assets/writing.svg" },
-  { name: "Limpieza", imgSrc: "src/assets/clean-hand.svg" },
-  { name: "Mezclas", imgSrc: "src/assets/mixer.svg" },
-  { name: "Lugares", imgSrc: "src/assets/world.svg" },
-  { name: "Otras", imgSrc: "src/assets/wind-face.svg" },
+  { name: "Consejos", imgSrc: "/src/assets/writing.svg" },
+  { name: "Limpieza", imgSrc: "/src/assets/clean-hand.svg" },
+  { name: "Mezclas", imgSrc: "/src/assets/mixer.svg" },
+  { name: "Lugares", imgSrc: "/src/assets/world.svg" },
+  { name: "Otras", imgSrc: "/src/assets/wind-face.svg" },
 ];
 
 function Entries() {

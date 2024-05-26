@@ -1,13 +1,13 @@
 @font-face {
     font-family: 'Roobert';
-    src: url('fonts/Roobert-Regular.ttf') format('truetype');
+    src: url('/fonts/Roobert-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Inter';
-    src: url('fonts/Inter-Regular.ttf') format('truetype');
+    src: url('/fonts/Inter-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
