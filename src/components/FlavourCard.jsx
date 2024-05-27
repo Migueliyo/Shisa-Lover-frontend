@@ -151,8 +151,8 @@ const FormatedCard = styled(Card, {
       ...commonStyles,
       width: open ? "13.4%" : "10.2%",
     },
-    //@media (max-width: 1350px)
-    [theme.breakpoints.down("1350")]: {
+    //@media (max-width: 1450px)
+    [theme.breakpoints.down("1450")]: {
       ...commonStyles,
       width: "13.4%",
     },

@@ -6,7 +6,7 @@ export const DrawerContext = createContext();
 
 export const DrawerProvider = ({ children }) => {
   const theme = useTheme();
-  const isSm = useMediaQuery(theme.breakpoints.down("1350"));
+  const isSm = useMediaQuery(theme.breakpoints.down("1450"));
   const [prevOpenState, setPrevOpenState] = useState(false);
 
   // Recupera el estado del cajón al inicio del componente

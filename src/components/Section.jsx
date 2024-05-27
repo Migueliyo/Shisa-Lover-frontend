@@ -66,7 +66,7 @@ function Section({ featuredWordTittle, tittle, content, data }) {
   const [discussionEntriesToShow, setDiscussionEntriesToShow] = useState(2);
   const [showedItems, setShowedItems] = useState(false);
   const is1600 = useMediaQuery("(max-width: 1600px)");
-  const is1350 = useMediaQuery("(max-width: 1350px)");
+  const is1450 = useMediaQuery("(max-width: 1450px)");
   const is1150 = useMediaQuery("(max-width: 1150px)");
   const is1000 = useMediaQuery("(max-width: 1000px)");
   const is850 = useMediaQuery("(max-width: 850px)");
@@ -74,12 +74,12 @@ function Section({ featuredWordTittle, tittle, content, data }) {
   const is550 = useMediaQuery("(max-width: 550px)");
 
   useEffect(() => {
-    if (is1600 && !is1350) {
+    if (is1600 && !is1450) {
       setShowedItems(false);
       setMixesToShow(open ? 6 : 8);
       setTobaccosToShow(open ? 7 : 9);
       setDiscussionEntriesToShow(2);
-    } else if (is1350 && !is1150) {
+    } else if (is1450 && !is1150) {
       setShowedItems(false);
       setMixesToShow(6);
       setTobaccosToShow(7);
@@ -115,7 +115,7 @@ function Section({ featuredWordTittle, tittle, content, data }) {
       setTobaccosToShow(open ? 8 : 10);
       setDiscussionEntriesToShow(2);
     }
-  }, [is550, is700, is850, is1000, is1150, is1350, is1600, open]);
+  }, [is550, is700, is850, is1000, is1150, is1450, is1600, open]);
 
   const handleShowMore = () => {
     setMixesToShow((prevItems) => prevItems + mixesToShow);
