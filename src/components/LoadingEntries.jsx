@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { Box, Divider, Skeleton, Stack, useMediaQuery } from "@mui/material";
 
-function LoadingEntries() {
+function LoadingEntries({ rowsToShow }) {
   const [discussionEntriesToShow, setDiscussionEntriesToShow] = useState(2);
   const is1150 = useMediaQuery("(max-width: 1150px)");
 
@@ -16,7 +16,8 @@ function LoadingEntries() {
   return (
     <Box>
       <Skeleton variant="text" width={250} sx={{ fontSize: "20px", marginBottom: 2, backgroundColor: 'rgba(83,83,95,.30)' }} />
-        <Stack spacing={2} direction={"row"} sx={{ marginBottom: 6 }} >
+      {[...Array(rowsToShow)].map((_, index) => (
+        <Stack key={index} spacing={2} direction={"row"} sx={{ marginBottom: 6 }} >
           {[...Array(discussionEntriesToShow)].map((_, index) => (
             <Stack key={index} spacing={2} direction={"row"} sx={{width: "100%"}}>
               <Skeleton variant="circular" width={40} height={40} sx={{ backgroundColor: 'rgba(83,83,95,.30)' }} />
@@ -28,6 +29,7 @@ function LoadingEntries() {
             </Stack>
           ))}
         </Stack>
+      ))}
       <Divider sx={{ borderColor: "section.divider.main", mt: 8, mb: 2 }} />
     </Box>
   );

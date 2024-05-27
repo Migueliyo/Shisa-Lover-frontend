@@ -5,9 +5,11 @@ import { Box } from "@mui/material";
 import { fetchMixes } from "../features/mixes/slice";
 import { useAppDispatch } from "../hooks/store";
 import { useMixesActions } from "../hooks/useMixesActions";
+import { statusActions } from "../hooks/statusActions";
 
 import MixCard from "../components/MixCard";
 import NavSection from "../components/NavSection";
+import LoadingMixes from "../components/LoadingMixes";
 
 const categories = [
   { name: "Dulces", imgSrc: "/src/assets/donut.svg" },
@@ -20,7 +22,9 @@ const categories = [
 function Mixes() {
   const [mixesToShow] = useState(30);
   const dispatch = useAppDispatch();
-  const { mixes } = useMixesActions();
+  const { mixes, statusMixes, errorMixes } = useMixesActions();
+  const { PENDING_STATUS, FULLFILLED_STATUS, REJECTED_STATUS } =
+    statusActions();
 
   useEffect(() => {
     dispatch(fetchMixes());
@@ -29,24 +33,28 @@ function Mixes() {
   return (
     <>
       <NavSection title="Mezclas" categories={categories} />
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          paddingTop: "15px",
-          gap: "2%",
-        }}
-      >
-        {mixes.slice(0, mixesToShow).map((mix) => (
-          <MixCard
-            key={mix.id}
-            id={mix.id}
-            username={mix.username}
-            name={mix.mix_name}
-            categories={mix.categories}
-          />
-        ))}
-      </Box>
+      {statusMixes === PENDING_STATUS && <LoadingMixes rowsToShow={6} />}
+      {statusMixes === REJECTED_STATUS && <p>Error: {errorMixes}</p>}
+      {statusMixes === FULLFILLED_STATUS && (
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            paddingTop: "15px",
+            gap: "2%",
+          }}
+        >
+          {mixes.slice(0, mixesToShow).map((mix) => (
+            <MixCard
+              key={mix.id}
+              id={mix.id}
+              username={mix.username}
+              name={mix.mix_name}
+              categories={mix.categories}
+            />
+          ))}
+        </Box>
+      )}
     </>
   );
 }

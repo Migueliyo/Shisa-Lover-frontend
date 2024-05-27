@@ -30,7 +30,7 @@ function Main() {
 
   return (
     <>
-      {statusMixes === PENDING_STATUS && <LoadingMixes open={open} />}
+      {statusMixes === PENDING_STATUS && <LoadingMixes rowsToShow={2} />}
       {statusMixes === REJECTED_STATUS && <p>Error: {errorMixes}</p>}
       {statusMixes === FULLFILLED_STATUS && (
         <Section
@@ -40,7 +40,7 @@ function Main() {
           data={mixes}
         />
       )}
-      {statusFlavours === PENDING_STATUS && <LoadingFlavours open={open} />}
+      {statusFlavours === PENDING_STATUS && <LoadingFlavours rowsToShow={1} />}
       {statusFlavours === REJECTED_STATUS && <p>Error: {errorFlavours}</p>}
       {statusFlavours === FULLFILLED_STATUS && (
         <Section
@@ -50,7 +50,7 @@ function Main() {
           data={flavours}
         />
       )}
-      {statusEntries === PENDING_STATUS && <LoadingEntries />}
+      {statusEntries === PENDING_STATUS && <LoadingEntries rowsToShow={1} />}
       {statusEntries === REJECTED_STATUS && <p>Error: {errorEntries}</p>}
       {statusEntries === FULLFILLED_STATUS && (
         <Section

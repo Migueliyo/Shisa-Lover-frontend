@@ -5,9 +5,11 @@ import { Box, useMediaQuery } from "@mui/material";
 import { fetchFlavours } from "../features/flavours/slice";
 import { useAppDispatch } from "../hooks/store";
 import { useFlavoursActions } from "../hooks/useFlavoursActions";
+import { statusActions } from "../hooks/statusActions";
 
 import FlavourCard from "../components/FlavourCard";
 import NavSection from "../components/NavSection";
+import LoadingFlavours from "../components/LoadingFlavours";
 
 const categories = [
   { name: "Dulces", imgSrc: "/src/assets/pancakes.svg" },
@@ -21,7 +23,9 @@ function Flavours() {
   const [flavoursToShow] = useState(30);
   const is700 = useMediaQuery("(max-width: 700px)");
   const dispatch = useAppDispatch();
-  const { flavours } = useFlavoursActions();
+  const { flavours, statusFlavours, errorFlavours } = useFlavoursActions();
+  const { PENDING_STATUS, FULLFILLED_STATUS, REJECTED_STATUS } =
+    statusActions();
 
   useEffect(() => {
     dispatch(fetchFlavours());
@@ -30,24 +34,28 @@ function Flavours() {
   return (
     <>
       <NavSection title="Sabores" categories={categories} />
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          paddingTop: "15px",
-          gap: is700 ? "3%" : "1%",
-        }}
-      >
-        {flavours.slice(0, flavoursToShow).map((flavour) => (
-          <FlavourCard
-            key={flavour.id}
-            id={flavour.id}
-            name={flavour.flavour_name}
-            brand={flavour.brand_name}
-            categories={flavour.categories}
-          />
-        ))}
-      </Box>
+      {statusFlavours === PENDING_STATUS && <LoadingFlavours rowsToShow={3} />}
+      {statusFlavours === REJECTED_STATUS && <p>Error: {errorFlavours}</p>}
+      {statusFlavours === FULLFILLED_STATUS && (
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            paddingTop: "15px",
+            gap: is700 ? "3%" : "1%",
+          }}
+        >
+          {flavours.slice(0, flavoursToShow).map((flavour) => (
+            <FlavourCard
+              key={flavour.id}
+              id={flavour.id}
+              name={flavour.flavour_name}
+              brand={flavour.brand_name}
+              categories={flavour.categories}
+            />
+          ))}
+        </Box>
+      )}
     </>
   );
 }
