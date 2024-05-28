@@ -100,6 +100,7 @@ const FormatedCard = styled(Card, {
     },
     ".content-div-info a p": {
       color: theme.palette.mix.p.main,
+      display: "inline-block",
       fontSize: 12.5,
       marginTop: 5,
     },
@@ -184,7 +185,7 @@ const FormatedCard = styled(Card, {
   };
 });
 
-function FlavourCard({ id, name, brand, url, categories }) {
+function FlavourCard({ sx, id, name, brand, url, categories }) {
   const { open } = useContext(DrawerContext);
   const cardRef = useRef();
   const navigate = useNavigate();
@@ -207,7 +208,7 @@ function FlavourCard({ id, name, brand, url, categories }) {
   }
 
   return (
-    <FormatedCard ref={cardRef} open={open}>
+    <FormatedCard sx={{...sx}} ref={cardRef} open={open}>
       <CardActionArea onClick={handleClickedMix}>
         <CardMedia
           component="img"

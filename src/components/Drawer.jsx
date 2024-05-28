@@ -171,7 +171,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
 
 function Drawer() {
   const theme = useTheme();
-  const isSm = useMediaQuery(theme.breakpoints.down("1350"));
+  const isSm = useMediaQuery(theme.breakpoints.down("1450"));
   const { open, setOpen } = useContext(DrawerContext);
 
   const favoriteMixList = [
