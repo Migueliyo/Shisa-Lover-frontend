@@ -195,6 +195,24 @@ const FormatedBox = styled(Box)(({ theme }) => {
       paddingTop: 3,
       gap: 5,
       color: "#adadb8",
+      position: "relative",
+      transition: "color 0 ease",
+    },
+    
+    ".content-graph-about-icon::after": {
+      content: "'\u2197'",
+      color: "blue",
+      opacity: 0,
+      transition: "opacity 0 ease, right 0 ease",
+    },
+    
+    ".content-graph-about-icon:hover": {
+      cursor: "pointer",
+      color: "blue",
+    },
+    
+    ".content-graph-about-icon:hover::after": {
+      opacity: 1,
     },
     ".content-graph-section": {
       width: "calc(100% - 520px)",
