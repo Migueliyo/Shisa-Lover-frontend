@@ -178,6 +178,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
     },
     ".content-graph-about-text": {
       width: "75%",
+      marginRight: 20,
     },
     ".content-graph-about-text p": {
       fontSize: 15,
@@ -198,19 +199,19 @@ const FormatedBox = styled(Box)(({ theme }) => {
       position: "relative",
       transition: "color 0 ease",
     },
-    
+
     ".content-graph-about-icon::after": {
       content: "'\u2197'",
-      color: "blue",
+      color: "#3043f0",
       opacity: 0,
       transition: "opacity 0 ease, right 0 ease",
     },
-    
+
     ".content-graph-about-icon:hover": {
       cursor: "pointer",
-      color: "blue",
+      color: "#3043f0",
     },
-    
+
     ".content-graph-about-icon:hover::after": {
       opacity: 1,
     },
@@ -233,12 +234,22 @@ function Mix() {
   const { id } = useParams();
   const [mix, setMix] = useState(undefined);
   const [flavours, setFlavours] = useState([]);
+  const [user, setUser] = useState(undefined);
   const is700 = useMediaQuery("(max-width: 700px)");
 
   const getMix = async (id) => {
     const response = await api.getMixById(id);
     if (!response.error) {
       setMix(response.data);
+    } else {
+      console.error(response.message);
+    }
+  };
+
+  const getUser = async (username) => {
+    const response = await api.getUserByUsername(username);
+    if (!response.error) {
+      setUser(response.data);
     } else {
       console.error(response.message);
     }
@@ -266,6 +277,12 @@ function Mix() {
   useEffect(() => {
     if (mix?.flavours) {
       getFlavours(mix.flavours);
+    }
+  }, [mix]);
+
+  useEffect(() => {
+    if (mix?.username) {
+      getUser(mix.username);
     }
   }, [mix]);
 
@@ -325,33 +342,35 @@ function Mix() {
                 </Box>
                 <Box className="content-graph-about">
                   <p>Acerca de {mix.username}</p>
-                  <Box className="content-graph-about-stack">
-                    <Box className="content-graph-about-text">
-                      <p>TODO</p>
+                  {user && (
+                    <Box className="content-graph-about-stack">
+                      <Box className="content-graph-about-text">
+                        <p>{user.description}</p>
+                      </Box>
+                      <Box className="content-graph-about-icons">
+                        <Box className="content-graph-about-icon">
+                          <TwitterIcon />
+                          Twitter
+                        </Box>
+                        <Box className="content-graph-about-icon">
+                          <InstagramIcon />
+                          Instagram
+                        </Box>
+                        <Box className="content-graph-about-icon">
+                          <FacebookIcon />
+                          Facebook
+                        </Box>
+                        <Box className="content-graph-about-icon">
+                          <YouTubeIcon />
+                          Youtube
+                        </Box>
+                        <Box className="content-graph-about-icon">
+                          <RedditIcon />
+                          Reddit
+                        </Box>
+                      </Box>
                     </Box>
-                    <Box className="content-graph-about-icons">
-                      <Box className="content-graph-about-icon">
-                        <TwitterIcon />
-                        Twitter
-                      </Box>
-                      <Box className="content-graph-about-icon">
-                        <InstagramIcon />
-                        Instagram
-                      </Box>
-                      <Box className="content-graph-about-icon">
-                        <FacebookIcon />
-                        Facebook
-                      </Box>
-                      <Box className="content-graph-about-icon">
-                        <YouTubeIcon />
-                        Youtube
-                      </Box>
-                      <Box className="content-graph-about-icon">
-                        <RedditIcon />
-                        Reddit
-                      </Box>
-                    </Box>
-                  </Box>
+                  )}
                 </Box>
               </Box>
             </Box>

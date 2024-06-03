@@ -448,7 +448,7 @@ function Register(props) {
       }
 
       if (age >= 18) {
-        const userData = { username, email, password, date_of_birth: birthDate, first_name: "", last_name: "",  };
+        const userData = { username, email, password, date_of_birth: birthDate, first_name: "", last_name: "", description: "¡Hola! Acabado de empezar a usar Shisha Lover"  };
         const res = await dispatch(register(userData));
         if (!res.payload.error) {
           setErrorRegister(false);
