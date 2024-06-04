@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { Button, InputBase } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-import { AccountCircle } from "@mui/icons-material";
 import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -167,7 +166,7 @@ function AppBar() {
   const { user } = useAuthActions();
 
   const handleClick = () => {
-    navigate('/')
+    navigate("/");
   };
 
   const handleOpenUserMenu = (event) => {
@@ -276,27 +275,18 @@ function AppBar() {
                 onClick={handleOpenUserMenu}
                 sx={{ height: "100%", width: "100%" }}
               >
-                {user ? (
-                  user.avatar ? (
+                {user ?
+                  (user.avatar ? (
                     <Avatar
                       sx={{ height: 30, width: 30 }}
                       alt={user.username}
                       src={user.avatar}
                     />
                   ) : (
-                    <Avatar
-                      sx={{ bgcolor: "#ff7400", height: 30, width: 30 }}
-                      alt={user.username}
-                    >
-                      {user.username[0]}
-                    </Avatar>
-                  )
-                ) : (
-                  <AccountCircle
-                    color="avatar"
-                    sx={{ height: 36, width: 36 }}
-                  />
-                )}
+                    <Avatar sx={{ width: 30, height: 30 }} src="" />
+                  )): (
+                    <Avatar sx={{ width: 30, height: 30 }} src="" />
+                  )}
               </IconButton>
             </Tooltip>
             <Menu

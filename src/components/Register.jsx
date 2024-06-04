@@ -476,7 +476,7 @@ function Register(props) {
         </Box>
         <Box className="popup-inner-register-title">
           <Box className="popup-inner-register-title-icon">
-            <img src="vite.svg"></img>
+            <img src="/vite.svg"></img>
           </Box>
           <h2>Únete a Shisha Lover hoy</h2>
         </Box>

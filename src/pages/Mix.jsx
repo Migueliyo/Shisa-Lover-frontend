@@ -48,7 +48,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
       position: "relative",
       width: 480,
     },
-    ".graph-div-section img": {
+    ".cazoleta-img": {
       position: "absolute",
       width: "430px",
       top: "2.5%",
@@ -71,6 +71,10 @@ const FormatedBox = styled(Box)(({ theme }) => {
     ".content-graph-avatar": {
       paddingTop: 5,
       marginRight: 12,
+    },
+    ".content-graph-avatar img": {
+      width: 64,
+      height: 64
     },
     ".content-graph-info": {
       width: "100%",
@@ -300,12 +304,23 @@ function Mix() {
           <Box className="div-section">
             <Box className="graph-div-section">
               <DonutChart className="donut-chart" flavours={mix.flavours} />
-              <img src="/src/assets/cazoleta.png" />
+              <img className="cazoleta-img" src="/src/assets/cazoleta.png" />
               <Box className="content-graph-div-section">
                 <Box sx={{ display: "flex", flexWrap: "nowrap" }}>
                   <Box className="content-graph-avatar">
                     <a href="">
-                      <Avatar sx={{ width: 64, height: 64 }} src="" />
+                      {user ?
+                        (user.avatar ? (
+                          <Avatar
+                            sx={{ height: 64, width: 64, borderRadius: "50%" }}
+                            alt={user.username}
+                            src={user.avatar}
+                          />
+                        ) : (
+                          <Avatar sx={{ width: 64, height: 64 }} src="" />
+                        )): (
+                          <Avatar sx={{ width: 64, height: 64 }} src="" />
+                        )}
                     </a>
                   </Box>
                   <Box className="content-graph-info">
