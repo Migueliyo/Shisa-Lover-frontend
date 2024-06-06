@@ -5,16 +5,12 @@ import { Avatar, Box, IconButton, styled, useMediaQuery } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import RedditIcon from "@mui/icons-material/Reddit";
 
 import api from "../services/api";
 
 import DonutChart from "../components/DonutChart";
 import FlavourCard from "../components/FlavourCard";
+import UserSocialMedia from "../components/UserSocialMedia";
 
 const FormatedBox = styled(Box)(({ theme }) => {
   const commonStyles = {
@@ -74,7 +70,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
     },
     ".content-graph-avatar img": {
       width: 64,
-      height: 64
+      height: 64,
     },
     ".content-graph-info": {
       width: "100%",
@@ -187,38 +183,6 @@ const FormatedBox = styled(Box)(({ theme }) => {
     ".content-graph-about-text p": {
       fontSize: 15,
     },
-    ".content-graph-about-icons": {
-      display: "flex",
-      flexFlow: "column wrap",
-      fontSize: 14,
-      fontWeight: 600,
-    },
-    ".content-graph-about-icon": {
-      display: "flex",
-      flexWrap: "nowrap",
-      alignItems: "center",
-      paddingTop: 3,
-      gap: 5,
-      color: "#adadb8",
-      position: "relative",
-      transition: "color 0 ease",
-    },
-
-    ".content-graph-about-icon::after": {
-      content: "'\u2197'",
-      color: "#3043f0",
-      opacity: 0,
-      transition: "opacity 0 ease, right 0 ease",
-    },
-
-    ".content-graph-about-icon:hover": {
-      cursor: "pointer",
-      color: "#3043f0",
-    },
-
-    ".content-graph-about-icon:hover::after": {
-      opacity: 1,
-    },
     ".content-graph-section": {
       width: "calc(100% - 520px)",
       marginLeft: 40,
@@ -309,8 +273,8 @@ function Mix() {
                 <Box sx={{ display: "flex", flexWrap: "nowrap" }}>
                   <Box className="content-graph-avatar">
                     <a href="">
-                      {user ?
-                        (user.avatar ? (
+                      {user ? (
+                        user.avatar ? (
                           <Avatar
                             sx={{ height: 64, width: 64, borderRadius: "50%" }}
                             alt={user.username}
@@ -318,9 +282,10 @@ function Mix() {
                           />
                         ) : (
                           <Avatar sx={{ width: 64, height: 64 }} src="" />
-                        )): (
-                          <Avatar sx={{ width: 64, height: 64 }} src="" />
-                        )}
+                        )
+                      ) : (
+                        <Avatar sx={{ width: 64, height: 64 }} src="" />
+                      )}
                     </a>
                   </Box>
                   <Box className="content-graph-info">
@@ -362,28 +327,7 @@ function Mix() {
                       <Box className="content-graph-about-text">
                         <p>{user.description}</p>
                       </Box>
-                      <Box className="content-graph-about-icons">
-                        <Box className="content-graph-about-icon">
-                          <TwitterIcon />
-                          Twitter
-                        </Box>
-                        <Box className="content-graph-about-icon">
-                          <InstagramIcon />
-                          Instagram
-                        </Box>
-                        <Box className="content-graph-about-icon">
-                          <FacebookIcon />
-                          Facebook
-                        </Box>
-                        <Box className="content-graph-about-icon">
-                          <YouTubeIcon />
-                          Youtube
-                        </Box>
-                        <Box className="content-graph-about-icon">
-                          <RedditIcon />
-                          Reddit
-                        </Box>
-                      </Box>
+                      <UserSocialMedia user={user} />
                     </Box>
                   )}
                 </Box>
