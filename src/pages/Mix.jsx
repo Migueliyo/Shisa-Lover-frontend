@@ -187,6 +187,17 @@ const FormatedBox = styled(Box)(({ theme }) => {
       width: "calc(100% - 520px)",
       marginLeft: 40,
     },
+    "@keyframes like": {
+      "0%" : "{ transform: scale(1); }",
+      "50%" : " { transform: scale(1.2); }",
+      "100%": " { transform: scale(1); }"
+    },
+    ".MuiIconButton-root svg": {
+      transition: "color 0.3s"
+    },
+    ".MuiIconButton-root:active svg": {
+      animation: "like 0.3s"
+    },
   };
 
   return {
@@ -203,6 +214,7 @@ function Mix() {
   const [mix, setMix] = useState(undefined);
   const [flavours, setFlavours] = useState([]);
   const [user, setUser] = useState(undefined);
+  const [liked, setLiked] = useState(false);
   const is700 = useMediaQuery("(max-width: 700px)");
 
   const getMix = async (id) => {
@@ -238,6 +250,15 @@ function Mix() {
     }
   };
 
+  const checkIfLiked = async (mixId) => {
+    const response = await api.checkIfLikedMix(mixId);
+    if (!response.error) {
+      setLiked(response.data.hasLiked);
+    } else {
+      console.error(response.message);
+    }
+  };
+
   useEffect(() => {
     getMix(id);
   }, [id]);
@@ -254,7 +275,31 @@ function Mix() {
     }
   }, [mix]);
 
-  const handleLikeMix = () => {};
+  useEffect(() => {
+    if (mix?.id) {
+      checkIfLiked(mix.id);
+    }
+  }, [mix]);
+
+  const handleLikeMix = async () => {
+    if (liked) {
+      const response = await api.removeLike(mix.id);
+      if (!response.error) {
+        setLiked(false);
+        setMix({ ...mix, total_likes: mix.total_likes - 1 });
+      } else {
+        console.error(response.message);
+      }
+    } else {
+      const response = await api.addLike(mix.id);
+      if (!response.error) {
+        setLiked(true);
+        setMix({ ...mix, total_likes: mix.total_likes + 1 });
+      } else {
+        console.error(response.message);
+      }
+    }
+  };
 
   const handleShareMix = () => {};
 

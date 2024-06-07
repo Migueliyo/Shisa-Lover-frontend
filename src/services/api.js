@@ -233,6 +233,12 @@ const removeLike = async (mixId) => {
   return response.ok;
 };
 
+const checkIfLikedMix = async (mixId) => {
+  const response = await fetchWithAuth(`${BASE_URL}/mixes/${mixId}/like`);
+  const data = await response.json();
+  return data;
+};
+
 const deleteMix = async (mixId) => {
   const response = await fetchWithAuth(`${BASE_URL}/mixes/${mixId}`, {
     method: "DELETE",
@@ -395,6 +401,7 @@ const api = {
   partiallyUpdateMix,
   addLike,
   removeLike,
+  checkIfLikedMix,
   deleteMix,
   getFlavours,
   getFlavourById,
