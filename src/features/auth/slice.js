@@ -30,6 +30,18 @@ const initialState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
+  reducers: {
+    decodedUser: (state, action) => {
+      try {
+        const decodedUserInfo = jwtDecode(action.payload);
+        state.userInfo = decodedUserInfo;
+        state.userToken = action.payload;
+      } catch (error) {
+        state.userInfo = {};
+        state.error = error;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -39,13 +51,6 @@ const authSlice = createSlice({
         state.status = FULLFILLED_STATUS;
         if (!action.payload.error) {
           state.userToken = action.payload.data;
-          try {
-            const decodedUserInfo = jwtDecode(state.userToken);
-            state.userInfo = decodedUserInfo;
-          } catch (error) {
-            state.userInfo = {};
-            state.error = error;
-          }
         } else {
           state.error = action.payload.message;
           state.status = REJECTED_STATUS;
@@ -94,4 +99,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { decodedUser } = authSlice.actions;
 export default authSlice.reducer;

@@ -5,6 +5,7 @@ import { Avatar, Box, IconButton, styled, useMediaQuery } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
+import FavoriteSharpIcon from '@mui/icons-material/FavoriteSharp';
 
 import api from "../services/api";
 
@@ -188,15 +189,17 @@ const FormatedBox = styled(Box)(({ theme }) => {
       marginLeft: 40,
     },
     "@keyframes like": {
-      "0%" : "{ transform: scale(1); }",
-      "50%" : " { transform: scale(1.2); }",
-      "100%": " { transform: scale(1); }"
+      "0%": { transform: "scale(1)" },
+      "25%": { transform: "scale(1.5)" },
+      "50%": { transform: "scale(1.2)" },
+      "75%": { transform: "scale(1.5)" },
+      "100%": { transform: "scale(1)" },
     },
     ".MuiIconButton-root svg": {
-      transition: "color 0.3s"
+      transition: "color 0.3s",
     },
     ".MuiIconButton-root:active svg": {
-      animation: "like 0.3s"
+      animation: "like 0.6s ease-in-out",
     },
   };
 
@@ -204,7 +207,6 @@ const FormatedBox = styled(Box)(({ theme }) => {
     ...commonStyles,
     //@media (max-width: 1200px)
     [theme.breakpoints.down("1200")]: {
-      ...commonStyles,
     },
   };
 });
@@ -346,7 +348,11 @@ function Mix() {
                       </Box>
                       <Box className="content-graph-info-emoticons">
                         <IconButton onClick={handleLikeMix}>
-                          <FavoriteBorderIcon color="primary" />
+                          {liked ? (
+                            <FavoriteSharpIcon color="error" />
+                          ) : (
+                            <FavoriteBorderIcon color="primary" />
+                          )}
                         </IconButton>
                         <IconButton onClick={handleShareMix}>
                           <ShareIcon color="primary" />

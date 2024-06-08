@@ -234,7 +234,9 @@ const removeLike = async (mixId) => {
 };
 
 const checkIfLikedMix = async (mixId) => {
-  const response = await fetchWithAuth(`${BASE_URL}/mixes/${mixId}/like`);
+  const response = await fetchWithAuth(`${BASE_URL}/mixes/${mixId}/like` , {
+    method: "GET",
+  });
   const data = await response.json();
   return data;
 };
@@ -380,6 +382,7 @@ const deleteEntry = async (entryId) => {
 };
 
 const api = {
+  getCookie,
   login,
   register,
   getUsers,
