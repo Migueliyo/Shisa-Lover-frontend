@@ -276,7 +276,7 @@ function AppBar() {
                 sx={{ height: "100%", width: "100%" }}
               >
                 {user ?
-                  (user.avatar ? (
+                  user.avatar ? (
                     <Avatar
                       sx={{ height: 30, width: 30 }}
                       alt={user.username}
@@ -284,7 +284,7 @@ function AppBar() {
                     />
                   ) : (
                     <Avatar sx={{ width: 30, height: 30 }} src="" />
-                  )): (
+                  ) : (
                     <Avatar sx={{ width: 30, height: 30 }} src="" />
                   )}
               </IconButton>
@@ -320,11 +320,11 @@ function AppBar() {
                     accept="image/*"
                     onChange={handleFileChange}
                   />
-                  <Button component="span">Actualizar avatar</Button>
+                  <Typography component="span">Actualizar avatar</Typography>
                 </label>
               </MenuItem>
               <MenuItem key="upload-avatar">
-                <Button onClick={handleUploadAvatar}>Subir Avatar</Button>
+                <Typography onClick={handleUploadAvatar}>Subir Avatar</Typography>
               </MenuItem>
             </Menu>
           </Box>

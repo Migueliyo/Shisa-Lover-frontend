@@ -7,8 +7,6 @@ import { Box, Button, IconButton, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { useAppDispatch } from "../hooks/store";
-// import { useAuthActions } from "../hooks/useAuthActions";
-// import { statusActions } from "../hooks/statusActions";
 import { login } from "../features/auth/slice";
 
 import ErrorCard from "./ErrorCard";
@@ -231,7 +229,7 @@ function Login(props) {
       const res = await dispatch(login(credentials));
       if (!res.payload.error) {
         setErrorLogin(false);
-        props.toggle();
+        window.location.href = '/';
       } else {
         setErrorLogin(true);
         setErrorMessage(res.payload.message);

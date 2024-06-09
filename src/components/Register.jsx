@@ -6,12 +6,13 @@ import { Box, Button, IconButton, MenuItem, TextField } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
 
+import api from "../services/api";
+
 import { useAppDispatch } from "../hooks/store";
 import { register } from "../features/auth/slice";
 
 import PasswordChecker from "./PasswordChecker";
 import ErrorCard from "./ErrorCard";
-import api from "../services/api";
 
 const FormatedBox = styled(Box)(({ theme }) => {
   const commonStyles = {
@@ -452,7 +453,7 @@ function Register(props) {
         const res = await dispatch(register(userData));
         if (!res.payload.error) {
           setErrorRegister(false);
-          props.toggle();
+          window.location.href = '/';
         } else {
           setMessageError("Ha ocurrido un error durante el registro.")
           setErrorRegister(true);
