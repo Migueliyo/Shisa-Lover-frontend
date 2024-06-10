@@ -453,7 +453,7 @@ function Register(props) {
         const res = await dispatch(register(userData));
         if (!res.payload.error) {
           setErrorRegister(false);
-          window.location.href = '/';
+          window.location.reload()
         } else {
           setMessageError("Ha ocurrido un error durante el registro.")
           setErrorRegister(true);

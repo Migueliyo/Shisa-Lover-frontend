@@ -275,18 +275,15 @@ function AppBar() {
                 onClick={handleOpenUserMenu}
                 sx={{ height: "100%", width: "100%" }}
               >
-                {user ?
-                  user.avatar ? (
-                    <Avatar
-                      sx={{ height: 30, width: 30 }}
-                      alt={user.username}
-                      src={user.avatar}
-                    />
-                  ) : (
-                    <Avatar sx={{ width: 30, height: 30 }} src="" />
-                  ) : (
-                    <Avatar sx={{ width: 30, height: 30 }} src="" />
-                  )}
+                {user && user.avatar ? (
+                  <Avatar
+                    sx={{ height: 30, width: 30 }}
+                    alt={user.username}
+                    src={user.avatar}
+                  />
+                ) : (
+                  <Avatar sx={{ width: 30, height: 30 }} src="" />
+                )}
               </IconButton>
             </Tooltip>
             <Menu
@@ -320,11 +317,15 @@ function AppBar() {
                     accept="image/*"
                     onChange={handleFileChange}
                   />
-                  <Typography component="span">Actualizar avatar</Typography>
+                  <Typography sx={{ cursor: "pointer" }} component="span">
+                    Actualizar avatar
+                  </Typography>
                 </label>
               </MenuItem>
               <MenuItem key="upload-avatar">
-                <Typography onClick={handleUploadAvatar}>Subir Avatar</Typography>
+                <Typography onClick={handleUploadAvatar}>
+                  Subir Avatar
+                </Typography>
               </MenuItem>
             </Menu>
           </Box>

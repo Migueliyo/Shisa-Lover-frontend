@@ -5,7 +5,9 @@ import { Avatar, Box, IconButton, styled, useMediaQuery } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
-import FavoriteSharpIcon from '@mui/icons-material/FavoriteSharp';
+import FavoriteSharpIcon from "@mui/icons-material/FavoriteSharp";
+
+import { useAuthActions } from "../hooks/useAuthActions";
 
 import api from "../services/api";
 
@@ -206,8 +208,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
   return {
     ...commonStyles,
     //@media (max-width: 1200px)
-    [theme.breakpoints.down("1200")]: {
-    },
+    [theme.breakpoints.down("1200")]: {},
   };
 });
 
@@ -215,9 +216,11 @@ function Mix() {
   const { id } = useParams();
   const [mix, setMix] = useState(undefined);
   const [flavours, setFlavours] = useState([]);
-  const [user, setUser] = useState(undefined);
+  const [userMix, setUserMix] = useState(undefined);
   const [liked, setLiked] = useState(false);
   const is700 = useMediaQuery("(max-width: 700px)");
+
+  const { user } = useAuthActions();
 
   const getMix = async (id) => {
     const response = await api.getMixById(id);
@@ -231,7 +234,7 @@ function Mix() {
   const getUser = async (username) => {
     const response = await api.getUserByUsername(username);
     if (!response.error) {
-      setUser(response.data);
+      setUserMix(response.data);
     } else {
       console.error(response.message);
     }
@@ -278,10 +281,10 @@ function Mix() {
   }, [mix]);
 
   useEffect(() => {
-    if (mix?.id) {
+    if (mix?.id && user) {
       checkIfLiked(mix.id);
     }
-  }, [mix]);
+  }, [mix, user]);
 
   const handleLikeMix = async () => {
     if (liked) {
@@ -320,16 +323,12 @@ function Mix() {
                 <Box sx={{ display: "flex", flexWrap: "nowrap" }}>
                   <Box className="content-graph-avatar">
                     <a href="">
-                      {user ? (
-                        user.avatar ? (
-                          <Avatar
-                            sx={{ height: 64, width: 64, borderRadius: "50%" }}
-                            alt={user.username}
-                            src={user.avatar}
-                          />
-                        ) : (
-                          <Avatar sx={{ width: 64, height: 64 }} src="" />
-                        )
+                      {userMix && userMix.avatar ? (
+                        <Avatar
+                          sx={{ height: 64, width: 64, borderRadius: "50%" }}
+                          alt={userMix.username}
+                          src={userMix.avatar}
+                        />
                       ) : (
                         <Avatar sx={{ width: 64, height: 64 }} src="" />
                       )}
@@ -373,12 +372,12 @@ function Mix() {
                 </Box>
                 <Box className="content-graph-about">
                   <p>Acerca de {mix.username}</p>
-                  {user && (
+                  {userMix && (
                     <Box className="content-graph-about-stack">
                       <Box className="content-graph-about-text">
-                        <p>{user.description}</p>
+                        <p>{userMix.description}</p>
                       </Box>
-                      <UserSocialMedia user={user} />
+                      <UserSocialMedia user={userMix} />
                     </Box>
                   )}
                 </Box>

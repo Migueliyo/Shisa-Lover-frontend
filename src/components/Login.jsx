@@ -229,7 +229,7 @@ function Login(props) {
       const res = await dispatch(login(credentials));
       if (!res.payload.error) {
         setErrorLogin(false);
-        window.location.href = '/';
+        window.location.reload()
       } else {
         setErrorLogin(true);
         setErrorMessage(res.payload.message);
