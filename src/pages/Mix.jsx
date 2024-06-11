@@ -14,6 +14,7 @@ import api from "../services/api";
 import DonutChart from "../components/DonutChart";
 import FlavourCard from "../components/FlavourCard";
 import UserSocialMedia from "../components/UserSocialMedia";
+import Comment from "../components/Comment";
 
 const FormatedBox = styled(Box)(({ theme }) => {
   const commonStyles = {
@@ -186,10 +187,6 @@ const FormatedBox = styled(Box)(({ theme }) => {
     ".content-graph-about-text p": {
       fontSize: 15,
     },
-    ".content-graph-section": {
-      width: "calc(100% - 520px)",
-      marginLeft: 40,
-    },
     "@keyframes like": {
       "0%": { transform: "scale(1)" },
       "25%": { transform: "scale(1.5)" },
@@ -203,6 +200,21 @@ const FormatedBox = styled(Box)(({ theme }) => {
     ".MuiIconButton-root:active svg": {
       animation: "like 0.6s ease-in-out",
     },
+    ".content-graph-section": {
+      width: "calc(100% - 520px)",
+      marginLeft: 40,
+    },
+    ".content-graph-section h2": {
+      fontFamily: '"Roobert", "Inter", Helvetica, Arial, sans-serif',
+      border: 0,
+      boxSizing: "border-box",
+      margin: 0,
+      marginBottom: 5,
+      padding: 0,
+      verticalAlign: "baseline",
+      fontSize: 36,
+      lineHeight: 1.2,
+    },
   };
 
   return {
@@ -211,6 +223,21 @@ const FormatedBox = styled(Box)(({ theme }) => {
     [theme.breakpoints.down("1200")]: {},
   };
 });
+
+const comments = [
+  {
+    id: 1,
+    username: "migueliyo",
+    text: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita accusamus \
+    cupiditate asperiores pariatur itaque dolore laborum amet architecto repellat? Libero \
+    numquam pariatur, eos nihil assumenda quisquam porro earum voluptatibus reiciendis.",
+  },
+  {
+    id: 2,
+    username: "migueliyo",
+    text: "Es de mi mezclas favoritas",
+  },
+];
 
 function Mix() {
   const { id } = useParams();
@@ -384,26 +411,56 @@ function Mix() {
               </Box>
             </Box>
             <Box className="content-graph-section">
-              <Box
-                sx={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  paddingTop: "15px",
-                  gap: is700 ? "3%" : "1%",
-                }}
-              >
-                {flavours.map((flavour) => (
-                  <FlavourCard
-                    sx={{
-                      width: "180px!important",
-                    }}
-                    key={flavour.id}
-                    id={flavour.id}
-                    name={flavour.flavour_name}
-                    brand={flavour.brand_name}
-                    categories={flavour.categories}
-                  />
-                ))}
+              <Box>
+                <h2>Preparación</h2>
+                <Box
+                  sx={{ height: 70, mb: 2 }}
+                  className="content-graph-about-stack"
+                ></Box>
+              </Box>
+              <Box>
+                <h2>Sabores de la mezcla</h2>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    paddingTop: "15px",
+                    gap: is700 ? "3%" : "1.5%",
+                  }}
+                >
+                  {flavours.map((flavour) => (
+                    <FlavourCard
+                      sx={{
+                        width: "180px!important",
+                        margin: "0!important",
+                        marginBottom: "20px!important",
+                      }}
+                      key={flavour.id}
+                      id={flavour.id}
+                      name={flavour.flavour_name}
+                      brand={flavour.brand_name}
+                      categories={flavour.categories}
+                    />
+                  ))}
+                </Box>
+              </Box>
+              <Box>
+                <h2>Comentarios</h2>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "1%",
+                  }}
+                >
+                  {comments.map((comment) => (
+                    <Comment
+                      key={comment.id}
+                      username={comment.username}
+                      text={comment.text}
+                    />
+                  ))}
+                </Box>
               </Box>
             </Box>
           </Box>

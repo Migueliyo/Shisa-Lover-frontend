@@ -10,7 +10,7 @@ const login = async (credentials) => {
   });
   const data = await response.json();
   if (!data.error) {
-    document.cookie = `api_token=${data.data}; SameSite=Strict`;
+    document.cookie = `api_token=${data.data}; path=/; SameSite=Strict`;
   }
   return data;
 };
@@ -25,7 +25,7 @@ const register = async (userData) => {
   });
   const data = await response.json();
   if (!data.error) {
-    document.cookie = `api_token=${data.data}; SameSite=Strict`;
+    document.cookie = `api_token=${data.data}; path=/; SameSite=Strict`;
   }
   return data;
 };

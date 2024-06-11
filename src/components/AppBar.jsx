@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 //import { useTheme } from "@emotion/react";
 
+import Cookies from "js-cookie";
+
 import { Button, InputBase } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -24,7 +26,7 @@ import { uploadAvatar } from "../features/auth/slice";
 import Login from "./Login";
 import Register from "./Register";
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Profile", "Account", "Dashboard"];
 
 export const appBarHeight = 50;
 
@@ -196,6 +198,19 @@ function AppBar() {
     dispatch(uploadAvatar(selectedFile));
   };
 
+  const handleLogout = async () => {
+    if (Cookies.get("api_token")) {
+      Cookies.remove("api_token", {
+        path: "/",
+        domain: window.location.hostname,
+      });
+
+      window.location.reload();
+    } else {
+      console.error("La cookie 'api_token' no existe");
+    }
+  };
+
   return (
     <FormatedAppBar variant="permanent">
       <Toolbar variant="paper">
@@ -307,6 +322,9 @@ function AppBar() {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem key={"logout"} onClick={handleLogout}>
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
               <MenuItem key="update-avatar">
                 <label htmlFor="avatar-upload">
                   <input
