@@ -11,9 +11,9 @@ const FormatedBox = styled(Box)(({ theme }) => {
   const commonStyles = {
     border: 0,
     margin: 0,
-    padding: 10,
+    padding: "10px 0 10px 8px",
     verticalAlign: "baseline",
-    width: "47%",
+    width: "calc(100%/2 - 14px)",
     backgroundColor: "transparent",
     "& .MuiCardContent-root": {
       fontFamily: '"Inter", "Roobert", Helvetica, Arial, sans-serif',

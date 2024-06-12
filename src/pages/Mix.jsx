@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Avatar, Box, IconButton, styled, useMediaQuery } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  IconButton,
+  TextField,
+  styled,
+  useMediaQuery,
+} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
@@ -213,7 +220,47 @@ const FormatedBox = styled(Box)(({ theme }) => {
       padding: 0,
       verticalAlign: "baseline",
       fontSize: 36,
-      lineHeight: 1.2,
+      lineHeight: 1,
+    },
+    ".content-graph-section-comments": {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: "1%",
+      maxHeight: "100px",
+      overflow: "hidden",
+      maskImage: "linear-gradient(to top, transparent, white 10%)",
+    },
+    ".content-graph-section-comments-button": {
+      width: "100%",
+      display: "flex",
+      marginTop: 10,
+
+      "& label.Mui-focused": {
+        color: "#ff7400",
+        fontSize: 15,
+        fontWeight: 600,
+      },
+
+      "& .MuiInputLabel-shrink": {
+        fontSize: 15,
+      },
+
+      "& .MuiOutlinedInput-root": {
+        color: theme.palette.primary.main,
+        fontSize: 12.5,
+        "& .MuiOutlinedInput-input": {
+          padding: "16.5px 56px",
+        },
+        "& fieldset": {
+          borderColor: "rgba(83,83,95,.50)",
+        },
+        "&:hover fieldset": {
+          borderColor: "#ababab",
+        },
+        "&.Mui-focused fieldset": {
+          borderColor: "#ababab",
+        },
+      },
     },
   };
 
@@ -245,6 +292,7 @@ function Mix() {
   const [flavours, setFlavours] = useState([]);
   const [userMix, setUserMix] = useState(undefined);
   const [liked, setLiked] = useState(false);
+  const [comment, setComment] = useState("");
   const is700 = useMediaQuery("(max-width: 700px)");
 
   const { user } = useAuthActions();
@@ -446,13 +494,7 @@ function Mix() {
               </Box>
               <Box>
                 <h2>Comentarios</h2>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: "1%",
-                  }}
-                >
+                <Box className="content-graph-section-comments">
                   {comments.map((comment) => (
                     <Comment
                       key={comment.id}
@@ -460,6 +502,36 @@ function Mix() {
                       text={comment.text}
                     />
                   ))}
+                </Box>
+                <Box className="content-graph-section-comments-button">
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      padding: "6px 5px 5px 8px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    {userMix && userMix.avatar ? (
+                      <Avatar
+                        sx={{ height: 40, width: 40, borderRadius: "50%" }}
+                        alt={userMix.username}
+                        src={userMix.avatar}
+                      />
+                    ) : (
+                      <Avatar sx={{ width: 40, height: 40 }} src="" />
+                    )}
+                  </Box>
+                  <TextField
+                    sx={{ width: "100%" }}
+                    type="text"
+                    placeholder={`Añade un comentario para ${mix.mix_name}`}
+                    value={comment}
+                    onChange={(e) => {
+                      setComment(e.target.value);
+                    }}
+                  ></TextField>
                 </Box>
               </Box>
             </Box>
