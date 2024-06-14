@@ -13,7 +13,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
     margin: 0,
     padding: "10px 0 10px 8px",
     verticalAlign: "baseline",
-    width: "calc(100%/2 - 14px)",
+    width: "48%",
     backgroundColor: "transparent",
     "& .MuiCardContent-root": {
       fontFamily: '"Inter", "Roobert", Helvetica, Arial, sans-serif',

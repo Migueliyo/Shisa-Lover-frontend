@@ -226,9 +226,19 @@ const FormatedBox = styled(Box)(({ theme }) => {
       display: "flex",
       flexWrap: "wrap",
       gap: "1%",
-      maxHeight: "100px",
+      height: "100px",
       overflow: "hidden",
       maskImage: "linear-gradient(to top, transparent, white 10%)",
+    },
+    ".content-graph-section-comments-paragraph": {
+      width: "100%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      color: theme.palette.mix.p.main,
+      fontSize: 13,
+      fontStyle: "italic"
+
     },
     ".content-graph-section-comments-button": {
       width: "100%",
@@ -271,21 +281,6 @@ const FormatedBox = styled(Box)(({ theme }) => {
   };
 });
 
-const comments = [
-  {
-    id: 1,
-    username: "migueliyo",
-    text: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita accusamus \
-    cupiditate asperiores pariatur itaque dolore laborum amet architecto repellat? Libero \
-    numquam pariatur, eos nihil assumenda quisquam porro earum voluptatibus reiciendis.",
-  },
-  {
-    id: 2,
-    username: "migueliyo",
-    text: "Es de mi mezclas favoritas",
-  },
-];
-
 function Mix() {
   const { id } = useParams();
   const [mix, setMix] = useState(undefined);
@@ -293,6 +288,7 @@ function Mix() {
   const [userMix, setUserMix] = useState(undefined);
   const [liked, setLiked] = useState(false);
   const [comment, setComment] = useState("");
+  const [mixComments, setMixComments] = useState([]);
   const is700 = useMediaQuery("(max-width: 700px)");
 
   const { user } = useAuthActions();
@@ -360,6 +356,12 @@ function Mix() {
       checkIfLiked(mix.id);
     }
   }, [mix, user]);
+
+  useEffect(() => {
+    if (mix?.comments) {
+      setMixComments(mix.comments);
+    }
+  }, [mix]);
 
   const handleLikeMix = async () => {
     if (liked) {
@@ -495,13 +497,19 @@ function Mix() {
               <Box>
                 <h2>Comentarios</h2>
                 <Box className="content-graph-section-comments">
-                  {comments.map((comment) => (
-                    <Comment
-                      key={comment.id}
-                      username={comment.username}
-                      text={comment.text}
-                    />
-                  ))}
+                  {mixComments.length !== 0 ? (
+                    mixComments.map((comment) => (
+                      <Comment
+                        key={comment.id}
+                        username={comment.username}
+                        text={comment.content}
+                      />
+                    ))
+                  ) : (
+                    <Box className="content-graph-section-comments-paragraph">
+                      <p>Todavía no se ha añadido ningún comentario</p>
+                    </Box>
+                  )}
                 </Box>
                 <Box className="content-graph-section-comments-button">
                   <Box
@@ -524,7 +532,7 @@ function Mix() {
                     )}
                   </Box>
                   <TextField
-                    sx={{ width: "100%" }}
+                    sx={{ width: "100%", mr: "2%" }}
                     type="text"
                     placeholder={`Añade un comentario para ${mix.mix_name}`}
                     value={comment}
