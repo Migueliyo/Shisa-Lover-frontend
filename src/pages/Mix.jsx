@@ -13,6 +13,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
 import FavoriteSharpIcon from "@mui/icons-material/FavoriteSharp";
+import SendIcon from '@mui/icons-material/Send';
 
 import { useAuthActions } from "../hooks/useAuthActions";
 
@@ -385,6 +386,16 @@ function Mix() {
 
   const handleShareMix = () => {};
 
+  const handleCommentMix = async () => {
+    const data = {content: comment}
+    const response = await api.addComment(mix.id, data);
+    if (!response.error) {
+      console.log(response.data)
+    } else {
+      console.error(response.message);
+    }
+  }
+
   return (
     <FormatedBox>
       {mix && (
@@ -515,7 +526,7 @@ function Mix() {
                   <Box
                     sx={{
                       position: "absolute",
-                      padding: "6px 5px 5px 8px",
+                      padding: "6px",
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
@@ -540,6 +551,22 @@ function Mix() {
                       setComment(e.target.value);
                     }}
                   ></TextField>
+                  <Box
+                    className="content-graph-info-emoticons"
+                    sx={{
+                      height: "40px",
+                      position: "absolute",
+                      padding: "5px 8px",
+                      right: "2.5%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <IconButton onClick={handleCommentMix}>
+                      <SendIcon color="primary"/>
+                    </IconButton>
+                  </Box>
                 </Box>
               </Box>
             </Box>

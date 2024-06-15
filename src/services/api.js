@@ -241,6 +241,27 @@ const checkIfLikedMix = async (mixId) => {
   return data;
 };
 
+const addComment = async (mixId, content) => {
+  const response = await fetchWithAuth(`${BASE_URL}/mixes/${mixId}/comment`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(content),
+  });
+  return response.ok;
+};
+
+const removeComment = async (mixId, commentId) => {
+  const response = await fetchWithAuth(`${BASE_URL}/mixes/${mixId}/comment/${commentId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response.ok;
+};
+
 const deleteMix = async (mixId) => {
   const response = await fetchWithAuth(`${BASE_URL}/mixes/${mixId}`, {
     method: "DELETE",
@@ -405,6 +426,8 @@ const api = {
   addLike,
   removeLike,
   checkIfLikedMix,
+  addComment, 
+  removeComment,
   deleteMix,
   getFlavours,
   getFlavourById,
