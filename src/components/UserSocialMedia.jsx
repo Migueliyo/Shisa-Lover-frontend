@@ -24,13 +24,13 @@ const FormatedBox = styled(Box)(({ theme }) => {
     },
     ".content-graph-about-icon::after": {
       content: "'\u2197'",
-      color: "#3043f0",
+      color: "#adadb8",
       opacity: 0,
       transition: "opacity 0 ease, right 0 ease",
     },
     ".content-graph-about-icon:hover": {
       cursor: "pointer",
-      color: "#3043f0",
+      color: "#ff7400",
     },
     ".content-graph-about-icon:hover::after": {
       opacity: 1,

@@ -13,7 +13,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
 import FavoriteSharpIcon from "@mui/icons-material/FavoriteSharp";
-import SendIcon from '@mui/icons-material/Send';
+import SendIcon from "@mui/icons-material/Send";
 
 import { useAuthActions } from "../hooks/useAuthActions";
 
@@ -238,8 +238,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
       alignItems: "center",
       color: theme.palette.mix.p.main,
       fontSize: 13,
-      fontStyle: "italic"
-
+      fontStyle: "italic",
     },
     ".content-graph-section-comments-button": {
       width: "100%",
@@ -360,10 +359,11 @@ function Mix() {
 
   useEffect(() => {
     if (mix?.comments) {
-      setMixComments(mix.comments);
+      const reversedComments = [...mix.comments].reverse();
+      setMixComments(reversedComments);
     }
   }, [mix]);
-
+  
   const handleLikeMix = async () => {
     if (liked) {
       const response = await api.removeLike(mix.id);
@@ -387,14 +387,18 @@ function Mix() {
   const handleShareMix = () => {};
 
   const handleCommentMix = async () => {
-    const data = {content: comment}
-    const response = await api.addComment(mix.id, data);
-    if (!response.error) {
-      console.log(response.data)
+    if (comment !== "") {
+      const data = { content: comment };
+      const response = await api.addComment(mix.id, data);
+      if (!response.error) {
+        window.location.reload();
+      } else {
+        console.error(response.message);
+      }
     } else {
-      console.error(response.message);
+      console.log("El comentario está vacio")
     }
-  }
+  };
 
   return (
     <FormatedBox>
@@ -509,10 +513,11 @@ function Mix() {
                 <h2>Comentarios</h2>
                 <Box className="content-graph-section-comments">
                   {mixComments.length !== 0 ? (
-                    mixComments.map((comment) => (
+                    mixComments.slice(0, 2).map((comment) => (
                       <Comment
                         key={comment.id}
                         username={comment.username}
+                        avatar={comment.avatar}
                         text={comment.content}
                       />
                     ))
@@ -547,6 +552,7 @@ function Mix() {
                     type="text"
                     placeholder={`Añade un comentario para ${mix.mix_name}`}
                     value={comment}
+                    autoComplete="off"
                     onChange={(e) => {
                       setComment(e.target.value);
                     }}
@@ -564,7 +570,7 @@ function Mix() {
                     }}
                   >
                     <IconButton onClick={handleCommentMix}>
-                      <SendIcon color="primary"/>
+                      <SendIcon color="primary" />
                     </IconButton>
                   </Box>
                 </Box>
