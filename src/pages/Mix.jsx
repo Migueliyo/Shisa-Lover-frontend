@@ -414,7 +414,7 @@ function Mix() {
               <Box className="content-graph-div-section">
                 <Box sx={{ display: "flex", flexWrap: "nowrap" }}>
                   <Box className="content-graph-avatar">
-                    <a href="">
+                    <a href={`/usuarios/${userMix.username}`}>
                       {userMix && userMix.avatar ? (
                         <Avatar
                           sx={{ height: 64, width: 64, borderRadius: "50%" }}
@@ -429,7 +429,7 @@ function Mix() {
                   <Box className="content-graph-info">
                     <Box sx={{ display: "flex" }}>
                       <Box className="content-graph-info-details">
-                        <a href="">
+                        <a href={`/usuarios/${userMix.username}`}>
                           <h3>{mix.username}</h3>
                         </a>
                         <br />
@@ -537,18 +537,18 @@ function Mix() {
                       alignItems: "center",
                     }}
                   >
-                    {userMix && userMix.avatar ? (
+                    {user && user.avatar ? (
                       <Avatar
                         sx={{ height: 40, width: 40, borderRadius: "50%" }}
-                        alt={userMix.username}
-                        src={userMix.avatar}
+                        alt={user.username}
+                        src={user.avatar}
                       />
                     ) : (
                       <Avatar sx={{ width: 40, height: 40 }} src="" />
                     )}
                   </Box>
                   <TextField
-                    sx={{ width: "100%", mr: "2%" }}
+                    sx={{ width: "100%", mr: "1.5%" }}
                     type="text"
                     placeholder={`Añade un comentario para ${mix.mix_name}`}
                     value={comment}
@@ -562,7 +562,7 @@ function Mix() {
                     sx={{
                       height: "40px",
                       position: "absolute",
-                      padding: "5px 8px",
+                      padding: "5px 2px",
                       right: "2.5%",
                       display: "flex",
                       justifyContent: "center",

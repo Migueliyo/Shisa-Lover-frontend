@@ -1,18 +1,14 @@
-import { useCallback, useContext, useEffect, useRef } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styled from "@emotion/styled";
 
-import {
-  Avatar,
-  Box,
-  Card,
-  CardActionArea,
-  CardContent,
-} from "@mui/material";
+import { Avatar, Box, Card, CardActionArea, CardContent } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { DrawerContext } from "../context/drawerContext";
+
+import api from "../services/api";
 
 const FormatedCard = styled(Card, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -160,12 +156,22 @@ const FormatedCard = styled(Card, {
 
 function MixCard({ id, username, name, categories }) {
   const { open } = useContext(DrawerContext);
+  const [user, setUser] = useState(undefined);
   const cardRef = useRef();
   const navigate = useNavigate();
 
   const generateRandomColor = useCallback(() => {
     return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
   }, []);
+
+  const getUser = async (username) => {
+    const response = await api.getUserByUsername(username);
+    if (!response.error) {
+      setUser(response.data);
+    } else {
+      console.error(response.message);
+    }
+  };
 
   useEffect(() => {
     if (cardRef.current) {
@@ -176,23 +182,35 @@ function MixCard({ id, username, name, categories }) {
     }
   }, [generateRandomColor]);
 
+  useEffect(() => {
+    getUser(username);
+  }, []);
+
   const handleClickedMix = () => {
     navigate(`/mezclas/${id}`);
-  }
+  };
 
   return (
     <FormatedCard ref={cardRef} open={open}>
       <CardActionArea onClick={handleClickedMix}>
         <CardContent sx={{ display: "flex", flexWrap: "nowrap" }}>
           <Box className="content-div-avatar">
-            <a href="">
-              <Avatar src="" />
+            <a href={`/usuarios/${user.username}`}>
+              {user && user.avatar ? (
+                <Avatar
+                  sx={{ height: 40, width: 40, borderRadius: "50%" }}
+                  alt={user.username}
+                  src={user.avatar}
+                />
+              ) : (
+                <Avatar sx={{ width: 40, height: 40 }} src="" />
+              )}
             </a>
           </Box>
           <Box className="content-div-info">
             <Box className="content-div-info-details">
               <h3>{name}</h3>
-              <a href="">
+              <a href={`/usuarios/${user.username}`}>
                 <p>{username}</p>
               </a>
             </Box>

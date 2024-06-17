@@ -22,13 +22,13 @@ import NoPage from "./pages/NoPage.jsx";
 
 function App() {
   const dispatch = useAppDispatch();
+  const token = api.getCookie("api_token");
 
   useEffect(() => {
-    const token = api.getCookie("api_token");
     if (token) {
       dispatch(decodedUser(token));
     }
-  }, [dispatch]);
+  }, [token]);
 
   return (
     <ThemeProvider theme={theme}>
