@@ -20,7 +20,7 @@ import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import KeyboardTabIcon from "@mui/icons-material/KeyboardTab";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
+import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 
 import { DrawerContext } from "../context/drawerContext";
 import { appBarHeight } from "./AppBar";
@@ -96,12 +96,12 @@ const FormatedDrawer = styled(MuiDrawer, {
     },
     ".toolbar-icon": {
       padding: 5,
-      marginRight: -5
+      marginRight: -5,
     },
     ".toolbar-icon:hover": {
       borderRadius: 4,
       backgroundColor: theme.palette.section.button.hover,
-    }
+    },
   };
 });
 
@@ -176,25 +176,53 @@ function Drawer() {
 
   const favoriteMixList = [
     { title: "Mezcla de frutos del bosque", username: "migueliyo", likes: 103 },
-    { title: "Mezcla cítrica con toques florales", username: "migueliyo", likes: 103 },
+    {
+      title: "Mezcla cítrica con toques florales",
+      username: "migueliyo",
+      likes: 103,
+    },
     { title: "Mezcla dulce", username: "migueliyo", likes: 103 },
     { title: "Batido de menta", username: "migueliyo", likes: 103 },
-    { title: "Mezcla dulce con toques afrutados", username: "migueliyo", likes: 103 },
+    {
+      title: "Mezcla dulce con toques afrutados",
+      username: "migueliyo",
+      likes: 103,
+    },
   ];
 
   const recommendMixList = [
     { title: "Mezcla de frutos del bosque", username: "migueliyo", likes: 103 },
-    { title: "Mezcla cítrica con toques florales", username: "migueliyo", likes: 103 },
+    {
+      title: "Mezcla cítrica con toques florales",
+      username: "migueliyo",
+      likes: 103,
+    },
     { title: "Mezcla dulce", username: "migueliyo", likes: 103 },
     { title: "Batido de menta", username: "migueliyo", likes: 103 },
-    { title: "Mezcla dulce con toques afrutados", username: "migueliyo", likes: 103 },
+    {
+      title: "Mezcla dulce con toques afrutados",
+      username: "migueliyo",
+      likes: 103,
+    },
     { title: "Mezcla de frutos del bosque", username: "migueliyo", likes: 103 },
-    { title: "Mezcla cítrica con toques florales", username: "migueliyo", likes: 103 },
+    {
+      title: "Mezcla cítrica con toques florales",
+      username: "migueliyo",
+      likes: 103,
+    },
     { title: "Mezcla dulce", username: "migueliyo", likes: 103 },
     { title: "Batido de menta", username: "migueliyo", likes: 103 },
-    { title: "Mezcla dulce con toques afrutados", username: "migueliyo", likes: 103 },
+    {
+      title: "Mezcla dulce con toques afrutados",
+      username: "migueliyo",
+      likes: 103,
+    },
     { title: "Mezcla de frutos del bosque", username: "migueliyo", likes: 103 },
-    { title: "Mezcla cítrica con toques florales", username: "migueliyo", likes: 103 },
+    {
+      title: "Mezcla cítrica con toques florales",
+      username: "migueliyo",
+      likes: 103,
+    },
   ];
 
   const toggleDrawer = () => {
@@ -217,13 +245,9 @@ function Drawer() {
           {open ? <h3>Tu feed</h3> : <></>}
           <IconButton onClick={toggleDrawer}>
             {open ? (
-              <Tooltip title="Contraer" placement="right">
-                <KeyboardReturnIcon color="primary" className="toolbar-icon" />
-              </Tooltip>
+              <KeyboardReturnIcon color="primary" className="toolbar-icon" />
             ) : (
-              <Tooltip title="Expandir" placement="right">
-                <KeyboardTabIcon color="primary" className="toolbar-icon" />
-              </Tooltip>
+              <KeyboardTabIcon color="primary" className="toolbar-icon" />
             )}
           </IconButton>
         </Toolbar>
