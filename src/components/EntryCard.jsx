@@ -191,7 +191,7 @@ function EntryCard({ id, username, description, title, categories }) {
       <CardActionArea onClick={handleClickedEntry}>
         <CardContent sx={{ display: "flex", flexWrap: "nowrap" }}>
           <Box className="content-div-avatar">
-            <a href={`/usuarios/${user.username}`}>
+            <a href={`/usuarios/${username}`}>
               {user && user.avatar ? (
                 <Avatar
                   sx={{ height: 40, width: 40, borderRadius: "50%" }}
@@ -206,7 +206,7 @@ function EntryCard({ id, username, description, title, categories }) {
           <Box className="content-div-info">
             <Box className="content-div-info-details-top">
               <h3>{title}</h3>
-              <a href={`/usuarios/${user.username}`}>
+              <a href={`/usuarios/${username}`}>
                 <p>{username}</p>
               </a>
             </Box>

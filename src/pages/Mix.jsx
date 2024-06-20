@@ -363,7 +363,7 @@ function Mix() {
       setMixComments(reversedComments);
     }
   }, [mix]);
-  
+
   const handleLikeMix = async () => {
     if (liked) {
       const response = await api.removeLike(mix.id);
@@ -396,7 +396,7 @@ function Mix() {
         console.error(response.message);
       }
     } else {
-      console.log("El comentario está vacio")
+      console.log("El comentario está vacio");
     }
   };
 
@@ -414,24 +414,28 @@ function Mix() {
               <Box className="content-graph-div-section">
                 <Box sx={{ display: "flex", flexWrap: "nowrap" }}>
                   <Box className="content-graph-avatar">
-                    <a href={`/usuarios/${userMix.username}`}>
-                      {userMix && userMix.avatar ? (
-                        <Avatar
-                          sx={{ height: 64, width: 64, borderRadius: "50%" }}
-                          alt={userMix.username}
-                          src={userMix.avatar}
-                        />
-                      ) : (
-                        <Avatar sx={{ width: 64, height: 64 }} src="" />
-                      )}
-                    </a>
+                    {userMix && userMix.username && (
+                      <a href={`/usuarios/${userMix.username}`}>
+                        {userMix && userMix.avatar ? (
+                          <Avatar
+                            sx={{ height: 64, width: 64, borderRadius: "50%" }}
+                            alt={userMix.username}
+                            src={userMix.avatar}
+                          />
+                        ) : (
+                          <Avatar sx={{ width: 64, height: 64 }} src="" />
+                        )}
+                      </a>
+                    )}
                   </Box>
                   <Box className="content-graph-info">
                     <Box sx={{ display: "flex" }}>
                       <Box className="content-graph-info-details">
-                        <a href={`/usuarios/${userMix.username}`}>
-                          <h3>{mix.username}</h3>
-                        </a>
+                        {userMix && userMix.username && (
+                          <a href={`/usuarios/${userMix.username}`}>
+                            <h3>{mix.username}</h3>
+                          </a>
+                        )}
                         <br />
                         <a href="">
                           <p>Le gusta a {mix.total_likes} personas</p>
@@ -513,14 +517,16 @@ function Mix() {
                 <h2>Comentarios</h2>
                 <Box className="content-graph-section-comments">
                   {mixComments.length !== 0 ? (
-                    mixComments.slice(0, 2).map((comment) => (
-                      <Comment
-                        key={comment.id}
-                        username={comment.username}
-                        avatar={comment.avatar}
-                        text={comment.content}
-                      />
-                    ))
+                    mixComments
+                      .slice(0, 2)
+                      .map((comment) => (
+                        <Comment
+                          key={comment.id}
+                          username={comment.username}
+                          avatar={comment.avatar}
+                          text={comment.content}
+                        />
+                      ))
                   ) : (
                     <Box className="content-graph-section-comments-paragraph">
                       <p>Todavía no se ha añadido ningún comentario</p>

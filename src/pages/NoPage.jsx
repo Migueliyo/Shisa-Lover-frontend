@@ -13,7 +13,7 @@ const NoPage = () => {
     >
       <img
         style={{ width: 60, height: 60, marginRight: 10 }}
-        src="vite.svg"
+        src="/vite.svg"
       ></img>
       <Typography sx={{ width: 300, fontSize: 20, color: "#ABABAB" }}>
         Lo sentimos. Este contenido no está disponible.

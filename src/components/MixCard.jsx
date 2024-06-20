@@ -195,7 +195,7 @@ function MixCard({ id, username, name, categories }) {
       <CardActionArea onClick={handleClickedMix}>
         <CardContent sx={{ display: "flex", flexWrap: "nowrap" }}>
           <Box className="content-div-avatar">
-            <a href={`/usuarios/${user.username}`}>
+            <a href={`/usuarios/${username}`}>
               {user && user.avatar ? (
                 <Avatar
                   sx={{ height: 40, width: 40, borderRadius: "50%" }}
@@ -210,7 +210,7 @@ function MixCard({ id, username, name, categories }) {
           <Box className="content-div-info">
             <Box className="content-div-info-details">
               <h3>{name}</h3>
-              <a href={`/usuarios/${user.username}`}>
+              <a href={`/usuarios/${username}`}>
                 <p>{username}</p>
               </a>
             </Box>
