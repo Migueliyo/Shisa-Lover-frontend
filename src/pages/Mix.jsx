@@ -23,6 +23,8 @@ import DonutChart from "../components/DonutChart";
 import FlavourCard from "../components/FlavourCard";
 import UserSocialMedia from "../components/UserSocialMedia";
 import Comment from "../components/Comment";
+import Login from "../components/Login";
+import Register from "../components/Register";
 
 const FormatedBox = styled(Box)(({ theme }) => {
   const commonStyles = {
@@ -289,6 +291,9 @@ function Mix() {
   const [liked, setLiked] = useState(false);
   const [comment, setComment] = useState("");
   const [mixComments, setMixComments] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
   const is700 = useMediaQuery("(max-width: 700px)");
 
   const { user } = useAuthActions();
@@ -336,6 +341,10 @@ function Mix() {
   };
 
   useEffect(() => {
+    setIsLoggedIn(user !== undefined);
+  });
+
+  useEffect(() => {
     getMix(id);
   }, [id]);
 
@@ -365,6 +374,10 @@ function Mix() {
   }, [mix]);
 
   const handleLikeMix = async () => {
+    if (!isLoggedIn) {
+      setShowLogin(true);
+      return;
+    }
     if (liked) {
       const response = await api.removeLike(mix.id);
       if (!response.error) {
@@ -387,6 +400,10 @@ function Mix() {
   const handleShareMix = () => {};
 
   const handleCommentMix = async () => {
+    if (!isLoggedIn) {
+      setShowLogin(true);
+      return;
+    }
     if (comment !== "") {
       const data = { content: comment };
       const response = await api.addComment(mix.id, data);
@@ -400,8 +417,30 @@ function Mix() {
     }
   };
 
+  const handleTogglePopLogin = () => {
+    setShowLogin(!showLogin);
+    setShowRegister(false);
+  };
+
+  const handleTogglePopRegister = () => {
+    setShowRegister(!showRegister);
+    setShowLogin(false);
+  };
+
   return (
     <FormatedBox>
+      {showLogin ? (
+        <Login
+          toggle={handleTogglePopLogin}
+          switchToRegister={handleTogglePopRegister}
+        />
+      ) : null}
+      {showRegister ? (
+        <Register
+          toggle={handleTogglePopRegister}
+          switchToLogin={handleTogglePopLogin}
+        />
+      ) : null}
       {mix && (
         <Box sx={{ height: "100%", width: "100%" }}>
           <Box className="title-div-section">

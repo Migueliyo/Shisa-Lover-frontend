@@ -18,7 +18,7 @@ const FormatedBox = styled(Box)(({ theme }) => {
   const commonStyles = {
     fontFamily: ' "Roobert", "Inter", Helvetica, Arial, sans-serif',
     position: "fixed",
-    zIndex: 1,
+    zIndex: 2,
     left: 0,
     top: 0,
     width: "100%",
