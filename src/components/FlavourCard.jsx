@@ -42,7 +42,7 @@ const FormatedCard = styled(Card, {
       transition: "border-color 0.2s ease",
       pointerEvents: "none",
     },
-    "&:hover": {
+    "&:hover, &.active": {
       transform: "translate(5px, -3px)",
       "::after": {
         borderLeftColor: "var(--random-color)",
@@ -185,7 +185,7 @@ const FormatedCard = styled(Card, {
   };
 });
 
-function FlavourCard({ sx, id, name, brand, url, categories }) {
+function FlavourCard({ sx, id, name, brand, url, categories, activeSegment, index }) {
   const { open } = useContext(DrawerContext);
   const cardRef = useRef();
   const navigate = useNavigate();
@@ -205,10 +205,15 @@ function FlavourCard({ sx, id, name, brand, url, categories }) {
 
   const handleClickedMix = () => {
     navigate(`/sabores/${id}`);
-  }
+  };
 
   return (
-    <FormatedCard sx={{...sx}} ref={cardRef} open={open}>
+    <FormatedCard
+      sx={{ ...sx }}
+      ref={cardRef}
+      open={open}
+      className={activeSegment === index ? "active" : ""}
+    >
       <CardActionArea onClick={handleClickedMix}>
         <CardMedia
           component="img"

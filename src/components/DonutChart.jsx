@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Box, styled } from '@mui/material';
 
 const FormatedBox = styled(Box)(() => ({
@@ -19,11 +18,9 @@ const FormatedBox = styled(Box)(() => ({
 
 const image = '/src/assets/tobacco.png';
 
-const DonutChart = ({ flavours }) => {
+const DonutChart = ({ flavours, activeSegment, setActiveSegment }) => {
   const radius = 11;
   const circumference = 2 * Math.PI * radius;
-
-  const [activeSegment, setActiveSegment] = useState(null);
 
   const calculateStrokeDasharray = (percentage) => {
     const dashArray = (percentage / (flavours.length !== 2 ? 105 : 103)) * circumference;

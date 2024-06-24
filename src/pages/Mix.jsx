@@ -295,6 +295,7 @@ function Mix() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const is700 = useMediaQuery("(max-width: 700px)");
+  const [activeSegment, setActiveSegment] = useState(null);
 
   const { user } = useAuthActions();
 
@@ -448,7 +449,12 @@ function Mix() {
           </Box>
           <Box className="div-section">
             <Box className="graph-div-section">
-              <DonutChart className="donut-chart" flavours={mix.flavours} />
+              <DonutChart
+                className="donut-chart"
+                flavours={mix.flavours}
+                activeSegment={activeSegment}
+                setActiveSegment={setActiveSegment}
+              />
               <img className="cazoleta-img" src="/src/assets/cazoleta.png" />
               <Box className="content-graph-div-section">
                 <Box sx={{ display: "flex", flexWrap: "nowrap" }}>
@@ -536,18 +542,20 @@ function Mix() {
                     gap: is700 ? "3%" : "1.5%",
                   }}
                 >
-                  {flavours.map((flavour) => (
+                  {flavours.map((flavour, index) => (
                     <FlavourCard
                       sx={{
                         width: "180px!important",
                         margin: "0!important",
                         marginBottom: "20px!important",
                       }}
-                      key={flavour.id}
+                      key={index}
                       id={flavour.id}
                       name={flavour.flavour_name}
                       brand={flavour.brand_name}
                       categories={flavour.categories}
+                      activeSegment={activeSegment}
+                      index={index}
                     />
                   ))}
                 </Box>
