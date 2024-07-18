@@ -52,6 +52,7 @@ function Flavours() {
               name={flavour.flavour_name}
               brand={flavour.brand_name}
               categories={flavour.categories}
+              activeSegment={-1}
             />
           ))}
         </Box>

@@ -167,6 +167,7 @@ function Section({ featuredWordTittle, tittle, content, data }) {
               name={flavour.flavour_name}
               brand={flavour.brand_name}
               categories={flavour.categories}
+              activeSegment={-1}
             />
           ))}
         {content === "discussionEntry" &&

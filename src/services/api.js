@@ -220,7 +220,8 @@ const addLike = async (mixId) => {
       "Content-Type": "application/json",
     },
   });
-  return response.ok;
+  const data = await response.json();
+  return data;
 };
 
 const removeLike = async (mixId) => {
@@ -230,7 +231,8 @@ const removeLike = async (mixId) => {
       "Content-Type": "application/json",
     },
   });
-  return response.ok;
+  const data = await response.json();
+  return data;
 };
 
 const checkIfLikedMix = async (mixId) => {

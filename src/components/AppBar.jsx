@@ -241,31 +241,35 @@ function AppBar() {
         </Box>
 
         <Box className="login-div">
-          <Box>
-            <Button className="login-button" onClick={handleTogglePopLogin}>
-              I<span>niciar sesión</span>
-            </Button>
-            {clickedLogin ? (
-              <Login
-                toggle={handleTogglePopLogin}
-                switchToRegister={handleTogglePopRegister}
-              />
-            ) : null}
-          </Box>
-          <Box>
-            <Button
-              className="register-button"
-              onClick={handleTogglePopRegister}
-            >
-              R<span>egistrarse</span>
-            </Button>
-            {clickedRegister ? (
-              <Register
-                toggle={handleTogglePopRegister}
-                switchToLogin={handleTogglePopLogin}
-              />
-            ) : null}
-          </Box>
+          {!user ? (
+            <>
+              <Box>
+                <Button className="login-button" onClick={handleTogglePopLogin}>
+                  I<span>niciar sesión</span>
+                </Button>
+                {clickedLogin ? (
+                  <Login
+                    toggle={handleTogglePopLogin}
+                    switchToRegister={handleTogglePopRegister}
+                  />
+                ) : null}
+              </Box>
+              <Box>
+                <Button
+                  className="register-button"
+                  onClick={handleTogglePopRegister}
+                >
+                  R<span>egistrarse</span>
+                </Button>
+                {clickedRegister ? (
+                  <Register
+                    toggle={handleTogglePopRegister}
+                    switchToLogin={handleTogglePopLogin}
+                  />
+                ) : null}
+              </Box>
+            </>
+          ) : null}
           <Box
             sx={{
               width: 50,

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useTheme } from "@emotion/react";
 
 import { styled } from "@mui/material/styles";
@@ -24,6 +24,10 @@ import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 
 import { DrawerContext } from "../context/drawerContext";
 import { appBarHeight } from "./AppBar";
+import { useAuthActions } from "../hooks/useAuthActions";
+import { useMixesActions } from "../hooks/useMixesActions";
+import { fetchMixes } from "../features/mixes/slice";
+import { useAppDispatch } from "../hooks/store";
 
 const FormatedDrawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -169,61 +173,49 @@ const FormatedBox = styled(Box)(({ theme }) => {
   };
 });
 
+function shuffle(array) {
+  let currentIndex = array.length, randomIndex;
+
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // Swap de elementos
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
 function Drawer() {
   const theme = useTheme();
   const isSm = useMediaQuery(theme.breakpoints.down("1450"));
   const { open, setOpen } = useContext(DrawerContext);
 
-  const favoriteMixList = [
-    { title: "Mezcla de frutos del bosque", username: "migueliyo", likes: 103 },
-    {
-      title: "Mezcla cítrica con toques florales",
-      username: "migueliyo",
-      likes: 103,
-    },
-    { title: "Mezcla dulce", username: "migueliyo", likes: 103 },
-    { title: "Batido de menta", username: "migueliyo", likes: 103 },
-    {
-      title: "Mezcla dulce con toques afrutados",
-      username: "migueliyo",
-      likes: 103,
-    },
-  ];
+  const dispatch = useAppDispatch();
 
-  const recommendMixList = [
-    { title: "Mezcla de frutos del bosque", username: "migueliyo", likes: 103 },
-    {
-      title: "Mezcla cítrica con toques florales",
-      username: "migueliyo",
-      likes: 103,
-    },
-    { title: "Mezcla dulce", username: "migueliyo", likes: 103 },
-    { title: "Batido de menta", username: "migueliyo", likes: 103 },
-    {
-      title: "Mezcla dulce con toques afrutados",
-      username: "migueliyo",
-      likes: 103,
-    },
-    { title: "Mezcla de frutos del bosque", username: "migueliyo", likes: 103 },
-    {
-      title: "Mezcla cítrica con toques florales",
-      username: "migueliyo",
-      likes: 103,
-    },
-    { title: "Mezcla dulce", username: "migueliyo", likes: 103 },
-    { title: "Batido de menta", username: "migueliyo", likes: 103 },
-    {
-      title: "Mezcla dulce con toques afrutados",
-      username: "migueliyo",
-      likes: 103,
-    },
-    { title: "Mezcla de frutos del bosque", username: "migueliyo", likes: 103 },
-    {
-      title: "Mezcla cítrica con toques florales",
-      username: "migueliyo",
-      likes: 103,
-    },
-  ];
+  const { user } = useAuthActions();
+  const { mixes } = useMixesActions();
+  const [favoriteMixList, setFavoriteMixList] = useState([]);
+  const [recommendMixList, setRecommendMixList] = useState([]);
+
+  const getFavouriteMixList = () => {
+    setFavoriteMixList(
+      mixes.filter(mix => mix.likes && mix.likes.some(like => like.username === user.username))
+    );
+  };
+
+  useEffect(() => {
+    dispatch(fetchMixes());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (user && mixes) {
+      getFavouriteMixList();
+      setRecommendMixList(shuffle([...mixes]));
+    }
+  }, [user, mixes]);
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -262,27 +254,47 @@ function Drawer() {
             </Tooltip>
           )}
         </ListItem>
-        {favoriteMixList.map((mix, index) => (
-          <ListItemButton key={index} className="content-list-button">
-            <ListItemIcon className="content-list-icon">
-              <Avatar sx={{ width: 30, height: 30 }} />
-            </ListItemIcon>
-            <ListItemText>
-              <FormatedBox>
-                <Box className="content-div-info">
-                  <Box className="content-div-info-details">
-                    <h3>{mix.title}</h3>
-                    <p>{mix.username}</p>
+        {favoriteMixList.length > 0 ? (
+          favoriteMixList.map((mix, index) => (
+            <ListItemButton key={index} className="content-list-button">
+              <ListItemIcon className="content-list-icon">
+                <Avatar sx={{ width: 30, height: 30 }} />
+              </ListItemIcon>
+              <ListItemText>
+                <FormatedBox>
+                  <Box className="content-div-info">
+                    <Box className="content-div-info-details">
+                      <h3>{mix.mix_name}</h3>
+                      <p>{mix.username}</p>
+                    </Box>
                   </Box>
-                </Box>
-                <Box className="content-div-liked">
-                  <FavoriteIcon color="error" />
-                  <span>{mix.likes}</span>
-                </Box>
-              </FormatedBox>
-            </ListItemText>
-          </ListItemButton>
-        ))}
+                  <Box className="content-div-liked">
+                    <FavoriteIcon color="error" />
+                    <span>{mix.likes.length}</span>
+                  </Box>
+                </FormatedBox>
+              </ListItemText>
+            </ListItemButton>
+          ))
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <p
+              style={{
+                fontStyle: "italic",
+                fontSize: "13px",
+                color: "#adadb8",
+              }}
+            >
+              Todavía no se han añadido mezclas favoritas
+            </p>
+          </Box>
+        )}
       </List>
       <List component="nav">
         <ListItem className="content-list-tittle">
@@ -303,13 +315,13 @@ function Drawer() {
               <FormatedBox>
                 <Box className="content-div-info">
                   <Box className="content-div-info-details">
-                    <h3>{mix.title}</h3>
+                    <h3>{mix.mix_name}</h3>
                     <p>{mix.username}</p>
                   </Box>
                 </Box>
                 <Box className="content-div-liked">
                   <FavoriteIcon color="error" />
-                  <span>{mix.likes}</span>
+                  <span>{mix.likes && mix.likes.length ? mix.likes.length : 0}</span>
                 </Box>
               </FormatedBox>
             </ListItemText>

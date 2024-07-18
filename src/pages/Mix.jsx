@@ -291,6 +291,7 @@ function Mix() {
   const [liked, setLiked] = useState(false);
   const [comment, setComment] = useState("");
   const [mixComments, setMixComments] = useState([]);
+  const [mixLikes, setMixLikes] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -374,6 +375,12 @@ function Mix() {
     }
   }, [mix]);
 
+  useEffect(() => {
+    if (mix?.likes) {
+      setMixLikes(mix.likes);
+    }
+  }, [mix]);
+
   const handleLikeMix = async () => {
     if (!isLoggedIn) {
       setShowLogin(true);
@@ -383,7 +390,11 @@ function Mix() {
       const response = await api.removeLike(mix.id);
       if (!response.error) {
         setLiked(false);
-        setMix({ ...mix, total_likes: mix.total_likes - 1 });
+        setMixLikes((prevLikes) => prevLikes.filter(like => like.username !== user.username));
+        setMix((prevMix) => ({
+          ...prevMix,
+          likes: prevMix.likes.filter(like => like.username !== user.username)
+        }));
       } else {
         console.error(response.message);
       }
@@ -391,7 +402,16 @@ function Mix() {
       const response = await api.addLike(mix.id);
       if (!response.error) {
         setLiked(true);
-        setMix({ ...mix, total_likes: mix.total_likes + 1 });
+        if (response.data && response.data.id) {
+          const newLike = { id: response.data.id, username: user.username };
+          setMixLikes((prevLikes) => [...prevLikes, newLike]);
+          setMix((prevMix) => ({
+            ...prevMix,
+            likes: prevMix.likes ? [...prevMix.likes, newLike] : [newLike]
+          }));
+        } else {
+          console.error("No se pudo obtener el id del like");
+        }
       } else {
         console.error(response.message);
       }
@@ -483,7 +503,7 @@ function Mix() {
                         )}
                         <br />
                         <a href="">
-                          <p>Le gusta a {mix.total_likes} personas</p>
+                          {mixLikes && <p>Le gusta a {mixLikes.length ? mixLikes.length : 0} personas</p>}
                         </a>
                       </Box>
                       <Box className="content-graph-info-emoticons">
